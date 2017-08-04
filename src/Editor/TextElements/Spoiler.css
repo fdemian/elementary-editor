@@ -1,0 +1,20 @@
+.Spoiler
+{
+  border: 1px dotted gray;
+  border-top: none;
+  background: #fff;
+  padding: 0px 1.4px;
+}
+
+.Spoiler.Concealed
+{
+  color: #fff;
+    	
+  /* Unselectable text */
+  user-select: none; /* non-prefixed version, currently not supported by any browser */
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* IE/Edge */		
+}
