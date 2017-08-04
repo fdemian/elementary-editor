@@ -27,17 +27,23 @@ yarn install
 yarn start
 ```
 
++ to get a production build type
+
+```
+yarn build
+```
+
 ## Running the tests
 
 To run the tests, use the test script. 
 
 ```
-yarn start
+yarn test
 ```
 
-## Deployment
+## Usage
 
-Add additional notes about how to deploy this on a live system
+Notes on how to use this on your project.
 
 ## Built With
 
