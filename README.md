@@ -9,7 +9,8 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 You will need:   
-  + Yarn (or npm)
+  - NodeJS
+  - [Yarn](https://yarnpkg.com/lang/en/) 
 
 ### Installing
 
@@ -27,7 +28,7 @@ yarn install
 yarn start
 ```
 
-+ to get a production build type
+- to get a production build type:
 
 ```
 yarn build
@@ -49,7 +50,7 @@ Notes on how to use this on your project.
 
 * [React](https://facebook.github.io/react/) - A Javascript library for building user interfaces.
 * [DraftJS](https://draftjs.org/) - Rich text editor framework for React.
-* [Yarn](https://yarnpkg.com/lang/en/) - The package management System.
+* [Ant.Design](https://ant.design/) - A UI Design Language.
 
 <!---
 ## Contributing
@@ -71,4 +72,4 @@ See also the list of [contributors](https://github.com/your/project/contributors
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details
