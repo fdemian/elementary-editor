@@ -2,6 +2,7 @@ import React from 'react';
 import Spoiler from '../Editor/TextElements/Spoiler/Spoiler';
 import EmbededVideo from '../Editor/TextElements/Media/EmbededVideo';
 import QuoteBlock from '../Editor/TextElements/QuoteBlock/QuoteBlock';
+import RenderLink from '../Editor/TextElements/Link/RenderLink'; 
 
 /* Style callbacks */
 const styles = {
@@ -54,7 +55,7 @@ const renderers = {
   /* Entities receive children and the entity data */
   entities: {
     Image: (children, data) => <div><img src={data.src} alt=""/></div>,
-	LINK: (children, data) =>  <a href={data.url} >{children}</a>,
+	LINK: (children, data) =>  <RenderLink src={data.url} text={children} />,
 	SPOILER: (children, data) => <Spoiler text={children[0]} />,
     Video: (children, data) => <div><EmbededVideo src={data.src} /></div>,
     QuoteBlock: (children, data) => <QuoteBlock comment={data.props} />
