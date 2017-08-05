@@ -9,13 +9,3 @@ it('renders without crashing', () => {
    
   ReactDOM.render(<Link src={linkSrc} text={linkText} />, div);
 });
-
-
-/*
-it('renders correctly', () => {
-  const div = document.createElement('div');
-  const linkSrc = "http://www.mypage.com"; 
-  const linkText = "link";
-  const link = <Link src={linkSrc} text={linkText} />;
-  
-});*/
