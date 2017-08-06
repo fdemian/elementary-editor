@@ -2,6 +2,7 @@
   "name": "elementary-editor",
   "version": "0.1.0",
   "private": true,
+  "author": "Federico Caminiti",
   "dependencies": {
     "antd": "^2.12.3",
     "autoprefixer": "7.1.1",

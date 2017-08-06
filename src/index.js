@@ -1,5 +1,3 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import Editor from './Editor/Editor';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+module.exports = Editor;
