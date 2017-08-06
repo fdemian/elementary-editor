@@ -117,7 +117,7 @@ class EditorComponent extends React.Component {
    this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
    this.spoilerBlockRender = (style) => this._spoilerBlockRender(style);
    this.selectionIsCollapsed = () => this._selectionIsCollapsed();
-   this.getRawContentJSON = (state) => this._getRawContentJSON(state);
+   this.getContent = () => this.state.editorState.toJS().currentContent; //console.log(state); //
    this.blockIsActive = (block) => this._blockIsActive(block);
    this.inlineIsActive = (style) => this._inlineIsActive(style);
    this.customBlockIsActive = (block) => this._customBlockIsActive(block);
@@ -215,11 +215,13 @@ class EditorComponent extends React.Component {
  // Get the JSON with the rawContent JS used to generate the editor's content.
  _getRawContentJSON(editorState)
  {
+	//this.state.editorState.toJS();
+	/*console.log(editorState);
     const contentState = editorState.getCurrentContent();
 	const rawContent = convertToRaw(contentState);
 	const rawContentJson = JSON.stringify(rawContent);
-
-    return rawContentJson;
+	
+    return rawContentJson;*/
  }
 
  _handleKeyCommand(command)

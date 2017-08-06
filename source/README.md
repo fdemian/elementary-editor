@@ -122,7 +122,7 @@ Internal editor methods.
   </thead>
   <tbody>
     <tr>
-      <td>getRawContentJSON</td>
+      <td>getContent</td>
       <td> - </td>
       <td>
 	    Gets the current DraftJS raw editor state.
