@@ -1,7 +1,7 @@
 {
   "name": "elementary-editor",
   "version": "0.1.0",
-  "private": false,
+  "private": true,
   "main": "index.js",
   "license": "MIT",
   "author": "Federico Caminiti",

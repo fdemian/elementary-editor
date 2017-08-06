@@ -73,7 +73,71 @@ class MyComponent extends Component  {
 }
 ```
 
-See the documentation for further details on how to use the editor and its API.
+The ref property is needed if you want to access the editor's internal methods.
+
+## API
+
+## Properties
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th style="width: 100px;">Name</th>
+      <th style="width: 50px;">Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>initialState</td>
+      <td>JSON string</td>
+      <td>null</td>
+      <td>
+	  A draft-js rawState object with the initial state of the editor. If set to null it will initialize the editor with no text.
+	  </td>
+    </tr>   
+	<tr>
+      <td>filterStyles *(optional)*</td>
+      <td>string[]</td>
+      <td>null</td>
+      <td>
+	  A list of the styles the editor will use. If set it will only use those styles. If the parameter is null or isn't specified, all the available styles will be used.
+	  </td>
+    </tr>   
+  </tbody>
+</table>
+
+## Methods
+
+Internal editor methods.
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th style="width: 100px;">Name</th>
+      <th style="width: 50px;">Parameters</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>getRawContentJSON</td>
+      <td> - </td>
+      <td>
+	    Gets the current DraftJS raw editor state.
+	  </td>
+    </tr>   
+	<tr>
+      <td>clear</td>
+      <td> - </td>
+      <td>
+		Clears the editor.
+	  </td>
+    </tr>	
+  </tbody>
+</table>
+
 
 ## Built With
 
