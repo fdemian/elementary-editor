@@ -1,10 +1,10 @@
 # Elementary Editor
 
-A WYSWYG editor based on DraftJS and React.
+A WYSWYG editor based on DraftJS and Ant.Design.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See usage for notes on how to use elementary-editor in your project.
 
 ### Prerequisites
 
@@ -44,7 +44,36 @@ yarn test
 
 ## Usage
 
-Notes on how to use this on your project.
+To use this editor in your project: 
+
+- Install the npm package: 
+
+```
+yarn add elementary-editor
+```
+
+- Import the editor and use in on your code:
+
+```
+import Editor from 'elementary-editor';
+
+class MyComponent extends Component  {
+ /*
+ ...
+ */
+ render() {
+  return(
+   <div>
+     <Editor 
+	   initialState={null} 
+	   ref={(editor) => this.editor = editor}
+	 />   
+   );
+ } 
+}
+```
+
+See the documentation for further details on how to use the editor and its API.
 
 ## Built With
 
