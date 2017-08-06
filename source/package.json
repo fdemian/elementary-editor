@@ -2,6 +2,7 @@
   "name": "elementary-editor",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://fdemian.github.io/elementary-editor",
   "dependencies": {
     "antd": "^2.12.3",
     "elementary-editor": "^0.1.6",
