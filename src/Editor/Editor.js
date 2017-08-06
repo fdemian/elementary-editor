@@ -9,6 +9,7 @@ import Spoiler from './TextElements/Spoiler/SpoilerWrapper';
 import Media from './TextElements/Media/Media';
 import Link from  './TextElements/Link/Link';
 import QuoteBlockWrapper from './TextElements/QuoteBlock/QuoteBlockWrapper';
+import editorStyles from './EditorStyles';
 
 import './css/Draft.css';
 import './css/Editor.css';
@@ -106,14 +107,10 @@ class EditorComponent extends React.Component {
      const _contentState = convertFromRaw(JSON.parse(initialState));
      _initalEditorState = EditorState.createWithContent(_contentState, decorator);
    }
-
-   this.setClearEditorFn = this.props.setClearEditorFn;
-   this.setInsertFn = this.props.setInsertFn;
-
+   
+   this.filterStyles = this.props.filterStyles === undefined ? null: this.props.filterStyles;   
    this.state = {liveTeXEdits: Map(), editorState: _initalEditorState};
-   this.editorStyles = this.props.editorStyles;
-   this.focus = () => this.refs.editor.focus();
-   this.onStateChange = (rawState) => this.props.onEditorChange(rawState);
+   this.focus = () => this.refs.editor.focus();   
    this.onChange = (state) => this._handleChange(state);
    this.handleKeyCommand = (command) => this._handleKeyCommand(command);
    this.toggleBlockType = (type) => this._toggleBlockType(type);
@@ -129,13 +126,27 @@ class EditorComponent extends React.Component {
    this.insertQuoteBlock = (type, content, author) => this._insertQuoteBlock(type, content, author);
    this.insertTex = () => this._insertTex();
    this.removeTex = (blockKey) => this._removeTex(blockKey);
-
-   // Set clear editor.
-   this.setClearEditorFn(this.clear);
-
-    // TODO: replace with function to insert quotes (e.d: replying to a user).
-   this.setInsertFn(this.insertQuote);
-
+   
+   this.editorStyles = null;
+   
+   // If the user has defined which styles to whitelist, use only those.
+   // Otherwise use all of the styles.
+   if(this.filterStyles === null)     
+     this.editorStyles = editorStyles;   
+   else
+     this.editorStyles = this.filterWhiteListedStyles(editorStyles, this.filterStyles);
+   
+ }
+ 
+ filterWhiteListedStyles(editorStyles, allowedStyles) {
+   
+	console.log(editorStyles);
+	return editorStyles;
+   
+	    /*
+	 this.editorStyles = editorStyles.filter(style => 
+						    this.filterStyles.filter(st => st.style === style.style)[0] > 0
+					     );*/
  }
 
  _removeTeX = (blockKey) => {
@@ -204,8 +215,6 @@ class EditorComponent extends React.Component {
  _handleChange(state)
  {
 	this.setState({editorState: state});
- 	const rawContent = this.getRawContentJSON(state);
-	this.onStateChange(rawContent);
  }
 
  // Get the JSON with the rawContent JS used to generate the editor's content.
