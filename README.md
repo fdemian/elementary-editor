@@ -98,7 +98,7 @@ The ref property is needed if you want to access the editor's internal methods.
 	  </td>
     </tr>   
 	<tr>
-      <td>filterStyles *(optional)*</td>
+      <td>filterStyles (optional)</td>
       <td>string[]</td>
       <td>null</td>
       <td>
