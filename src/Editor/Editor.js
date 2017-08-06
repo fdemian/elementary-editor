@@ -142,11 +142,6 @@ class EditorComponent extends React.Component {
    
 	console.log(editorStyles);
 	return editorStyles;
-   
-	    /*
-	 this.editorStyles = editorStyles.filter(style => 
-						    this.filterStyles.filter(st => st.style === style.style)[0] > 0
-					     );*/
  }
 
  _removeTeX = (blockKey) => {
