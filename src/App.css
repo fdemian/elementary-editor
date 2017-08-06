@@ -4,6 +4,14 @@
   text-align: center;
 }
 
+.LogStateButton
+{
+   display: block;
+   margin-top: 88px;
+   margin-bottom: 10px;
+   margin-left: 20%;
+}
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;

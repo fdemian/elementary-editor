@@ -1,18 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
-import Editor from './Editor/Editor';
-import EditorStyles from './Editor/EditorStyles';
+import Editor from 'elementary-editor';
+import { Button } from 'antd';
 import './App.css';
-
-const _state = null;
-
-function editorChangeFn(rawState) {}
-function setClearFn(clearFn) {}
-
-function setInsertFn(insertQuoteFn)
-{
-  console.log(insertQuoteFn);
-}
 
 const editorContainerStyle = {
 	height:'300px', 
@@ -22,31 +12,54 @@ const editorContainerStyle = {
 	textAlign:'left'
 };
 
-const App = () => {
+class App extends Component {
 
- return (
- <div className="App">
-       
-    <div className="App-header">
-       <img src={logo} className="App-logo" alt="logo" />
-       <h2>Welcome to React</h2>
-    </div>
-	
-	<div>
-	   <div style={editorContainerStyle}>
-		  <Editor
-		    onEditorChange={editorChangeFn} 
-		    setClearEditorFn={setClearFn} 
-		    setInsertFn={setInsertFn}
-		    initialState={_state}
-		    editorStyles={EditorStyles}		  
-		  />
-	    </div>
-	</div>
-
- </div>
- );	
-	
+ constructor(props){
+	super(props);
+	this.editor = null;
  }
+ 
+ clearEditor() {
+   this.editor.clear();
+ }
+
+ getContent() {
+   console.log(this);
+   console.log("____________________");   
+   const currentState = this.editor.clear();
+   console.log(currentState);
+ }
+ 
+ render(){
+
+	return (
+	<div className="App">
+       
+		<div className="App-header">
+			<img src={logo} className="App-logo" alt="logo" />
+			<h2>Elementary Editor demo</h2>
+		</div>
+	
+		<div>
+			<div style={editorContainerStyle}>
+				<Editor initialState={null} ref={(editor) => this.editor = editor} />
+			</div>
+		</div>
+		
+		<div>
+		    <Button 
+				type="primary" 
+				className="LogStateButton"
+				onClick={() => this.clearEditor()}
+			>
+			    Clear editor
+			</Button>
+		</div>
+
+	</div>
+	);	 		 
+ }
+	
+}
 
 export default App;

@@ -4,8 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^2.12.3",
-    "draft-js": "^0.10.1",
-    "katex": "^0.7.1",
+    "elementary-editor": "^0.1.6",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-fa": "^4.2.0",
