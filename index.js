@@ -1,3 +1,3 @@
-var Editor = require('./src/Editor/Editor');
+var Editor = require('./Editor/Editor');
 
 module.exports = Editor;
