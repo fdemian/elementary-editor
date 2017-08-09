@@ -67,7 +67,7 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "babel source --out-dir distribution --copy-files",
+    "build": "babel ./ --out-dir distribution --ignore node_modules,test --copy-files",
     "test": "node scripts/test.js --env=jsdom"
   },
   "jest": {
