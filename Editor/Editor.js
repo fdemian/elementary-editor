@@ -107,10 +107,10 @@ class EditorComponent extends React.Component {
      const _contentState = convertFromRaw(JSON.parse(initialState));
      _initalEditorState = EditorState.createWithContent(_contentState, decorator);
    }
-   
-   this.filterStyles = this.props.filterStyles === undefined ? null: this.props.filterStyles;   
+
+   this.filterStyles = this.props.filterStyles === undefined ? null: this.props.filterStyles;
    this.state = {liveTeXEdits: Map(), editorState: _initalEditorState};
-   this.focus = () => this.refs.editor.focus();   
+   this.focus = () => this.refs.editor.focus();
    this.onChange = (state) => this._handleChange(state);
    this.handleKeyCommand = (command) => this._handleKeyCommand(command);
    this.toggleBlockType = (type) => this._toggleBlockType(type);
@@ -126,20 +126,20 @@ class EditorComponent extends React.Component {
    this.insertQuoteBlock = (type, content, author) => this._insertQuoteBlock(type, content, author);
    this.insertTex = () => this._insertTex();
    this.removeTex = (blockKey) => this._removeTex(blockKey);
-   
+
    this.editorStyles = null;
-   
+
    // If the user has defined which styles to whitelist, use only those.
    // Otherwise use all of the styles.
-   if(this.filterStyles === null)     
-     this.editorStyles = editorStyles;   
+   if(this.filterStyles === null)
+     this.editorStyles = editorStyles;
    else
      this.editorStyles = this.filterWhiteListedStyles(editorStyles, this.filterStyles);
-   
+
  }
- 
+
  filterWhiteListedStyles(editorStyles, allowedStyles) {
-   
+
 	console.log(editorStyles);
 	return editorStyles;
  }
@@ -161,8 +161,9 @@ class EditorComponent extends React.Component {
 
  _clear()
  {
-   const editorState = EditorState.push(this.state.editorState, ContentState.createFromText(''));
-   this.setState({ editorState });
+   const emptyState = ContentState.createFromText('');
+   const editorState = EditorState.push(this.state.editorState, emptyState);
+   this.setState({liveTeXEdits: Map(), editorState: editorState});
  }
 
  _insertQuote(comment)
@@ -220,7 +221,7 @@ class EditorComponent extends React.Component {
     const contentState = editorState.getCurrentContent();
 	const rawContent = convertToRaw(contentState);
 	const rawContentJson = JSON.stringify(rawContent);
-	
+
     return rawContentJson;*/
  }
 
