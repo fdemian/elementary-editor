@@ -117,7 +117,7 @@ class EditorComponent extends React.Component {
    this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
    this.spoilerBlockRender = (style) => this._spoilerBlockRender(style);
    this.selectionIsCollapsed = () => this._selectionIsCollapsed();
-   this.getContent = () => this.state.editorState.toJS().currentContent; //console.log(state); //
+   this.getContent = () => this.state.editorState.toJS(); //console.log(state); //
    this.blockIsActive = (block) => this._blockIsActive(block);
    this.inlineIsActive = (style) => this._inlineIsActive(style);
    this.customBlockIsActive = (block) => this._customBlockIsActive(block);
