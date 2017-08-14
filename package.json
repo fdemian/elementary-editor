@@ -1,6 +1,6 @@
 {
   "name": "elementary-editor",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "private": false,
   "main": "index.js",
   "license": "MIT",
