@@ -117,7 +117,8 @@ class EditorComponent extends React.Component {
    this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
    this.spoilerBlockRender = (style) => this._spoilerBlockRender(style);
    this.selectionIsCollapsed = () => this._selectionIsCollapsed();
-   this.getContent = () => this.state.editorState.toJS(); //console.log(state); //
+   this.getCurrentContent = () => this.state.editorState.getCurrentContent();
+   this.getContent = () => this._getContent();
    this.blockIsActive = (block) => this._blockIsActive(block);
    this.inlineIsActive = (style) => this._inlineIsActive(style);
    this.customBlockIsActive = (block) => this._customBlockIsActive(block);
@@ -142,6 +143,11 @@ class EditorComponent extends React.Component {
 
 	console.log(editorStyles);
 	return editorStyles;
+ }
+ 
+ _getContent = () => {	
+    const currentContent = this.getCurrentContent();
+	return convertToRaw(currentContent);	 
  }
 
  _removeTeX = (blockKey) => {
