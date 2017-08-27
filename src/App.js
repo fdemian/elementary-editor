@@ -106,13 +106,13 @@ class App extends Component {
 		<div>
 		  <Menu theme="dark">
 			<h2 className="EditorNavbarText">
-			  Elementary editor
+			  &nbsp;
 			</h2>
 		  </Menu>		
 		</div>	  	 
 		
 		<div className="DocSection">
-		  <h2 className="SectionTitle">Documentation contents</h2>			
+		  <h2 className="SectionTitle">Elementary Editor</h2>			
 		  <ol>
 			<li><a href="#intro">Introduction</a></li>
 			<li><a href="#use">How to use</a></li>			
