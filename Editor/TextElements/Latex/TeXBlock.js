@@ -20,7 +20,7 @@ import { Icon } from 'react-fa';
 const { TextArea } = Input;
 
 const EditorButtons = ({invalid, removeFn, saveFn}) => {
-		
+
 	if(invalid)
 	    return(
 		<Button.Group size="large" style={{marginLeft:'40%'}}>
@@ -32,7 +32,7 @@ const EditorButtons = ({invalid, removeFn, saveFn}) => {
 				Invalid TeX
 			</Button>
 		</Button.Group>
-		);	 	
+		);
 	else
 	    return(
 		<Button.Group size="large" style={{marginLeft:'40%'}}>
@@ -45,7 +45,7 @@ const EditorButtons = ({invalid, removeFn, saveFn}) => {
 			    <Icon name="check" size="lg" />
 			</Button>
 		</Button.Group>
-		);	 	
+		);
 }
 
 class KatexOutput extends React.Component {
@@ -60,7 +60,6 @@ class KatexOutput extends React.Component {
     }
 
     this._timer = setTimeout(() => {
-      console.log(this.refs.container);		
       katex.render(
         this.props.content,
         this.refs.container,
@@ -122,7 +121,7 @@ export default class TeXBlock extends React.Component {
       }
     };
 
-    this._save = () => {	  
+    this._save = () => {
       var entityKey = this.props.block.getEntityAt(0);
       var newContentState = this.props.contentState.mergeEntityData(entityKey, {content: this.state.texValue});
       this.setState({
@@ -150,12 +149,12 @@ export default class TeXBlock extends React.Component {
   }
 
   render() {
-	
+
     var texContent = null;
-	
-    if (this.state.editMode) 
+
+    if (this.state.editMode)
 	  texContent = (this.state.invalidTeX ? '' : this.state.texValue);
-	else 
+	else
 	  texContent = this._getValue();
 
     var className = 'TeXEditor-tex';
@@ -165,25 +164,25 @@ export default class TeXBlock extends React.Component {
 
     var editPanel = null;
     if (this.state.editMode) {
-      
+
       editPanel =
         <div>
-		         		 
-		  <TextArea 
-			rows={2} 
+
+		  <TextArea
+			rows={2}
 			style={{width:'20%', marginLeft:'40%'}}
-			onChange={this._onValueChange} 
+			onChange={this._onValueChange}
 			value={this.state.texValue}
 		  />
-		  
+
           <div>
-			<EditorButtons 
-				invalid={this.state.invalidTeX} 
+			<EditorButtons
+				invalid={this.state.invalidTeX}
 				removeFn={this._remove}
 				saveFn={this._save}
-			/>		   		  		  
+			/>
           </div>
-		  
+
         </div>;
     }
 

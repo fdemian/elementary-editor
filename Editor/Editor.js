@@ -139,15 +139,28 @@ class EditorComponent extends React.Component {
 
  }
 
- filterWhiteListedStyles(editorStyles, allowedStyles) {
+ filterWhiteListedStyles(editorStyles, allowedStyles)
+ {
+    const filteredStyles = {
+      BLOCK_TYPES:  this.filterStyle(editorStyles.BLOCK_TYPES, allowedStyles),
+      INLINE_STYLES: this.filterStyle(editorStyles.INLINE_STYLES, allowedStyles),
+      CUSTOM_STYLES: this.filterStyle(editorStyles.CUSTOM_STYLES, allowedStyles)
+    }
 
-	console.log(editorStyles);
-	return editorStyles;
+    return filteredStyles;
  }
- 
- _getContent = () => {	
+
+ filterStyle(listToFilter, filter) {
+   let filtered = listToFilter.filter(e =>
+        filter.indexOf(e.style) !== -1
+       );
+
+   return filtered;
+ }
+
+ _getContent = () => {
     const currentContent = this.getCurrentContent();
-	return convertToRaw(currentContent);	 
+	return convertToRaw(currentContent);
  }
 
  _removeTeX = (blockKey) => {
@@ -217,18 +230,6 @@ class EditorComponent extends React.Component {
  _handleChange(state)
  {
 	this.setState({editorState: state});
- }
-
- // Get the JSON with the rawContent JS used to generate the editor's content.
- _getRawContentJSON(editorState)
- {
-	//this.state.editorState.toJS();
-	/*console.log(editorState);
-    const contentState = editorState.getCurrentContent();
-	const rawContent = convertToRaw(contentState);
-	const rawContentJson = JSON.stringify(rawContent);
-
-    return rawContentJson;*/
  }
 
  _handleKeyCommand(command)
