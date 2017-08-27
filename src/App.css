@@ -1,12 +1,11 @@
 @import '~antd/dist/antd.css'; 
 
 .App {
-  text-align: center;
+  text-align: left;
 }
 
 .EditorContainer {
   height:300px;
-  margin-top:100px;
   margin-left:5%;
   width:90%;	
   text-align:left;	
@@ -28,9 +27,11 @@
    margin-left: 20%;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.EditorNavbarText
+{
+  color: gainsboro;
+  margin-left: 20px;
+  cursor: default;
 }
 
 .App-header {
@@ -42,6 +43,41 @@
 
 .App-intro {
   font-size: large;
+}
+
+.DocSection {
+  margin-top: 50px;
+  font-size: 15px;  
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.MethodsDoc 
+{
+  margin-top: 50px;
+}
+
+.SectionTitle
+{
+   text-align: center;
+   margin-bottom: 20px;   
+}
+
+.CodeSection  
+{
+   margin-top: 3px;	
+   width: 45%;
+   text-align: left;  
+}
+
+pre 
+{
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
 }
 
 @keyframes App-logo-spin {
