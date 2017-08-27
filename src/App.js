@@ -1,28 +1,24 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import Editor from 'elementary-editor';
 import { Button, Card, Menu, Table } from 'antd';
 import './App.css';
 
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
 const ButtonGroup = Button.Group;
 
-const importCode = 
+const editorUsageCode = 
 `import Editor from 'elementary-editor';
 
-  class MyComponent extends Component  {
-			 
-  render() {
-	return(
-	<div>
-	   <Editor 
-		  initialState={null} 
-		  ref={(editor) => this.editor = editor}
-	    />   
-	);
-  } 
-}`;
+ class MyComponent extends Component  {
+   render() {
+     return(
+     <div>
+       <Editor
+         initialState={null}
+         ref={(editor) => this.editor = editor}
+      />
+     );
+   } 
+  }`;
 
 const editorProps = [  
    {name: "initialState", type: "JSON string", default: "null", description: "A draft-js rawState object with the initial state of the editor. If set to null it will initialize the editor with no text."},
@@ -99,7 +95,7 @@ class App extends Component {
    const currentState = this.editor.getContent();
    const jsonState = JSON.stringify(currentState);
    console.log(jsonState); 	
-   this.setState({editorState: jsonState})
+   this.setState({editorState: jsonState});
  }
  
  render(){
@@ -122,7 +118,7 @@ class App extends Component {
 			<li><a href="#use">How to use</a></li>			
 			<li><a href="#api">API reference</a></li>						
 			<li><a href="#demo">Play with the editor</a></li>
-			<li><a href="#built-with">Play with the editor</a></li>			
+			<li><a href="#built-with">Built with</a></li>			
 		  </ol>
 		</div>
 		
@@ -139,13 +135,12 @@ class App extends Component {
 		<div className="DocSection" id="use">
 		  <h2 className="SectionTitle">Usage</h2>			
 		  <p>To use this editor in your project, first install the npm package:</p>
-		  <br />
    		  <pre className="CodeSection">yarn add elementary-editor</pre>
 		  <br />
 		  <p>Then use the editor inside your code</p>
 		  <pre className="CodeSection">
 			<code>
-			{importCode}
+			{editorUsageCode}
 			</code>
 		  </pre>
 		  <br />
