@@ -52,7 +52,7 @@ To use this editor in your project:
 yarn add elementary-editor
 ```
 
-- Import the editor and use in on your code:
+- Import the editor and use it on your code:
 
 ```
 import Editor from 'elementary-editor';
@@ -109,6 +109,8 @@ The ref property is needed if you want to access the editor's internal methods.
 </table>
 
 ## Styles
+
+*Note*: styles can be filtered by passing the style names to the **filterStyles** argument of the editor.
 
 <table class="table table-bordered table-striped">
   <thead>
