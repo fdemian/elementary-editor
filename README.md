@@ -108,6 +108,95 @@ The ref property is needed if you want to access the editor's internal methods.
   </tbody>
 </table>
 
+## Styles
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>	  
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>BOLD</td>	  
+      <td>Inline</td>	  
+      <td>Bold text.</td>
+    </tr>
+    <tr>
+      <td>ITALIC</td>
+      <td>Inline</td>	  
+      <td>Italic text.</td>
+    </tr>
+    <tr>
+      <td>UNDERLINE</td>
+      <td>Inline</td>
+      <td>Underlined text.</td>	  
+    </tr>
+    <tr>
+      <td>STRIKETHROUGH</td>
+      <td>Inline</td>
+      <td>Strikethrough text.</td>	  
+    </tr>
+    <tr>
+      <td>blockquote</td>
+      <td>Block</td>
+      <td>Quote block.</td>	  
+    </tr>	
+	<tr>
+      <td>header-two</td>
+      <td>Block</td>
+      <td>H2 element.</td>	  
+    </tr>
+	<tr>
+      <td>unordered-list-item</td>
+      <td>Block</td>
+      <td>Unordered list.</td>	  
+    </tr>
+	<tr>
+      <td>ordered-list-item</td>
+      <td>Block</td>
+      <td>Ordered list.</td>	  
+    </tr>	
+	<tr>
+      <td>code-block</td>
+      <td>Block</td>
+      <td>Code block.</td>	  
+    </tr>		
+    <tr>
+      <td>Link</td>
+      <td>Custom</td>
+      <td>Link</td>	  
+    </tr>	
+    <tr>
+      <td>LinkRemove</td>
+      <td>Custom</td>
+      <td>Remove link.</td>	  
+    </tr>
+    <tr>
+      <td>Image</td>
+      <td>Custom</td>
+      <td>Image url.</td>	  
+    </tr>
+    <tr>
+      <td>Spoiler</td>
+      <td>Custom</td>
+      <td>Spoiler.</td>	  
+    </tr>
+    <tr>
+      <td>Video</td>
+      <td>Custom</td>
+      <td>Embeded video.</td>
+    </tr>	
+    <tr>
+      <td>Latex</td>
+      <td>Custom</td>
+      <td>Latex formatted block.</td>
+    </tr>
+  </tbody>
+</table>
+
 ## Methods
 
 Internal editor methods.

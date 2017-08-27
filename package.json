@@ -1,6 +1,6 @@
 {
   "name": "elementary-editor",
-  "version": "0.4.9",
+  "version": "0.5.0",
   "private": false,
   "main": "index.js",
   "license": "MIT",
@@ -66,7 +66,6 @@
     "react-test-renderer": "^15.6.1"
   },
   "scripts": {
-    "start": "node scripts/start.js",
     "build": "babel ./ --out-dir distribution --ignore node_modules,test --copy-files",
     "test": "node scripts/test.js --env=jsdom"
   },
