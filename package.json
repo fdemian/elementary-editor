@@ -5,7 +5,7 @@
   "homepage": "https://fdemian.github.io/elementary-editor",
   "dependencies": {
     "antd": "^2.12.3",
-    "elementary-editor": "^0.4.9",
+    "elementary-editor": "^0.5.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-fa": "^4.2.0",
