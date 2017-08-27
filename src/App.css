@@ -68,3 +68,8 @@ pre
   line-height: 1.45;
   border-radius: 3px;
 }
+
+tbody > tr > td
+{
+   word-break: break-word !important;
+}
