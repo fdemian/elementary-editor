@@ -1,8 +1,8 @@
 {
-  "main.css": "static/css/main.6b561c49.css",
-  "main.css.map": "static/css/main.6b561c49.css.map",
-  "main.js": "static/js/main.cb5cb12a.js",
-  "main.js.map": "static/js/main.cb5cb12a.js.map",
+  "main.css": "static/css/main.3ffa58bc.css",
+  "main.css.map": "static/css/main.3ffa58bc.css.map",
+  "main.js": "static/js/main.2026ab7a.js",
+  "main.js.map": "static/js/main.2026ab7a.js.map",
   "static\\media\\KaTeX_AMS-Regular.eot": "static/media/KaTeX_AMS-Regular.672c9619.eot",
   "static\\media\\KaTeX_AMS-Regular.ttf": "static/media/KaTeX_AMS-Regular.9971d270.ttf",
   "static\\media\\KaTeX_AMS-Regular.woff": "static/media/KaTeX_AMS-Regular.e78f217c.woff",
@@ -71,6 +71,5 @@
   "static\\media\\fontawesome-webfont.svg?v=4.7.0": "static/media/fontawesome-webfont.912ec66d.svg",
   "static\\media\\fontawesome-webfont.ttf?v=4.7.0": "static/media/fontawesome-webfont.b06871f2.ttf",
   "static\\media\\fontawesome-webfont.woff2?v=4.7.0": "static/media/fontawesome-webfont.af7ae505.woff2",
-  "static\\media\\fontawesome-webfont.woff?v=4.7.0": "static/media/fontawesome-webfont.fee66e71.woff",
-  "static\\media\\logo.svg": "static/media/logo.5d5d9eef.svg"
+  "static\\media\\fontawesome-webfont.woff?v=4.7.0": "static/media/fontawesome-webfont.fee66e71.woff"
 }
