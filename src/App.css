@@ -57,14 +57,14 @@
    margin-top: 3px;	
    width: 45%;
    text-align: left;  
+   background-color: #f6f8fa;
+   padding: 16px;
 }
 
 pre 
 {
-  padding: 16px;
   overflow: auto;
   font-size: 85%;
   line-height: 1.45;
-  background-color: #f6f8fa;
   border-radius: 3px;
 }

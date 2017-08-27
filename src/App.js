@@ -32,9 +32,9 @@ const editorPropsColumns = [
     key: 'name'
   },
   {
-	title: 'Title',
-	dataIndex: 'title',
-	key: 'title',
+	title: 'Type',
+	dataIndex: 'type',
+	key: 'type',
   }, 
   {
 	title: 'Default',
@@ -163,8 +163,7 @@ class App extends Component {
 		    <Table 
 			  columns={editorPropsColumns} 
 			  dataSource={editorProps} 
-			  pagination={false}			  
-			  size="small"	  
+			  pagination={false}
 		    />
 		  </div>
 
@@ -175,8 +174,7 @@ class App extends Component {
 		    <Table 
 			  columns={editorMethodsColumns} 
 			  dataSource={editorMethods} 
-			  pagination={false}			  
-			  size="small"	  
+			  pagination={false}
 		    />
 		  </div>		  		  		  
 		</div>
@@ -216,7 +214,7 @@ class App extends Component {
    	  </div>	
 	  
 	  <div className="DocSection" id="built-with">
-		  <h2 className="SectionTitle">Built with</h2>			
+		  <h2 className="SectionTitle">Technologies used</h2>			
 		  <h3>Elementary Editor was built with:</h3>
 		  <br />
 		  <p>
