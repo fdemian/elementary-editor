@@ -17,12 +17,12 @@ import { AtomicBlockUtils, EditorState } from 'draft-js';
 const initialFormula = 'f(x) = ... ';
 
 export function insertTeXBlock(state) {
-	
+
   const { editorState } = state;
   const contentState = editorState.getCurrentContent();
 
   const contentStateWithEntity = contentState.createEntity(
-    'TOKEN',
+    'LATEX',
     'IMMUTABLE',
     {content: initialFormula},
   );
