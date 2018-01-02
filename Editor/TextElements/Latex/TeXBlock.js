@@ -15,7 +15,13 @@
 import katex from 'katex';
 import React from 'react';
 import { Button, Input } from 'antd';
-import { Icon } from 'react-fa';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import {
+	faClose,
+	faCheck
+} 
+from '@fortawesome/fontawesome-free-solid';
+
 
 const { TextArea } = Input;
 
@@ -25,7 +31,7 @@ const EditorButtons = ({invalid, removeFn, saveFn}) => {
 	    return(
 		<Button.Group size="large" style={{marginLeft:'40%'}}>
 			<Button type="danger" onClick={removeFn}>
-				<Icon name="close" size="lg" />
+				<FontAwesomeIcon name={faClose} size="lg" />
 				&nbsp; Remove
 			</Button>
 			<Button disabled>
@@ -36,13 +42,13 @@ const EditorButtons = ({invalid, removeFn, saveFn}) => {
 	else
 	    return(
 		<Button.Group size="large" style={{marginLeft:'40%'}}>
-			<Button type="danger" onClick={removeFn}>
-				<Icon name="close" size="lg" />
+			<Button type="danger" onClick={removeFn}>				
+				<FontAwesomeIcon name={faClose} size="lg" />
 				&nbsp; Remove
 			</Button>
 			<Button type="primary" onClick={saveFn}>
 				Done &nbsp;
-			    <Icon name="check" size="lg" />
+				<FontAwesomeIcon name={faCheck} size="lg" />
 			</Button>
 		</Button.Group>
 		);
