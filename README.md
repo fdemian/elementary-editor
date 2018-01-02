@@ -22,7 +22,7 @@ To use this editor in your project:
 
 + Import the editor and use it on your code:
 
-
+```
 import Editor from 'elementary-editor';
   
 class MyComponent extends Component  {
@@ -38,6 +38,7 @@ class MyComponent extends Component  {
 	 />   
    );
  }
+```js
 
 The ref property is needed if you want to access the editor's internal methods.
  
