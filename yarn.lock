@@ -6,6 +6,10 @@
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-solid/-/fontawesome-free-solid-5.0.2.tgz#090ce2c59dd5ec76983f3da8a43e1ab0321b42d5"
 
+"@fortawesome/fontawesome@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome/-/fontawesome-1.1.0.tgz#2a949fa46d96e41092e67218b42579f8e54c7b7f"
+
 "@fortawesome/react-fontawesome@^0.0.17":
   version "0.0.17"
   resolved "https://registry.yarnpkg.com/@fortawesome/react-fontawesome/-/react-fontawesome-0.0.17.tgz#69abd135523187044f533cadc5458f829d43961f"
