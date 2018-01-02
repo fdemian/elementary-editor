@@ -38,7 +38,7 @@ class MyComponent extends Component  {
 	 />   
    );
  }
-```js
+```
 
 The ref property is needed if you want to access the editor's internal methods.
  
