@@ -19,7 +19,7 @@ import {
 	faStrikethrough,
 	faLink,
 	faUnlink,
-	faPicture,
+	faImage,
 	faEye,
 	faVideo,
 	faCalculator
