@@ -6,36 +6,56 @@ const {
  AtomicBlockUtils
 } = Draft;
 
+// Font awesome icons.
+import {
+	faQuoteLeft,
+	faHeading,
+	faList,
+	faListOl,
+	faCode,
+	faBold,
+	faItalic,
+	faUnderline,
+	faStrikethrough,
+	faLink,
+	faUnlink,
+	faPicture,
+	faEye,
+	faVideo,
+	faCalculator
+} from '@fortawesome/fontawesome-free-solid';
+
 const BLOCK_TYPES =
 [
-  {label: 'Quote', style: 'blockquote', icon: "quote-left" },
-  {label: 'Heading', style: 'header-two', icon: "header"},
-  {label: 'Unordered List', style: 'unordered-list-item', icon: "list"},
-  {label: 'Ordered List', style: 'ordered-list-item', icon: "list-ol"},
-  {label: 'Code Block', style: 'code-block', icon: "code" }
+  {label: 'Quote', style: 'blockquote', icon: faQuoteLeft},
+  {label: 'Heading', style: 'header-two', icon: faHeading},
+  {label: 'Unordered List', style: 'unordered-list-item', icon: faList},
+  {label: 'Ordered List', style: 'ordered-list-item', icon: faListOl},
+  {label: 'Code Block', style: 'code-block', icon: faCode }
 ];
 
 const INLINE_STYLES =
 [
-  {label: 'Bold', style: 'BOLD', icon: "bold"},
-  {label: 'Italic', style: 'ITALIC', icon: "italic"},
-  {label: 'Underline', style: 'UNDERLINE', icon: "underline"},
-  {label: 'Strikethrough', style: 'STRIKETHROUGH', icon: "strikethrough"}
+  {label: 'Bold', style: 'BOLD', icon: faBold},
+  {label: 'Italic', style: 'ITALIC', icon: faItalic},
+  {label: 'Underline', style: 'UNDERLINE', icon: faUnderline},
+  {label: 'Strikethrough', style: 'STRIKETHROUGH', icon: faStrikethrough}
 ];
 
 const CUSTOM_STYLES =
 [
-  {label: 'Link', style: 'Link', toggleFn: insertLink, requiresInput: true, requiresSelection: true, icon: "link" },
-  {label: 'Remove Link', style: 'LinkRemove', toggleFn: removeLink, requiresInput: false, requiresSelection: false, icon: "unlink" },
-  {label: 'Image', style: 'Image', toggleFn: insertMedia, requiresInput: true, requiresSelection: false, icon: "picture-o"},
-  {label: 'Spoiler', style: 'Spoiler', toggleFn: insertSpoiler, requiresInput: false, requiresSelection: true, icon: "eye"},
-  {label: 'Video', style: 'Video', toggleFn: insertMedia, requiresInput: true, requiresSelection: false, icon: "video-camera" },
-  {label: 'Latex', style: 'Latex', toggleFn: insertLaTexBlock, requiresInput: false, requiresSelection: false, icon: "calculator" }
+  {label: 'Link', style: 'Link', toggleFn: insertLink, requiresInput: true, requiresSelection: true, icon: faLink },
+  {label: 'Remove Link', style: 'LinkRemove', toggleFn: removeLink, requiresInput: false, requiresSelection: false, icon: faUnlink },
+  {label: 'Image', style: 'Image', toggleFn: insertMedia, requiresInput: true, requiresSelection: false, icon: faPicture},
+  {label: 'Spoiler', style: 'Spoiler', toggleFn: insertSpoiler, requiresInput: false, requiresSelection: true, icon: faEye},
+  {label: 'Video', style: 'Video', toggleFn: insertMedia, requiresInput: true, requiresSelection: false, icon: faVideo },
+  {label: 'Latex', style: 'Latex', toggleFn: insertLaTexBlock, requiresInput: false, requiresSelection: false, icon: faCalculator}
 ];
 
-/* ------------------------------------------------------------------------------------------------------ */
+		/* ----------------------------------------- */
 
-// TODO: todo esta implementado como toggleLink, editor state debería llegar por parámetro?
+// TODO: this has been implemented using toggleLink.
+// Should editorState be a parameter or not?
 function insertEntity(editor, editorState, newContentState)
 {
    const entityKey = newContentState.getLastCreatedEntityKey();

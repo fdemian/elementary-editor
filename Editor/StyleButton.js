@@ -1,7 +1,12 @@
 import React, {Component} from 'react';
 import { Tooltip } from 'antd';
-import {Icon} from 'react-fa'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import './css/StyleButton.css';
+
+const iconStyle = {
+	'color': iconColor,
+	'marginTop':'6px'
+};
 
 class StyleButton extends Component {
 
@@ -25,7 +30,7 @@ class StyleButton extends Component {
       return (
       <Tooltip placement="bottom" title={this.props.label} >
         <button className="StyleButton" onClick={this.onToggle}>		  
-		  <Icon name={iconType} size="lg" style={{'color': iconColor,'marginTop':'6px'}} />
+		  <FontAwesomeIcon size="lg" style={iconStyle} />
 		</button>
       </Tooltip>	  
       );
