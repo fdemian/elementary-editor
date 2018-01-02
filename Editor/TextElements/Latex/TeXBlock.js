@@ -17,7 +17,7 @@ import React from 'react';
 import { Button, Input } from 'antd';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import {
-	faClose,
+	faTimes,
 	faCheck
 } 
 from '@fortawesome/fontawesome-free-solid';
