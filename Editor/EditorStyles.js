@@ -46,7 +46,7 @@ const CUSTOM_STYLES =
 [
   {label: 'Link', style: 'Link', toggleFn: insertLink, requiresInput: true, requiresSelection: true, icon: faLink },
   {label: 'Remove Link', style: 'LinkRemove', toggleFn: removeLink, requiresInput: false, requiresSelection: false, icon: faUnlink },
-  {label: 'Image', style: 'Image', toggleFn: insertMedia, requiresInput: true, requiresSelection: false, icon: faPicture},
+  {label: 'Image', style: 'Image', toggleFn: insertMedia, requiresInput: true, requiresSelection: false, icon: faImage},
   {label: 'Spoiler', style: 'Spoiler', toggleFn: insertSpoiler, requiresInput: false, requiresSelection: true, icon: faEye},
   {label: 'Video', style: 'Video', toggleFn: insertMedia, requiresInput: true, requiresSelection: false, icon: faVideo },
   {label: 'Latex', style: 'Latex', toggleFn: insertLaTexBlock, requiresInput: false, requiresSelection: false, icon: faCalculator}
