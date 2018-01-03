@@ -43,12 +43,12 @@ const EditorButtons = ({invalid, removeFn, saveFn}) => {
 	    return(
 		<Button.Group size="large" style={{marginLeft:'40%'}}>
 			<Button type="danger" onClick={removeFn}>				
-				<FontAwesomeIcon name={faClose} size="lg" />
+				<FontAwesomeIcon icon={faTimes} />
 				&nbsp; Remove
 			</Button>
 			<Button type="primary" onClick={saveFn}>
 				Done &nbsp;
-				<FontAwesomeIcon name={faCheck} size="lg" />
+				<FontAwesomeIcon icon={faCheck} />
 			</Button>
 		</Button.Group>
 		);
