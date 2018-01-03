@@ -1,6 +1,6 @@
 {
   "name": "elementary-editor",
-  "version": "0.6.10",
+  "version": "0.6.11",
   "private": false,
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.0",
