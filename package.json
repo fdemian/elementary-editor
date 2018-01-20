@@ -1,26 +1,21 @@
 {
-  "name": "elementary-editor",
+  "name": "elementary-pages-cra",
   "version": "0.1.0",
-  "private": true,
-  "homepage": "https://fdemian.github.io/elementary-editor",
+  "private": false,
   "dependencies": {
-    "antd": "^2.12.3",
-    "elementary-editor": "^0.5.0",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "react-fa": "^4.2.0",
-    "redraft": "^0.8.0"
+    "elementary-editor": "^0.6.11",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   },
   "devDependencies": {
-    "gh-pages": "^1.0.0",
-    "react-scripts": "1.0.10"
+    "react-scripts": "1.0.17"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
+	"predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   }
 }
