@@ -1,3 +1,7 @@
-var Editor = require('./Editor/Editor');
+var ElementaryEditor = require('./Editor/Editor');
+var Renderer = require('./DraftRenderer/DraftRenderer');
 
-module.exports = Editor;
+module.exports = {
+  Editor: ElementaryEditor,
+  DefaultRenderer: Renderer
+}

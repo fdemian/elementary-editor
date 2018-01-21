@@ -1,5 +1,6 @@
 import React from 'react';
 import Spoiler from '../Editor/TextElements/Spoiler/Spoiler';
+import LatexBlock from '../Editor/TextElements/Latex/LatexBlock';
 import EmbededVideo from '../Editor/TextElements/Media/EmbededVideo';
 import QuoteBlock from '../Editor/TextElements/QuoteBlock/QuoteBlock';
 import RenderLink from '../Editor/TextElements/Link/RenderLink'; 
@@ -28,9 +29,7 @@ const addBreaklines = (children) => children.map(child => [child, <br />]);
 
 const renderers = {
 
-  /**
-   * Those callbacks will be called recursively to render a nested structure
-   */
+  /* Inline Styles */
   inline: {
     BOLD: (children) => <strong>{children}</strong>,
     ITALIC: (children) => <em>{children}</em>,
@@ -38,10 +37,7 @@ const renderers = {
     CODE: (children) => <span style={styles.code}>{children}</span>,
   },
 
-  /**
-   * Blocks receive children and depth
-   * Note that children are an array of blocks with same styling,
-   */
+  /* Block Styles */
   blocks: {
      unstyled: (children) => children.map(child => <p>{child}</p>),
      blockquote: (children) => <blockquote key={1}>{addBreaklines(children)}</blockquote>,
@@ -52,10 +48,11 @@ const renderers = {
     'ordered-list-item': (children, depth) => <ol>{children.map(child => <li style={styles.listItem}>{child}</li>)}</ol>,
   },
 
-  /* Entities receive children and the entity data */
+  /* Entities */
   entities: {
     Image: (children, data) => <div><img src={data.src} alt=""/></div>,
 	LINK: (children, data) =>  <RenderLink src={data.url} text={children} />,
+	LATEX: (children, data) =>  <LatexBlock content={data.content} />,
 	SPOILER: (children, data) => <Spoiler text={children[0]} />,
     Video: (children, data) => <div><EmbededVideo src={data.src} /></div>,
     QuoteBlock: (children, data) => <QuoteBlock comment={data.props} />
