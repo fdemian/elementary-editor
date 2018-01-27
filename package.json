@@ -19,6 +19,7 @@
     "chalk": "2.3.0",
     "css-loader": "0.28.9",
     "dotenv": "4.0.0",
+    "draft-js": "^0.10.5",
     "eslint": "^4.16.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-react-app": "2.1.0",
