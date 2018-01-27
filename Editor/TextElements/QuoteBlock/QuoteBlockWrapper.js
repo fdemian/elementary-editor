@@ -3,13 +3,11 @@ import QuoteBlock from './QuoteBlock';
 
 const QuoteBlockWrapper = (props) => {
 
- const entity = props.contentState.getEntity(
-    props.block.getEntityAt(0)
- );
+  const entity = props.contentState.getEntity(props.block.getEntityAt(0));
 
- const comment = entity.getData().props;
+  const comment = entity.getData().props;
 
- return(<QuoteBlock comment={comment} />);
+  return (<QuoteBlock comment={comment} />);
 
 }
 

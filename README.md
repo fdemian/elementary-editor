@@ -23,8 +23,8 @@ To use this editor in your project:
 + Import the editor and use it on your code:
 
 ```
-import Editor from 'elementary-editor';
-  
+import { Editor } from 'elementary-editor';
+ 
 class MyComponent extends Component  {
  /*
  ...
@@ -39,6 +39,26 @@ class MyComponent extends Component  {
    );
  }
 ```
+
+To use the default renderer that is bundled with the editor:
+
+```
+import { DefaultRenderer } from 'elementary-editor';
+ 
+class MyComponent extends Component  {
+ /*
+ ...
+ */
+ render() {
+  return(
+  <div>
+	<DefaultRenderer raw={rawText} />
+  </div>
+  );
+ }
+```
+
+Here `rawText` is a javascript object that contains a valid Draft-JS raw state object.
 
 The ref property is needed if you want to access the editor's internal methods.
  

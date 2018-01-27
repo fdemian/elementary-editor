@@ -17,41 +17,41 @@ import React from 'react';
 import { Button, Input } from 'antd';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import {
-	faTimes,
-	faCheck
-} 
-from '@fortawesome/fontawesome-free-solid';
+  faTimes,
+  faCheck
+}
+  from '@fortawesome/fontawesome-free-solid';
 
 
 const { TextArea } = Input;
 
-const EditorButtons = ({invalid, removeFn, saveFn}) => {
+const EditorButtons = ({ invalid, removeFn, saveFn }) => {
 
-	if(invalid)
-	    return(
-		<Button.Group size="large" style={{marginLeft:'40%'}}>
-			<Button type="danger" onClick={removeFn}>
-				<FontAwesomeIcon name={faClose} size="lg" />
+  if (invalid) {
+    return (
+      <Button.Group size="large" style={{ marginLeft: '40%' }}>
+        <Button type="danger" onClick={removeFn}>
+          <FontAwesomeIcon name={faClose} size="lg" />
 				&nbsp; Remove
-			</Button>
-			<Button disabled>
+        </Button>
+        <Button disabled>
 				Invalid TeX
-			</Button>
-		</Button.Group>
-		);
-	else
-	    return(
-		<Button.Group size="large" style={{marginLeft:'40%'}}>
-			<Button type="danger" onClick={removeFn}>				
-				<FontAwesomeIcon icon={faTimes} />
+        </Button>
+      </Button.Group>
+    );
+  }
+  return (
+    <Button.Group size="large" style={{ marginLeft: '40%' }}>
+      <Button type="danger" onClick={removeFn}>
+        <FontAwesomeIcon icon={faTimes} />
 				&nbsp; Remove
-			</Button>
-			<Button type="primary" onClick={saveFn}>
+      </Button>
+      <Button type="primary" onClick={saveFn}>
 				Done &nbsp;
 				<FontAwesomeIcon icon={faCheck} />
-			</Button>
-		</Button.Group>
-		);
+      </Button>
+    </Button.Group>
+  );
 }
 
 class KatexOutput extends React.Component {
@@ -69,7 +69,7 @@ class KatexOutput extends React.Component {
       katex.render(
         this.props.content,
         this.refs.container,
-        {displayMode: true}
+        { displayMode: true }
       );
     }, 0);
   }
@@ -97,7 +97,7 @@ class KatexOutput extends React.Component {
 export default class TeXBlock extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {editMode: false};
+    this.state = { editMode: false };
 
     this._onClick = () => {
       if (this.state.editMode) {
@@ -112,9 +112,9 @@ export default class TeXBlock extends React.Component {
       });
     };
 
-    this._onValueChange = evt => {
-      var value = evt.target.value;
-      var invalid = false;
+    this._onValueChange = (evt) => {
+      const value = evt.target.value;
+      let invalid = false;
       try {
         katex.__parse(value);
       } catch (e) {
@@ -128,8 +128,8 @@ export default class TeXBlock extends React.Component {
     };
 
     this._save = () => {
-      var entityKey = this.props.block.getEntityAt(0);
-      var newContentState = this.props.contentState.mergeEntityData(entityKey, {content: this.state.texValue});
+      const entityKey = this.props.block.getEntityAt(0);
+      const newContentState = this.props.contentState.mergeEntityData(entityKey, { content: this.state.texValue });
       this.setState({
         invalidTeX: false,
         editMode: false,
@@ -151,45 +151,42 @@ export default class TeXBlock extends React.Component {
   _getValue() {
     return this.props.contentState
       .getEntity(this.props.block.getEntityAt(0))
-      .getData()['content'];
+      .getData().content;
   }
 
   render() {
 
-    var texContent = null;
+    let texContent = null;
 
-    if (this.state.editMode)
-	  texContent = (this.state.invalidTeX ? '' : this.state.texValue);
-	else
-	  texContent = this._getValue();
+    if (this.state.editMode) { texContent = (this.state.invalidTeX ? '' : this.state.texValue); } else { texContent = this._getValue(); }
 
-    var className = 'TeXEditor-tex';
+    let className = 'TeXEditor-tex';
     if (this.state.editMode) {
       className += ' TeXEditor-activeTeX';
     }
 
-    var editPanel = null;
+    let editPanel = null;
     if (this.state.editMode) {
 
       editPanel =
-        <div>
+        (<div>
 
-		  <TextArea
-			rows={2}
-			style={{width:'20%', marginLeft:'40%'}}
-			onChange={this._onValueChange}
-			value={this.state.texValue}
-		  />
+          <TextArea
+            rows={2}
+            style={{ width: '20%', marginLeft: '40%' }}
+            onChange={this._onValueChange}
+            value={this.state.texValue}
+          />
 
           <div>
-			<EditorButtons
-				invalid={this.state.invalidTeX}
-				removeFn={this._remove}
-				saveFn={this._save}
-			/>
+            <EditorButtons
+              invalid={this.state.invalidTeX}
+              removeFn={this._remove}
+              saveFn={this._save}
+            />
           </div>
 
-        </div>;
+         </div>);
     }
 
     return (

@@ -24,14 +24,14 @@ export function insertTeXBlock(state) {
   const contentStateWithEntity = contentState.createEntity(
     'LATEX',
     'IMMUTABLE',
-    {content: initialFormula},
+    { content: initialFormula },
   );
 
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
 
   const newEditorState = EditorState.set(
     editorState,
-    {currentContent: contentStateWithEntity},
+    { currentContent: contentStateWithEntity },
   );
 
   return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, ' ');
