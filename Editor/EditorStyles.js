@@ -35,7 +35,7 @@ function insertEntity(editor, editorState, newContentState) {
   const newEditorState = EditorState.set(editorState, { currentContent: newContentState });
   editor.setState({
     editorState: RichUtils.toggleLink(newEditorState, newEditorState.getSelection(), entityKey)
-  }, () => { setTimeout(() => editor.refs.editor.focus(), 0); });
+  }, () => { setTimeout(() => editor.editor.focus(), 0); });
 }
 
 export function insertMedia(editor, type, value) {
