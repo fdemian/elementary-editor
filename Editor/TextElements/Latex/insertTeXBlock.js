@@ -16,7 +16,7 @@ import { AtomicBlockUtils, EditorState } from 'draft-js';
 
 const initialFormula = 'f(x) = ... ';
 
-export function insertTeXBlock(state) {
+export default function insertTeXBlock(state) {
 
   const { editorState } = state;
   const contentState = editorState.getCurrentContent();

@@ -8,21 +8,8 @@ class LatexBlock extends Component {
     this.timer = null;
   }
 
-  update() {
-
-    if (this.timer) {
-      alert('clearTimeout!');
-      clearTimeout(this.timer);
-    }
-
-    this._timer = setTimeout(() => {
-      katex.render(
-        this.props.content,
-        this.refs.container,
-        { displayMode: true }
-      );
-    }, 0);
-
+  componentDidMount() {
+    this.update();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -36,12 +23,24 @@ class LatexBlock extends Component {
     this.timer = null;
   }
 
-  componentDidMount() {
-    this.update();
+  update() {
+
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+
+    this.timer = setTimeout(() => {
+      katex.render(
+        this.props.content,
+        this.container,
+        { displayMode: true }
+      );
+    }, 0);
+
   }
 
   render() {
-    return <span ref="container" />;
+    return <span ref={(c) => { this.container = c; }} />;
   }
 }
 

@@ -82,14 +82,19 @@ class KatexOutput extends React.Component {
     this.timer = setTimeout(() => {
       katex.render(
         this.props.content,
-        this.refs.container,
+        this.container,
         { displayMode: true }
       );
     }, 0);
   }
 
   render() {
-    return <div ref="container" onClick={this.props.onClick} />;
+    return (
+      <div
+        role="button"
+        ref={(c) => { this.container = c }}
+        onClick={this.props.onClick}
+      />);
   }
 }
 
@@ -115,9 +120,9 @@ export default class TeXBlock extends React.Component {
       const { value } = evt.target;
       let invalid = false;
       try {
-		/* eslint-disable */
+        /* eslint-disable */
         katex.__parse(value);
-		/* eslint-enable */
+        /* eslint-enable */
       } catch (e) {
         invalid = true;
       } finally {
@@ -130,10 +135,11 @@ export default class TeXBlock extends React.Component {
 
     this.save = () => {
       const entityKey = this.props.block.getEntityAt(0);
-	  const { contentState } = this.props;
-      const newContentState = contentState.mergeEntityData(entityKey,
-            { content: this.state.texValue }
-	  );
+      const { contentState } = this.props;
+      const newContentState = contentState.mergeEntityData(
+        entityKey,
+        { content: this.state.texValue }
+      );
       this.setState({
         invalidTeX: false,
         editMode: false,
@@ -194,7 +200,7 @@ export default class TeXBlock extends React.Component {
             />
           </div>
 
-         </div>);
+        </div>);
     }
 
     return (

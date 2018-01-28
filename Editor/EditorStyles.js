@@ -1,11 +1,5 @@
 import Draft from 'draft-js';
 
-const {
-  EditorState,
-  RichUtils,
-  AtomicBlockUtils
-} = Draft;
-
 // Font awesome icons.
 import {
   faQuoteLeft,
@@ -25,44 +19,12 @@ import {
   faCalculator
 } from '@fortawesome/fontawesome-free-solid';
 
-const BLOCK_TYPES =
-[
-  { label: 'Quote', style: 'blockquote', icon: faQuoteLeft },
-  { label: 'Heading', style: 'header-two', icon: faHeading },
-  { label: 'Unordered List', style: 'unordered-list-item', icon: faList },
-  { label: 'Ordered List', style: 'ordered-list-item', icon: faListOl },
-  { label: 'Code Block', style: 'code-block', icon: faCode }
-];
+const {
+  EditorState,
+  RichUtils,
+  AtomicBlockUtils
+} = Draft;
 
-const INLINE_STYLES =
-[
-  { label: 'Bold', style: 'BOLD', icon: faBold },
-  { label: 'Italic', style: 'ITALIC', icon: faItalic },
-  { label: 'Underline', style: 'UNDERLINE', icon: faUnderline },
-  { label: 'Strikethrough', style: 'STRIKETHROUGH', icon: faStrikethrough }
-];
-
-const CUSTOM_STYLES =
-[
-  {
-    label: 'Link', style: 'Link', toggleFn: insertLink, requiresInput: true, requiresSelection: true, icon: faLink
-  },
-  {
-    label: 'Remove Link', style: 'LinkRemove', toggleFn: removeLink, requiresInput: false, requiresSelection: false, icon: faUnlink
-  },
-  {
-    label: 'Image', style: 'Image', toggleFn: insertMedia, requiresInput: true, requiresSelection: false, icon: faImage
-  },
-  {
-    label: 'Spoiler', style: 'Spoiler', toggleFn: insertSpoiler, requiresInput: false, requiresSelection: true, icon: faEye
-  },
-  {
-    label: 'Video', style: 'Video', toggleFn: insertMedia, requiresInput: true, requiresSelection: false, icon: faVideo
-  },
-  {
-    label: 'Latex', style: 'Latex', toggleFn: insertLaTexBlock, requiresInput: false, requiresSelection: false, icon: faCalculator
-  }
-];
 
 /* ----------------------------------------- */
 
@@ -72,7 +34,7 @@ function insertEntity(editor, editorState, newContentState) {
   const entityKey = newContentState.getLastCreatedEntityKey();
   const newEditorState = EditorState.set(editorState, { currentContent: newContentState });
   editor.setState({
-	   editorState: RichUtils.toggleLink(newEditorState, newEditorState.getSelection(), entityKey)
+    editorState: RichUtils.toggleLink(newEditorState, newEditorState.getSelection(), entityKey)
   }, () => { setTimeout(() => editor.refs.editor.focus(), 0); });
 }
 
@@ -148,6 +110,48 @@ export function insertSpoiler(editor) {
 export function insertLaTexBlock(editor) {
   editor.insertTex();
 }
+
+/* ------------------- */
+
+const BLOCK_TYPES =
+[
+  { label: 'Quote', style: 'blockquote', icon: faQuoteLeft },
+  { label: 'Heading', style: 'header-two', icon: faHeading },
+  { label: 'Unordered List', style: 'unordered-list-item', icon: faList },
+  { label: 'Ordered List', style: 'ordered-list-item', icon: faListOl },
+  { label: 'Code Block', style: 'code-block', icon: faCode }
+];
+
+const INLINE_STYLES =
+[
+  { label: 'Bold', style: 'BOLD', icon: faBold },
+  { label: 'Italic', style: 'ITALIC', icon: faItalic },
+  { label: 'Underline', style: 'UNDERLINE', icon: faUnderline },
+  { label: 'Strikethrough', style: 'STRIKETHROUGH', icon: faStrikethrough }
+];
+
+const CUSTOM_STYLES =
+[
+  {
+    label: 'Link', style: 'Link', toggleFn: insertLink, requiresInput: true, requiresSelection: true, icon: faLink
+  },
+  {
+    label: 'Remove Link', style: 'LinkRemove', toggleFn: removeLink, requiresInput: false, requiresSelection: false, icon: faUnlink
+  },
+  {
+    label: 'Image', style: 'Image', toggleFn: insertMedia, requiresInput: true, requiresSelection: false, icon: faImage
+  },
+  {
+    label: 'Spoiler', style: 'Spoiler', toggleFn: insertSpoiler, requiresInput: false, requiresSelection: true, icon: faEye
+  },
+  {
+    label: 'Video', style: 'Video', toggleFn: insertMedia, requiresInput: true, requiresSelection: false, icon: faVideo
+  },
+  {
+    label: 'Latex', style: 'Latex', toggleFn: insertLaTexBlock, requiresInput: false, requiresSelection: false, icon: faCalculator
+  }
+];
+
 
 const EditorStyles = { BLOCK_TYPES, INLINE_STYLES, CUSTOM_STYLES };
 

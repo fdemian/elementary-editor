@@ -2,8 +2,8 @@ import React from 'react';
 import Draft from 'draft-js';
 import { Map } from 'immutable';
 import 'katex/dist/katex.css';
-import { insertTeXBlock } from './TextElements/Latex/insertTeXBlock';
-import { removeTeXBlock } from './TextElements/Latex/removeTeXBlock';
+import insertTeXBlock from './TextElements/Latex/insertTeXBlock';
+import removeTeXBlock from './TextElements/Latex/removeTeXBlock';
 import TeXBlock from './TextElements/Latex/TeXBlock';
 import Spoiler from './TextElements/Spoiler/SpoilerWrapper';
 import Media from './TextElements/Media/Media';
@@ -78,6 +78,13 @@ function findSpoilerEntities(contentBlock, callback, contentState) {
 
 class EditorComponent extends React.Component {
 
+  static filterStyle(listToFilter, filter) {
+    const filtered = listToFilter.filter(e =>
+      filter.indexOf(e.style) !== -1);
+
+    return filtered;
+  }
+
   constructor(props) {
 
     super(props);
@@ -108,7 +115,7 @@ class EditorComponent extends React.Component {
 
     this.filterStyles = this.props.filterStyles === undefined ? null : this.props.filterStyles;
     this.state = { liveTeXEdits: Map(), editorState: initalStateEditor };
-    this.focus = () => this.refs.editor.focus();
+    this.focus = () => this.editor.focus();
     this.onChange = state => this.handleChangeFn(state);
     this.handleKeyCommand = command => this.handleKeyCommandFn(command);
     this.toggleBlockType = type => this.toggleBlockTypeFn(type);
@@ -118,7 +125,7 @@ class EditorComponent extends React.Component {
     this.getContent = () => this.getContentFn();
     this.blockIsActive = block => this.blockIsActiveFn(block);
     this.inlineIsActive = style => this.inlineIsActiveFn(style);
-    this.customBlockIsActive = block => this.customBlockIsActiveFn(block);
+    this.customBlockIsActive = false;
     this.clear = () => this.clearFn();
     this.insertQuote = comment => this.insertQuoteFn(comment);
     this.insertQuoteBlock = (type, content, author) => this
@@ -138,6 +145,11 @@ class EditorComponent extends React.Component {
 
   }
 
+  getContentFn = () => {
+    const currentContent = this.getCurrentContent();
+    return convertToRaw(currentContent);
+  }
+
   filterWhiteListedStyles(editorStyles, allowedStyles) {
     const filteredStyles = {
       BLOCK_TYPES: this.filterStyle(editorStyles.BLOCK_TYPES, allowedStyles),
@@ -146,18 +158,6 @@ class EditorComponent extends React.Component {
     }
 
     return filteredStyles;
-  }
-
-  static filterStyle(listToFilter, filter) {
-    const filtered = listToFilter.filter(e =>
-      filter.indexOf(e.style) !== -1);
-
-    return filtered;
-  }
-
-  getContentFn = () => {
-    const currentContent = this.getCurrentContent();
-    return convertToRaw(currentContent);
   }
 
   removeTeXFn = (blockKey) => {
@@ -202,7 +202,9 @@ class EditorComponent extends React.Component {
   blockIsActiveFn(block) {
     const { editorState } = this.state;
     const selection = editorState.getSelection();
-    const blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType();
+    const blockType = editorState.getCurrentContent()
+      .getBlockForKey(selection.getStartKey())
+      .getType();
 
     return block === blockType;
   }
@@ -215,9 +217,10 @@ class EditorComponent extends React.Component {
     return currentStyle.has(style);
   }
 
-  customBlockIsActiveFn(block) {
+  /*
+  static customBlockIsActiveFn(block) {
     return false;
-  }
+  } */
 
   handleChangeFn(state) {
     this.setState({ editorState: state });
@@ -327,7 +330,7 @@ class EditorComponent extends React.Component {
             editorState={editorState}
             handleKeyCommand={this.handleKeyCommand}
             onChange={this.onChange}
-            ref="editor"
+            ref={(e) => { this.editor = e; }}
             spellCheck={false}
             readOnly={this.state.liveTeXEdits.count()}
           />

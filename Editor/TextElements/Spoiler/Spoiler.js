@@ -18,7 +18,11 @@ class Spoiler extends React.Component {
 
     const cssClass = `Spoiler ${this.state.textStatus}`;
     return (
-      <span className={cssClass} onClick={this.changeStatus.bind(this)}>
+      <span
+        className={cssClass}
+        onClick={this.changeStatus.bind(this)}
+        role="presentation"
+      >
         {this.props.text}
       </span>
     );

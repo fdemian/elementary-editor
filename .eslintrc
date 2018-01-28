@@ -5,6 +5,7 @@
      "no-extra-semi": 0,
 	 "react/jsx-filename-extension": 0,
 	 "react/jsx-space-before-closing": 0,
+	 "jsx-a11y/click-events-have-key-events": 0,
 	 "react/jsx-tag-spacing": 1,
 	 "react/prop-types": 0,
 	 "jsx-a11y/img-has-alt": 0,

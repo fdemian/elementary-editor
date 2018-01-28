@@ -14,7 +14,7 @@
 
 import { EditorState, Modifier, SelectionState } from 'draft-js';
 
-export function removeTeXBlock(editorState, blockKey) {
+export default function removeTeXBlock(editorState, blockKey) {
   const content = editorState.getCurrentContent();
   const block = content.getBlockForKey(blockKey);
 
