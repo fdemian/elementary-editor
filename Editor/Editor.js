@@ -125,14 +125,13 @@ class EditorComponent extends React.Component {
     this.getContent = () => this.getContentFn();
     this.blockIsActive = block => this.blockIsActiveFn(block);
     this.inlineIsActive = style => this.inlineIsActiveFn(style);
-    this.customBlockIsActive = false;
+    this.customBlockIsActive = () => false;
     this.clear = () => this.clearFn();
     this.insertQuote = comment => this.insertQuoteFn(comment);
     this.insertQuoteBlock = (type, content, author) => this
       .insertQuoteFnBlock(type, content, author);
     this.insertTex = () => this.insertTexFn();
     this.removeTex = blockKey => this.removeTeXFn(blockKey);
-
     this.editorStyles = null;
 
     // If the user has defined which styles to whitelist, use only those.
