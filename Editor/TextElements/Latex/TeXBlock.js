@@ -11,92 +11,13 @@
  * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
 import katex from 'katex';
 import React from 'react';
-import { Button, Input } from 'antd';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import {
-  faTimes,
-  faCheck
-} from '@fortawesome/fontawesome-free-solid';
+import { Input } from 'antd';
+import EditorButtons from './Buttons';
+import KatexOutput from './KatexOutput';
 
 const { TextArea } = Input;
-
-const EditorButtons = ({ invalid, removeFn, saveFn }) => {
-
-  if (invalid) {
-    return (
-      <Button.Group size="large" style={{ marginLeft: '40%' }}>
-        <Button type="danger" onClick={removeFn}>
-          <FontAwesomeIcon name={faTimes} size="lg" />
-          &nbsp; Remove
-        </Button>
-        <Button disabled>
-          Invalid TeX
-        </Button>
-      </Button.Group>
-    );
-  }
-  return (
-    <Button.Group size="large" style={{ marginLeft: '40%' }}>
-      <Button type="danger" onClick={removeFn}>
-        <FontAwesomeIcon icon={faTimes} />
-        &nbsp; Remove
-      </Button>
-      <Button type="primary" onClick={saveFn}>
-        Done &nbsp;
-        <FontAwesomeIcon icon={faCheck} />
-      </Button>
-    </Button.Group>
-  );
-}
-
-class KatexOutput extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.timer = null;
-  }
-
-  componentDidMount() {
-    this.update();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.content !== this.props.content) {
-      this.update();
-    }
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.timer);
-    this.timer = null;
-  }
-
-  update() {
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
-
-    this.timer = setTimeout(() => {
-      katex.render(
-        this.props.content,
-        this.container,
-        { displayMode: true }
-      );
-    }, 0);
-  }
-
-  render() {
-    return (
-      <div
-        role="button"
-        ref={(c) => { this.container = c }}
-        onClick={this.props.onClick}
-      />);
-  }
-}
 
 export default class TeXBlock extends React.Component {
   constructor(props) {
@@ -183,24 +104,26 @@ export default class TeXBlock extends React.Component {
     if (this.state.editMode) {
 
       editPanel =
-        (<div>
-
-          <TextArea
-            rows={2}
-            style={{ width: '20%', marginLeft: '40%' }}
-            onChange={this.onValueChange}
-            value={this.state.texValue}
-          />
-
+        (
           <div>
-            <EditorButtons
-              invalid={this.state.invalidTeX}
-              removeFn={this.remove}
-              saveFn={this.save}
-            />
-          </div>
 
-        </div>);
+            <TextArea
+              rows={2}
+              style={{ width: '20%', marginLeft: '40%' }}
+              onChange={this.onValueChange}
+              value={this.state.texValue}
+            />
+
+            <div>
+              <EditorButtons
+                invalid={this.state.invalidTeX}
+                removeFn={this.remove}
+                saveFn={this.save}
+              />
+            </div>
+
+          </div>
+        );
     }
 
     return (

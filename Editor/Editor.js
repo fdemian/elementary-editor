@@ -150,11 +150,11 @@ class EditorComponent extends React.Component {
     return convertToRaw(currentContent);
   }
 
-  filterWhiteListedStyles(editorStyles, allowedStyles) {
+  filterWhiteListedStyles(styles, allowedStyles) {
     const filteredStyles = {
-      BLOCK_TYPES: this.filterStyle(editorStyles.BLOCK_TYPES, allowedStyles),
-      INLINE_STYLES: this.filterStyle(editorStyles.INLINE_STYLES, allowedStyles),
-      CUSTOM_STYLES: this.filterStyle(editorStyles.CUSTOM_STYLES, allowedStyles)
+      BLOCK_TYPES: this.filterStyle(styles.BLOCK_TYPES, allowedStyles),
+      INLINE_STYLES: this.filterStyle(styles.INLINE_STYLES, allowedStyles),
+      CUSTOM_STYLES: this.filterStyle(styles.CUSTOM_STYLES, allowedStyles)
     }
 
     return filteredStyles;
@@ -322,7 +322,7 @@ class EditorComponent extends React.Component {
           customBlockIsActive={this.customBlockIsActive}
           editor={this}
         />
-        <div className={className} onClick={this.focus}>
+        <div className={className} onClick={this.focus} role="textbox" tabIndex={0}>
           <Editor
             blockStyleFn={getBlockStyle}
             blockRendererFn={this.customRenderFn.bind(this)}

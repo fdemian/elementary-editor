@@ -20,8 +20,10 @@ const Media = (props) => {
   return media;
 };
 
+// TODO: add caption tracks to the elements.
+/* eslint-disable */
 const Audio = props => <audio controls src={props.src} />;
-
 const Image = props => <img src={props.src} alt="" />;
+/* eslint-enable */
 
 export default Media;

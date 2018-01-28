@@ -12,7 +12,9 @@ function getEmbededURL(url) {
   return embededURL;
 }
 
+/* eslint-disable */
 const HTML5Video = ({ source }) => <video width="420" height="345" controls src={source} />;
+/* eslint-enable */
 
 const EmbededVideo = ({ src }) => {
 
