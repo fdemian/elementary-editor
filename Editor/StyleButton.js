@@ -13,15 +13,15 @@ class StyleButton extends Component {
       this.props.onToggle(this.props.style);
     };
 
-	 this.activeFn = this.props.activeFn;
+    this.activeFn = this.props.activeFn;
   }
 
   render() {
 
-	  const { icon } = this.props;
+    const { icon } = this.props;
     const isActive = this.activeFn(this.props.style);
     const iconColor = (isActive ? 'black' : 'gainsboro');
-	  const iconStyle = { color: iconColor, marginTop: '6px' };
+    const iconStyle = { color: iconColor, marginTop: '6px' };
 
     return (
       <Tooltip placement="bottom" title={this.props.label} >

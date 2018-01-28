@@ -5,14 +5,14 @@ class LatexBlock extends Component {
 
   constructor(props) {
     super(props);
-    this._timer = null;
+    this.timer = null;
   }
 
-  _update() {
+  update() {
 
-    if (this._timer) {
-	  alert('clearTimeout!');
-      clearTimeout(this._timer);
+    if (this.timer) {
+      alert('clearTimeout!');
+      clearTimeout(this.timer);
     }
 
     this._timer = setTimeout(() => {
@@ -27,17 +27,17 @@ class LatexBlock extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.content !== this.props.content) {
-      this._update();
+      this.update();
     }
   }
 
   componentWillUnmount() {
-    clearTimeout(this._timer);
-    this._timer = null;
+    clearTimeout(this.timer);
+    this.timer = null;
   }
 
   componentDidMount() {
-    this._update();
+    this.update();
   }
 
   render() {

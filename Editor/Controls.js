@@ -9,48 +9,64 @@ class EditorControls extends Component {
 
     super(props);
 
-    const { editorState } = props;
-    const _currentStyle = editorState.getCurrentInlineStyle();
-    const selection = editorState.getSelection();
-    const _blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType();
+    /*
+  const { editorState } = props;
+  const currentEditorStyle = editorState.getCurrentInlineStyle();
+      const selection = editorState.getSelection();
+      const blockTypeEditor = editorState.getCurrentContent()
+      .getBlockForKey(selection.getStartKey())
+      .getType();
+    */
 
     this.state = {
-      currentStyle: _currentStyle,
-      blockType: _blockType,
       showURLInput: false,
       urlValue: '',
-      urlType: '',
+      urlType: ''/* ,
+  currentStyle: currentEditorStyle,
       showColorPicker: false,
       colorValue: ''
+  blockType: blockTypeEditor, */
     };
 
     this.sendPost = this.props.sendPost;
     this.editor = this.props.editor;
     this.editorStyles = this.props.editorStyles;
-    this.confirmUrl = this._confirmUrl.bind(this);
-    this.cancelUrlFn = this._cancelUrl.bind(this);
+    this.confirmUrl = this.confirmUrlFn.bind(this);
+    this.cancelUrlFn = this.cancelUrlFn.bind(this);
     this.selectionIsCollapsed = this.props.selectionCollapsed;
-    this.onURLChange = e => this._onUrlChange(e);
+    this.onURLChange = e => this.onUrlChange(e);
     this.blockIsActive = this.props.blockIsActive;
     this.inlineIsActive = this.props.inlineIsActive;
     this.customBlockIsActive = this.props.customBlockIsActive;
-    this.customBlockToggleFn = this._customBlockToggleFn.bind(this);
-    this.getInput = this._getInput.bind(this);
-    this.findStyleObjectByName = this._findStyleObjectByName.bind(this);
+    this.customBlockToggleFn = this.customBlockToggleFn.bind(this);
+    this.getInput = this.getInput.bind(this);
+    this.findStyleObjectByName = this.findStyleObjectByName.bind(this);
   }
 
-
-  _onUrlChange(event, newState) {
+  onUrlChange(event) {
     this.setState({ urlValue: event.target.value });
   }
 
-  _findStyleObjectByName(name) {
-    const customStyles = this.editorStyles.CUSTOM_STYLES;
-    const matches = customStyles.filter(style => (style.label === name || style.style === name));
-    return matches[0];
+  getInput(type) {
+    this.setState({ showURLInput: true, urlType: type });
   }
 
-  _customBlockToggleFn(blockName) {
+  confirmUrlFn(e) {
+    e.preventDefault();
+
+    const styleObject = this.findStyleObjectByName(this.state.urlType);
+
+    if (styleObject.toggleFn == null) { return; }
+
+    styleObject.toggleFn(this.editor, this.state.urlType, this.state.urlValue);
+    this.setState({ showURLInput: false, urlValue: '', urlType: '' });
+  }
+
+  cancelUrlFn() {
+    this.setState({ showURLInput: false, urlValue: '', urlType: '' });
+  }
+
+  customBlockToggleFn(blockName) {
 
     const styleObject = this.findStyleObjectByName(blockName);
 
@@ -66,23 +82,10 @@ class EditorControls extends Component {
     styleObject.toggleFn(this.editor);
   }
 
-  _cancelUrl() {
-    this.setState({ showURLInput: false, urlValue: '', urlType: '' });
-  }
-
-  _confirmUrl(e) {
-    e.preventDefault();
-
-    const styleObject = this.findStyleObjectByName(this.state.urlType);
-
-    if (styleObject.toggleFn == null) { return; }
-
-    styleObject.toggleFn(this.editor, this.state.urlType, this.state.urlValue);
-    this.setState({ showURLInput: false, urlValue: '', urlType: '' });
-  }
-
-  _getInput(type) {
-    this.setState({ showURLInput: true, urlType: type });
+  findStyleObjectByName(name) {
+    const customStyles = this.editorStyles.CUSTOM_STYLES;
+    const matches = customStyles.filter(style => (style.label === name || style.style === name));
+    return matches[0];
   }
 
   render() {

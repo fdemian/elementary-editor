@@ -44,8 +44,8 @@ const renderers = {
     'header-one': children => children.map(child => <h1>{child}</h1>),
     'header-two': children => children.map(child => <h2>{child}</h2>),
     'code-block': children => <pre style={styles.codeBlock}>{addBreaklines(children)}</pre>,
-    'unordered-list-item': (children, depth) => <ul>{children.map(child => <li style={styles.listItem}>{child}</li>)}</ul>,
-    'ordered-list-item': (children, depth) => <ol>{children.map(child => <li style={styles.listItem}>{child}</li>)}</ol>,
+    'unordered-list-item': children => <ul>{children.map(child => <li style={styles.listItem}>{child}</li>)}</ul>,
+    'ordered-list-item': children => <ol>{children.map(child => <li style={styles.listItem}>{child}</li>)}</ol>,
   },
 
   /* Entities */
@@ -53,7 +53,7 @@ const renderers = {
     Image: (children, data) => <div><img src={data.src} alt="" /></div>,
     LINK: (children, data) => <RenderLink src={data.url} text={children} />,
     LATEX: (children, data) => <LatexBlock content={data.content} />,
-    SPOILER: (children, data) => <Spoiler text={children[0]} />,
+    SPOILER: children => <Spoiler text={children[0]} />,
     Video: (children, data) => <div><EmbededVideo src={data.src} /></div>,
     QuoteBlock: (children, data) => <QuoteBlock comment={data.props} />
   }

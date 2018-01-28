@@ -1,14 +1,3 @@
-
-// Providers.
-const VideoProviders =
-[
-  { name: 'youtube', convertURL: formatYoutubeURL },
-  { name: 'vimeo', convertURL: formatVimeoURL },
-  { name: 'dailymotion', convertURL: formatDailyMotionURL },
-  { name: 'metacafe', convertURL: formatMetacafeURL }
-];
-
-
 /* Formatting functions */
 
 function formatYoutubeURL(url) {
@@ -42,5 +31,14 @@ function formatMetacafeURL(url) {
 
   return embededURL + videoId;
 }
+
+// Providers.
+const VideoProviders =
+[
+  { name: 'youtube', convertURL: formatYoutubeURL },
+  { name: 'vimeo', convertURL: formatVimeoURL },
+  { name: 'dailymotion', convertURL: formatDailyMotionURL },
+  { name: 'metacafe', convertURL: formatMetacafeURL }
+];
 
 export default VideoProviders;

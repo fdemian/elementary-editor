@@ -2,13 +2,14 @@ import React from 'react';
 import VideoProviders from './EmbedVideoProviders';
 
 function getEmbededURL(url) {
-  let _embededURL = '';
 
-  for (const provider of VideoProviders) {
-    if (url.indexOf(provider.name) !== -1) { return _embededURL = provider.convertURL(url); }
-  }
+  let embededURL = '';
 
-  return _embededURL;
+  const provider = VideoProviders.find(p => url.indexOf(p.name) !== -1);
+
+  if (provider !== undefined && provider !== null) { embededURL = provider.convertURL(url); }
+
+  return embededURL;
 }
 
 const HTML5Video = ({ source }) => <video width="420" height="345" controls src={source} />;
