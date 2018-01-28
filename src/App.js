@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Editor from 'elementary-editor';
+import { Editor } from 'elementary-editor';
 import { Button, Card, Menu, Table } from 'antd';
 import './App.css';
 
