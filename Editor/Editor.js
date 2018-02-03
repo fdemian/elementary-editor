@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Draft from 'draft-js';
 import { Map } from 'immutable';
 import 'katex/dist/katex.css';
@@ -76,7 +76,7 @@ function findSpoilerEntities(contentBlock, callback, contentState) {
 }
 
 
-class EditorComponent extends React.Component {
+class EditorComponent extends Component {
 
   static filterStyle(listToFilter, filter) {
     const filtered = listToFilter.filter(e =>
