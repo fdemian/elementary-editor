@@ -2469,9 +2469,9 @@ electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.30:
   dependencies:
     electron-releases "^2.1.0"
 
-elementary-editor@0.6.20:
-  version "0.6.20"
-  resolved "https://registry.yarnpkg.com/elementary-editor/-/elementary-editor-0.6.20.tgz#c7febaa2ae57e535a20c708c7740a60a2df6b881"
+elementary-editor@0.7:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/elementary-editor/-/elementary-editor-0.7.0.tgz#1db03bac0aa58bc7ca3055e2e8f3c9689c1ed6a6"
   dependencies:
     "@fortawesome/fontawesome" "1.1.2"
     "@fortawesome/fontawesome-free-solid" "5.0.4"
