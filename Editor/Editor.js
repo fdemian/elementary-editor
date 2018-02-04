@@ -75,6 +75,22 @@ function findSpoilerEntities(contentBlock, callback, contentState) {
   );
 }
 
+const BaseEditor = (config) => {
+	
+	return(
+	<Editor
+        blockStyleFn={config.getBlockStyle}
+        blockRendererFn={config.blockRendererFn}
+        blockRenderMap={config.blockRenderMap}
+        editorState={config.editorState}
+        handleKeyCommand={config.handleKeyCommand}
+        onChange={config.onChange}
+        ref={(e) => { config.refVar = e; }}
+        spellCheck={config.spellCheck}
+        readOnly={config.readOnly}
+	/>
+	);
+}
 
 class EditorComponent extends Component {
 
@@ -322,14 +338,14 @@ class EditorComponent extends Component {
           editor={this}
         />
         <div className={className} onClick={this.focus} role="textbox" tabIndex={0}>
-          <Editor
+          <BaseEditor
             blockStyleFn={getBlockStyle}
             blockRendererFn={this.customRenderFn.bind(this)}
             blockRenderMap={extendedBlockRenderMap}
             editorState={editorState}
             handleKeyCommand={this.handleKeyCommand}
             onChange={this.onChange}
-            ref={(e) => { this.editor = e; }}
+            refVar={this.editor}
             spellCheck={false}
             readOnly={this.state.liveTeXEdits.count()}
           />
