@@ -11,7 +11,7 @@ import Link from './TextElements/Link/Link';
 import editorStyles from './EditorStyles';
 import QuoteBlockWrapper from './TextElements/QuoteBlock/QuoteBlockWrapper';
 import EditorControls from './Controls';
-
+import BaseEditor from './BaseEditor';
 import './css/Draft.css';
 import './css/Editor.css';
 
@@ -75,23 +75,6 @@ function findSpoilerEntities(contentBlock, callback, contentState) {
   );
 }
 
-const BaseEditor = (config) => {
-	
-	return(
-	<Editor
-        blockStyleFn={config.getBlockStyle}
-        blockRendererFn={config.blockRendererFn}
-        blockRenderMap={config.blockRenderMap}
-        editorState={config.editorState}
-        handleKeyCommand={config.handleKeyCommand}
-        onChange={config.onChange}
-        ref={(e) => { config.refVar = e; }}
-        spellCheck={config.spellCheck}
-        readOnly={config.readOnly}
-	/>
-	);
-}
-
 class EditorComponent extends Component {
 
   static filterStyle(listToFilter, filter) {
@@ -104,20 +87,26 @@ class EditorComponent extends Component {
   constructor(props) {
 
     super(props);
-
-    const decorator = new CompositeDecorator([
-      {
+	
+	const { altEditor } = this.props;
+	let decorator = null; 
+	
+	if(!altEditor)
+	{
+	  decorator = new CompositeDecorator([
+       {
         strategy: (contentBlock, callback, contentState) =>
-          findLinkEntities(contentBlock, callback, contentState),
+        findLinkEntities(contentBlock, callback, contentState),
         component: Link,
-      },
-      {
+       },
+       {
         strategy: (contentBlock, callback, contentState) =>
-          findSpoilerEntities(contentBlock, callback, contentState),
+        findSpoilerEntities(contentBlock, callback, contentState),
         component: Spoiler,
-      },
-    ]);
-
+       },
+      ]);	
+	}  
+	
     const { initialState } = this.props;
 
     let initalStateEditor;
@@ -149,7 +138,7 @@ class EditorComponent extends Component {
     this.insertTex = () => this.insertTexFn();
     this.removeTex = blockKey => this.removeTeXFn(blockKey);
     this.editorStyles = null;
-
+    this.altEditor = this.props.altEditor;
     // If the user has defined which styles to whitelist, use only those.
     // Otherwise use all of the styles.
     if (this.filterStyles === null) {
@@ -343,11 +332,12 @@ class EditorComponent extends Component {
             blockRendererFn={this.customRenderFn.bind(this)}
             blockRenderMap={extendedBlockRenderMap}
             editorState={editorState}
-            handleKeyCommand={this.handleKeyCommand}
-            onChange={this.onChange}
-            refVar={this.editor}
+            handleKeyCommand={this.handleKeyCommand.bind(this)}
+            onChange={this.onChange.bind(this)}
+            refFn={(e) => {this.editor = e}}			
             spellCheck={false}
             readOnly={this.state.liveTeXEdits.count()}
+			altEditor={this.altEditor}
           />
         </div>
 
