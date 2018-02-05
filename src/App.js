@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Editor } from 'elementary-editor';
+import Editor from './Editor/Editor';
 import { Button, Card, Menu, Table } from 'antd';
 import './App.css';
 
@@ -184,7 +184,10 @@ class App extends Component {
 
 		  <div>
 		   <div className="EditorContainer">
-			 <Editor initialState={null} ref={(editor) => this.editor = editor} />
+			 <Editor 
+			    initialState={null} 
+				ref={(editor) => this.editor = editor}
+			 />
 		   </div>
 		  </div>
 
