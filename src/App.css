@@ -1,0 +1,75 @@
+@import '~antd/dist/antd.css';
+
+.App {
+  text-align: left;
+}
+
+.EditorContainer {
+  height:300px;
+  margin-left:5%;
+  width:90%;
+  text-align:left;
+}
+
+.LogStateResult
+{
+   margin-top: 30px;
+   margin-bottom: 10px;
+   width: 80%;
+   margin-left: 10%;
+}
+
+.LogStateButton
+{
+   display: block;
+   margin-top: 88px;
+   margin-bottom: 10px;
+   margin-left: 20%;
+}
+
+.EditorNavbarText
+{
+  color: gainsboro;
+  margin-left: 20px;
+  cursor: default;
+}
+
+.DocSection {
+  margin-top: 50px;
+  font-size: 15px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.MethodsDoc
+{
+  margin-top: 50px;
+}
+
+.SectionTitle
+{
+   text-align: center;
+   margin-bottom: 20px;
+}
+
+.CodeSection
+{
+   margin-top: 3px;
+   width: 45%;
+   text-align: left;
+   background-color: #f6f8fa;
+   padding: 16px;
+}
+
+pre
+{
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  border-radius: 3px;
+}
+
+tbody > tr > td
+{
+   word-break: break-word !important;
+}

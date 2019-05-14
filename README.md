@@ -8,13 +8,13 @@ A WYSWYG editor based on DraftJS and Ant.Design.
 
 You will need:   
  - NodeJS
- - [Yarn](https://yarnpkg.com/lang/en/) 
+ - [Yarn](https://yarnpkg.com/lang/en/)
 
 ### Usage
 
-To use this editor in your project: 
+To use this editor in your project:
 
-+ Install the npm package: 
++ Install the npm package:
 
 ```
  yarn add elementary-editor
@@ -24,7 +24,7 @@ To use this editor in your project:
 
 ```
 import { Editor } from 'elementary-editor';
- 
+
 class MyComponent extends Component  {
  /*
  ...
@@ -32,8 +32,8 @@ class MyComponent extends Component  {
  render() {
   return(
    <div>
-     <Editor 
-	   initialState={null} 
+     <Editor
+	   initialState={null}
 	   ref={(editor) => this.editor = editor}
 	 />   
    );
@@ -44,7 +44,7 @@ To use the default renderer that is bundled with the editor:
 
 ```
 import { DefaultRenderer } from 'elementary-editor';
- 
+
 class MyComponent extends Component  {
  /*
  ...
@@ -61,7 +61,7 @@ class MyComponent extends Component  {
 Here `rawText` is a javascript object that contains a valid Draft-JS raw state object.
 
 The ref property is needed if you want to access the editor's internal methods.
- 
+
 ## API
 
 ## Properties
@@ -94,11 +94,11 @@ The ref property is needed if you want to access the editor's internal methods.
     </tr>   
   </tbody>
  </table>
- 
+
  ## Styles
- 
+
  *Note*: styles can be filtered by passing the style names to the **filterStyles** argument of the editor.
- 
+
  <table class="table table-bordered table-striped">
   <thead>
     <tr>
@@ -132,7 +132,7 @@ The ref property is needed if you want to access the editor's internal methods.
       <td>blockquote</td>
       <td>Block</td>
       <td>Quote block.</td>	  
-    </tr>	
+    </tr>
 	<tr>
       <td>header-two</td>
       <td>Block</td>
@@ -147,7 +147,7 @@ The ref property is needed if you want to access the editor's internal methods.
       <td>ordered-list-item</td>
       <td>Block</td>
       <td>Ordered list.</td>	  
-    </tr>	
+    </tr>
 	<tr>
       <td>code-block</td>
       <td>Block</td>
@@ -157,7 +157,7 @@ The ref property is needed if you want to access the editor's internal methods.
       <td>Link</td>
       <td>Custom</td>
       <td>Link</td>	  
-    </tr>	
+    </tr>
     <tr>
       <td>LinkRemove</td>
       <td>Custom</td>
@@ -177,7 +177,7 @@ The ref property is needed if you want to access the editor's internal methods.
       <td>Video</td>
       <td>Custom</td>
       <td>Embeded video.</td>
-    </tr>	
+    </tr>
     <tr>
       <td>Latex</td>
       <td>Custom</td>
@@ -185,11 +185,11 @@ The ref property is needed if you want to access the editor's internal methods.
     </tr>
   </tbody>
 </table>
- 
+
  ## Methods
- 
+
  + Internal editor methods.
- 
+
  <table class="table table-bordered table-striped">
    <thead>
      <tr>
@@ -212,35 +212,35 @@ The ref property is needed if you want to access the editor's internal methods.
        <td>
  		Clears the editor.
  	  </td>
-     </tr>	
+     </tr>
    </tbody>
  </table>
- 
- 
+
+
  ## Built With
- 
+
  * [React](https://facebook.github.io/react/) - A Javascript library for building user interfaces.
  * [DraftJS](https://draftjs.org/) - Rich text editor framework for React.
  * [Ant.Design](https://ant.design/) - A UI Design Language.
- 
+
  <!---
  ## Contributing
- 
+
  Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
- 
+
  ## Versioning
- 
- We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+
+ We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
  -->
- 
+
  ## Authors
- 
+
  * **Federico Caminiti** - *Maintainer*
- 
+
  <!---
  See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
  -->
- 
+
  ## License
- 
+
  This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details
