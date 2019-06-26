@@ -1,35 +1,42 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Tooltip } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import './css/StyleButton.css'
 
-class StyleButton extends Component {
-  constructor (props) {
-    super(props)
+const StyleButton = (props) => {
+  
+  const {
+   onToggle,
+   activeFn,
+   icon,
+   style,
+   label
+  } = props
 
-    this.onToggle = (e) => {
-      e.preventDefault()
-      this.props.onToggle(this.props.style)
-    }
+  const isActive = activeFn(style);
+  const iconColor = isActive ? 'black' : 'gainsboro';
+  const iconStyle = { color: iconColor, marginTop: '6px' };
 
-    this.activeFn = this.props.activeFn
+  const toggleFn = (e) => {
+   e.preventDefault();
+   onToggle(style);
   }
 
-  render () {
-    const { icon } = this.props
-    const isActive = this.activeFn(this.props.style)
-    const iconColor = (isActive ? 'black' : 'gainsboro')
-    const iconStyle = { color: iconColor, marginTop: '6px' }
-
-    return (
-      <Tooltip placement='bottom' title={this.props.label} >
-        <button className='StyleButton' onClick={this.onToggle}>
-          <FontAwesomeIcon size='lg' style={iconStyle} icon={icon} />
-        </button>
-      </Tooltip>
-    )
-  }
+  return (
+  <Tooltip placement='bottom' title={label} >
+    <button
+      className='StyleButton'
+      onClick={toggleFn}
+     >
+      <FontAwesomeIcon
+        size='lg'
+        style={iconStyle}
+        icon={icon}
+      />
+    </button>
+  </Tooltip>
+  )
 }
 
 export default StyleButton

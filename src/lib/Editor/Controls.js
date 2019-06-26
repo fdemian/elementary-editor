@@ -7,25 +7,11 @@ class EditorControls extends Component {
   constructor (props) {
     super(props)
 
-    /*
-  const { editorState } = props;
-  const currentEditorStyle = editorState.getCurrentInlineStyle();
-      const selection = editorState.getSelection();
-      const blockTypeEditor = editorState.getCurrentContent()
-      .getBlockForKey(selection.getStartKey())
-      .getType();
-    */
-
     this.state = {
       showURLInput: false,
       urlValue: '',
-      urlType: ''/* ,
-  currentStyle: currentEditorStyle,
-      showColorPicker: false,
-      colorValue: ''
-  blockType: blockTypeEditor, */
+      urlType: ''
     }
-
     this.sendPost = this.props.sendPost
     this.editor = this.props.editor
     this.editorStyles = this.props.editorStyles

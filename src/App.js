@@ -93,7 +93,6 @@ class App extends Component {
  logState() {
    const currentState = this.editor.getContent();
    const jsonState = JSON.stringify(currentState);
-   console.log(jsonState);
    this.setState({editorState: jsonState});
  }
 

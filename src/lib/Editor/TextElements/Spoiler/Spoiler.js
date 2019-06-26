@@ -1,30 +1,24 @@
-import React from 'react'
-import './Spoiler.css'
+import React, {useState} from 'react';
+import './Spoiler.css';
 
-class Spoiler extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = { textStatus: 'Concealed' }
-  }
+const Spoiler = (props) => {
 
-  changeStatus () {
-    const { textStatus } = this.state
-    const newStatus = textStatus === '' ? 'Concealed' : ''
-    this.setState({ textStatus: newStatus })
-  }
+  const [textStatus, setTextStatus] = useState('Concealed');
+  const cssClass = `Spoiler ${textStatus}`;
+  const changeStatus = () => {
+   const newStatus = textStatus === '' ? 'Concealed' : ''
+   setTextStatus({newStatus});
+  };
 
-  render () {
-    const cssClass = `Spoiler ${this.state.textStatus}`
-    return (
-      <span
-        className={cssClass}
-        onClick={this.changeStatus.bind(this)}
-        role='presentation'
-      >
-        {this.props.text}
-      </span>
-    )
-  }
+  return (
+  <span
+    className={cssClass}
+    onClick={changeStatus}
+    role='presentation'
+  >
+    {props.text}
+  </span>
+  )
 }
 
 export default Spoiler
