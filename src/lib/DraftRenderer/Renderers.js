@@ -1,7 +1,7 @@
 import React from 'react'
 import Spoiler from '../Editor/TextElements/Spoiler/Spoiler'
 import LatexBlock from '../Editor/TextElements/Latex/LatexBlock'
-import EmbededVideo from '../Editor/TextElements/Media/EmbededVideo'
+import Media from '../Editor/TextElements/Media/Media'
 import QuoteBlock from '../Editor/TextElements/QuoteBlock/QuoteBlock'
 import RenderLink from '../Editor/TextElements/Link/RenderLink'
 
@@ -54,7 +54,7 @@ const renderers = {
     LINK: (children, data) => <RenderLink src={data.url} text={children} />,
     LATEX: (children, data) => <LatexBlock content={data.content} />,
     SPOILER: children => <Spoiler text={children[0]} />,
-    Video: (children, data) => <div><EmbededVideo src={data.src} /></div>,
+    Video: (children, data) => <div><Media src={data.src} /></div>,
     QuoteBlock: (children, data) => <QuoteBlock comment={data.props} />
   }
 
