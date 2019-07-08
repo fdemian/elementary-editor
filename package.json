@@ -1,6 +1,6 @@
 {
   "name": "elementary-editor",
-  "version": "0.8.10",
+  "version": "0.8.11",
   "dependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
@@ -41,7 +41,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "babel src/lib package.json README.md --presets=es2015,react --out-dir dist --copy-files --ignore __tests__,spec.js,test.js",
+    "build": "babel src/lib package.json README.md --out-dir dist --copy-files --ignore __tests__,spec.js,test.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
