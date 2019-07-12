@@ -2,8 +2,17 @@ import React from 'react';
 import ReactPlayer from 'react-player';
 
 const Media = (props) => {
-  const entity = props.contentState.getEntity(props.block.getEntityAt(0))
-  const { src } = entity.getData()
+  
+  let src;
+  const { contentState, block } = props;
+
+  if(contentState){
+    const entity = contentState.getEntity(block.getEntityAt(0))
+    src = entity.getData().src;
+  }
+  else {
+    src = props.src;
+  }
 
   return(<ReactPlayer url={src} playing={false} />);
 }
