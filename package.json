@@ -1,6 +1,6 @@
 {
   "name": "elementary-editor",
-  "version": "0.8.13",
+  "version": "0.8.14",
   "dependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
