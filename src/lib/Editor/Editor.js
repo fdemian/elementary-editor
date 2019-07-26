@@ -12,6 +12,14 @@ import editorStyles from './EditorStyles'
 import QuoteBlockWrapper from './TextElements/QuoteBlock/QuoteBlockWrapper'
 import EditorControls from './Controls'
 import BaseEditor from './BaseEditor'
+import {
+  getBlockStyle,
+  findLinkEntities,
+  findSpoilerEntities,
+  filterStyle,
+  filterWhiteListedStyles
+} from './utils';
+
 import './css/Draft.css'
 import './css/Editor.css'
 
@@ -28,61 +36,6 @@ const {
 
 const blockRenderMap = Map({ SPOILER: { element: Spoiler }, Latex: { element: TeXBlock } })
 const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap)
-
-function getBlockStyle (block) {
-  let blockStyle = null
-
-  switch (block.getType()) {
-    case 'blockquote':
-      blockStyle = 'Blockquote'
-      break
-    case 'code-block':
-      blockStyle = 'Code'
-      break
-    default:
-      blockStyle = null
-  }
-
-  return blockStyle
-}
-
-function findLinkEntities (contentBlock, callback, contentState) {
-  contentBlock.findEntityRanges(
-    (character) => {
-      const entityKey = character.getEntity()
-      return (
-        entityKey !== null &&
-           contentState.getEntity(entityKey).getType() === 'LINK'
-      )
-    },
-    callback
-  )
-}
-
-function findSpoilerEntities (contentBlock, callback, contentState) {
-contentBlock.findEntityRanges(
-  (character) => {
-    const entityKey = character.getEntity()
-    return (
-    entityKey !== null &&
-    contentState.getEntity(entityKey).getType() === 'SPOILER'
-    )
-  },
-  callback
-)
-}
-
-const filterStyle = (listToFilter, filter) => {
-  return listToFilter.filter(e =>filter.indexOf(e.style) !== -1);
-}
-
-const filterWhiteListedStyles = (styles, allowedStyles) => {
-  return {
-    BLOCK_TYPES: filterStyle(styles.BLOCK_TYPES, allowedStyles),
-    INLINE_STYLES: filterStyle(styles.INLINE_STYLES, allowedStyles),
-    CUSTOM_STYLES: filterStyle(styles.CUSTOM_STYLES, allowedStyles)
-  };
-}
 
 class EditorComponent extends Component {
 
