@@ -60,25 +60,31 @@ function findLinkEntities (contentBlock, callback, contentState) {
 }
 
 function findSpoilerEntities (contentBlock, callback, contentState) {
-  contentBlock.findEntityRanges(
-    (character) => {
-      const entityKey = character.getEntity()
-      return (
-        entityKey !== null &&
-           contentState.getEntity(entityKey).getType() === 'SPOILER'
-      )
-    },
-    callback
-  )
+contentBlock.findEntityRanges(
+  (character) => {
+    const entityKey = character.getEntity()
+    return (
+    entityKey !== null &&
+    contentState.getEntity(entityKey).getType() === 'SPOILER'
+    )
+  },
+  callback
+)
+}
+
+const filterStyle = (listToFilter, filter) => {
+  return listToFilter.filter(e =>filter.indexOf(e.style) !== -1);
+}
+
+const filterWhiteListedStyles = (styles, allowedStyles) => {
+  return {
+    BLOCK_TYPES: filterStyle(styles.BLOCK_TYPES, allowedStyles),
+    INLINE_STYLES: filterStyle(styles.INLINE_STYLES, allowedStyles),
+    CUSTOM_STYLES: filterStyle(styles.CUSTOM_STYLES, allowedStyles)
+  };
 }
 
 class EditorComponent extends Component {
-  static filterStyle (listToFilter, filter) {
-    const filtered = listToFilter.filter(e =>
-      filter.indexOf(e.style) !== -1)
-
-    return filtered
-  }
 
   constructor (props) {
     super(props)
@@ -90,12 +96,12 @@ class EditorComponent extends Component {
       decorator = new CompositeDecorator([
         {
           strategy: (contentBlock, callback, contentState) =>
-            findLinkEntities(contentBlock, callback, contentState),
+          findLinkEntities(contentBlock, callback, contentState),
           component: Link
         },
         {
           strategy: (contentBlock, callback, contentState) =>
-            findSpoilerEntities(contentBlock, callback, contentState),
+          findSpoilerEntities(contentBlock, callback, contentState),
           component: Spoiler
         }
       ])
@@ -147,16 +153,6 @@ class EditorComponent extends Component {
     return convertToRaw(currentContent)
   }
 
-  filterWhiteListedStyles (styles, allowedStyles) {
-    const filteredStyles = {
-      BLOCK_TYPES: this.filterStyle(styles.BLOCK_TYPES, allowedStyles),
-      INLINE_STYLES: this.filterStyle(styles.INLINE_STYLES, allowedStyles),
-      CUSTOM_STYLES: this.filterStyle(styles.CUSTOM_STYLES, allowedStyles)
-    }
-
-    return filteredStyles
-  }
-
   removeTeXFn = (blockKey) => {
     const { editorState, liveTeXEdits } = this.state
     this.setState({
@@ -172,7 +168,7 @@ class EditorComponent extends Component {
     })
   };
 
-  clearFn () {
+  clearFn() {
     const emptyState = ContentState.createFromText('')
     const editorState = EditorState.push(this.state.editorState, emptyState)
     this.setState({ liveTeXEdits: Map(), editorState })
@@ -228,11 +224,11 @@ class EditorComponent extends Component {
     const newState = RichUtils.handleKeyCommand(editorState, command)
 
     if (newState) {
-      this.onChange(newState)
-      return true
+      this.onChange(newState);
+      return true;
     }
 
-    return false
+    return false;
   }
 
   customRenderFn (contentBlock) {
@@ -306,36 +302,36 @@ class EditorComponent extends Component {
     }
 
     return (
-      <div style={{ height: '100%' }}>
-        <EditorControls
+    <div style={{ height: '100%' }}>
+      <EditorControls
+        editorState={editorState}
+        editorStyles={this.editorStyles}
+        onToggleBlock={this.toggleBlockType}
+        onToggleInline={this.toggleInlineStyle}
+        selectionCollapsed={this.selectionIsCollapsed}
+        blockIsActive={this.blockIsActive}
+        inlineIsActive={this.inlineIsActive}
+        customBlockIsActive={this.customBlockIsActive}
+        editor={this}
+      />
+      <div className={className} onClick={this.focus} role='textbox' tabIndex={0}>
+        <BaseEditor
+          blockStyleFn={getBlockStyle}
+          blockRendererFn={this.customRenderFn.bind(this)}
+          blockRenderMap={extendedBlockRenderMap}
           editorState={editorState}
-          editorStyles={this.editorStyles}
-          onToggleBlock={this.toggleBlockType}
-          onToggleInline={this.toggleInlineStyle}
-          selectionCollapsed={this.selectionIsCollapsed}
-          blockIsActive={this.blockIsActive}
-          inlineIsActive={this.inlineIsActive}
-          customBlockIsActive={this.customBlockIsActive}
-          editor={this}
+          handleKeyCommand={this.handleKeyCommand.bind(this)}
+          onChange={this.onChange.bind(this)}
+          refFn={(e) => { this.editor = e }}
+          spellCheck={false}
+          readOnly={this.state.liveTeXEdits.count()}
+          altEditor={this.altEditor}
         />
-        <div className={className} onClick={this.focus} role='textbox' tabIndex={0}>
-          <BaseEditor
-            blockStyleFn={getBlockStyle}
-            blockRendererFn={this.customRenderFn.bind(this)}
-            blockRenderMap={extendedBlockRenderMap}
-            editorState={editorState}
-            handleKeyCommand={this.handleKeyCommand.bind(this)}
-            onChange={this.onChange.bind(this)}
-            refFn={(e) => { this.editor = e }}
-            spellCheck={false}
-            readOnly={this.state.liveTeXEdits.count()}
-            altEditor={this.altEditor}
-          />
-        </div>
-
       </div>
+
+    </div>
     )
   }
 }
 
-export default EditorComponent
+export default EditorComponent;
