@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Editor } from 'draft-js'
 
 const BaseEditor = (config) => {
-  const AltEditor = config.altEditor
+
+  const AltEditor = config.altEditor;
+  const draftEditor = useRef(null);
 
   if (AltEditor) {
     return (
@@ -13,7 +15,7 @@ const BaseEditor = (config) => {
       editorState={config.editorState}
       handleKeyCommand={config.handleKeyCommand}
       onChange={config.onChange}
-      refFn={config.refFn}
+      ref={config.reference}
       spellCheck={config.spellCheck}
       readOnly={config.readOnly}
     />
@@ -28,7 +30,7 @@ const BaseEditor = (config) => {
     editorState={config.editorState}
     handleKeyCommand={config.handleKeyCommand}
     onChange={config.onChange}
-    ref={(e) => { config.refFn(e) }}
+    ref={config.reference}
     spellCheck={config.spellCheck}
     readOnly={config.readOnly}
   />

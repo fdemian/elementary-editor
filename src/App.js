@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useRef, useState } from 'react';
 import Editor from './lib/Editor/Editor';
 import { Button, Card, Menu, Table } from 'antd';
 import './App.css';
@@ -78,38 +78,33 @@ const editorMethods = [
   }
 ];
 
-class App extends Component {
+const App = () => {
 
- constructor(props){
-	super(props);
-	this.state = { editorState: null };
-	this.editor = null;
+ const [editorState, setEditorState] = useState(null);
+ const containerRef = useRef(null);
+
+ const clearEditor = () => {
+   containerRef.current.clear();
  }
 
- clearEditor() {
-   this.editor.clear();
- }
-
- logState() {
-   const currentState = this.editor.getContent();
+ const logState = () => {
+   const currentState = containerRef.current.getContent();
    const jsonState = JSON.stringify(currentState);
-   this.setState({editorState: jsonState});
+   setEditorState(jsonState);
  }
 
- render(){
+ return (
+ <div className="App">
 
-	return (
-	<div className="App">
+   <div>
+     <Menu theme="dark">
+       <h2 className="EditorNavbarText">
+    	  &nbsp;
+    	 </h2>
+  	 </Menu>
+	 </div>
 
-		<div>
-		  <Menu theme="dark">
-			<h2 className="EditorNavbarText">
-			  &nbsp;
-			</h2>
-		  </Menu>
-		</div>
-
-		<div className="DocSection">
+	<div className="DocSection">
 		  <h2 className="SectionTitle">Elementary Editor</h2>
 		  <ol>
 			<li><a href="#intro">Introduction</a></li>
@@ -150,6 +145,7 @@ class App extends Component {
 			of the editor's methods.
 		  </p>
 		</div>
+
 		<div className="DocSection" id="api">
 		  <h2 className="SectionTitle">API Reference</h2>
 		  <div>
@@ -162,6 +158,7 @@ class App extends Component {
 			  pagination={false}
 		    />
 		  </div>
+
 		  <div className="MethodsDoc">
 		    <h3>Methods</h3>
    		    <p>The editor exposes the following methods:</p>
@@ -172,6 +169,7 @@ class App extends Component {
 			  pagination={false}
 		    />
 		  </div>
+
 		</div>
         <div className="DocSection" id="demo">
 		  <h2 className="SectionTitle">Demo</h2>
@@ -179,25 +177,26 @@ class App extends Component {
 		   <div className="EditorContainer">
 			 <Editor
 			    initialState={null}
-				ref={(editor) => this.editor = editor}
+				  containerRef={containerRef}
 			 />
 		   </div>
-		  </div>
+		 </div>
+
 		 <div>
 			<ButtonGroup className="LogStateButton">
-				<Button type="primary" onClick={() => this.clearEditor()}>
-				    Clear editor
+				<Button type="primary" onClick={clearEditor}>
+				   Clear editor
 				</Button>
-				<Button type="primary" onClick={() => this.logState()}>
-					Log State
+				<Button type="primary" onClick={logState}>
+					 Log State
 				</Button>
 			</ButtonGroup>
 		 </div>
 		 <div className="LogStateResult">
 			<Card>
 			  <p>
-				{this.state.editorState != null ?
-						this.state.editorState : "Press 'Log state' to log the current state."
+				{editorState != null ?
+				 editorState : "Press 'Log state' to log the current state."
 				}
 			  </p>
 			</Card>
@@ -222,6 +221,7 @@ class App extends Component {
 	  <br />
 	</div>
 	);
- }
+
 }
+
 export default App;

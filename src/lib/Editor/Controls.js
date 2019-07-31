@@ -1,128 +1,133 @@
-import React, { Component } from 'react'
-import StyleButton from './StyleButton'
-import URLInput from './URLInput'
-import './css/Controls.css'
+import React, { useState, useRef } from 'react';
+import StyleButton from './StyleButton';
+import URLInput from './URLInput';
+import './css/Controls.css';
 
-class EditorControls extends Component {
-  constructor (props) {
-    super(props)
+const EditorControls = (props) => {
 
-    this.state = {
-      showURLInput: false,
-      urlValue: '',
-      urlType: ''
-    }
-    this.sendPost = this.props.sendPost
-    this.editor = this.props.editor
-    this.editorStyles = this.props.editorStyles
-    this.confirmUrl = this.confirmUrlFn.bind(this)
-    this.cancelUrlFn = this.cancelUrlFn.bind(this)
-    this.selectionIsCollapsed = this.props.selectionCollapsed
-    this.onURLChange = e => this.onUrlChange(e)
-    this.blockIsActive = this.props.blockIsActive
-    this.inlineIsActive = this.props.inlineIsActive
-    this.customBlockIsActive = this.props.customBlockIsActive
-    this.customBlockToggleFn = this.customBlockToggleFn.bind(this)
-    this.getInput = this.getInput.bind(this)
-    this.findStyleObjectByName = this.findStyleObjectByName.bind(this)
+  // Set state
+  const [showURLInput, setShowUrlInput] = useState(false);
+  const [urlValue, setUrlValue] = useState('');
+  const [urlType, setUrlType] = useState('');
+
+  const {
+    sendPost,
+    editor,
+    editorStyles,
+    selectionCollapsed,
+    blockIsActive,
+    inlineIsActive,
+    customBlockIsActive,
+    onToggleInline,
+    onToggleBlock
+  } = props;
+  
+  const onUrlChange = (e) => {
+    setUrlValue(e.target.value);
   }
 
-  onUrlChange (event) {
-    this.setState({ urlValue: event.target.value })
+  const getInput = (type) => {
+    setShowUrlInput(true);
+    setUrlType(type);
   }
 
-  getInput (type) {
-    this.setState({ showURLInput: true, urlType: type })
-  }
-
-  confirmUrlFn (e) {
+  const confirmUrl = (e) => {
     e.preventDefault()
 
-    const styleObject = this.findStyleObjectByName(this.state.urlType)
+    const styleObject = findStyleObjectByName(urlType);
 
-    if (styleObject.toggleFn == null) { return }
+    if (styleObject.toggleFn == null)
+       return;
 
-    styleObject.toggleFn(this.editor, this.state.urlType, this.state.urlValue)
-    this.setState({ showURLInput: false, urlValue: '', urlType: '' })
+    styleObject.toggleFn(editor, urlType, urlValue);
+
+    setShowUrlInput(false);
+    setUrlValue('');
+    setUrlType('');
   }
 
-  cancelUrlFn () {
-    this.setState({ showURLInput: false, urlValue: '', urlType: '' })
+  const cancelUrl = () => {
+    setShowUrlInput(false);
+    setUrlValue('');
+    setUrlType('');
   }
 
-  customBlockToggleFn (blockName) {
-    const styleObject = this.findStyleObjectByName(blockName)
+  const customBlockToggleFn = (blockName) => {
 
-    if (styleObject.toggleFn === null) { return }
+    const styleObject = findStyleObjectByName(blockName);
 
-    if (styleObject.requiresSelection && this.editor.selectionIsCollapsed()) { return }
+    if (styleObject.toggleFn === null)
+      return;
+
+    if (styleObject.requiresSelection && editor.selectionIsCollapsed())
+      return;
 
     if (styleObject.requiresInput) {
-      this.getInput(styleObject.label)
-      return
+      getInput(styleObject.label);
+      return;
     }
 
-    styleObject.toggleFn(this.editor)
+    styleObject.toggleFn(editor);
   }
 
-  findStyleObjectByName (name) {
-    const customStyles = this.editorStyles.CUSTOM_STYLES
-    const matches = customStyles.filter(style => (style.label === name || style.style === name))
-    return matches[0]
+  const findStyleObjectByName = (name) => {
+    const customStyles = editorStyles.CUSTOM_STYLES;
+    const matches = customStyles.filter(style =>
+      (style.label === name || style.style === name)
+    )
+
+    return matches[0];
   }
 
-  render () {
-    if (this.state.showURLInput) {
-      return (
-        <div className='EditorControls'>
-          <div className='RichEditor-controls'>
-            <URLInput
-              changeFn={this.onURLChange}
-              urlValue={this.state.urlValue}
-              cancelFn={this.cancelUrlFn}
-              confirmFn={this.confirmUrl}
-              type={this.state.urlType}
-            />
-          </div>
-        </div>
-      )
-    }
-
+  if (showURLInput) {
     return (
-      <div className='EditorControls'>
-
-        <div className='RichEditor-controls'>
-          {this.editorStyles.INLINE_STYLES.map(type =>
-            (<StyleButton
-              key={type.label}
-              activeFn={this.inlineIsActive.bind(type.style)}
-              label={type.label}
-              onToggle={this.props.onToggleInline}
-              style={type.style}
-              icon={type.icon}
-            />))}
-          {this.editorStyles.BLOCK_TYPES.map(type =>
-            (<StyleButton
-              key={type.label}
-              activeFn={this.blockIsActive.bind(type.style)}
-              label={type.label}
-              onToggle={this.props.onToggleBlock}
-              style={type.style}
-              icon={type.icon}
-            />))}
-          {this.editorStyles.CUSTOM_STYLES.map(type =>
-            (<StyleButton
-              key={type.label}
-              activeFn={this.customBlockIsActive}
-              label={type.label}
-              onToggle={this.customBlockToggleFn}
-              style={type.style}
-              icon={type.icon}
-            />))}
-        </div>
-      </div>
+    <div className='EditorControls'>
+       <div className='RichEditor-controls'>
+         <URLInput
+            changeFn={onUrlChange}
+            urlValue={urlValue}
+            type={urlType}
+            cancelFn={cancelUrl}
+            confirmFn={confirmUrl}
+         />
+       </div>
+    </div>
     )
   }
+
+  return (
+  <div className='EditorControls'>
+    <div className='RichEditor-controls'>
+      {editorStyles.INLINE_STYLES.map(type =>
+        (<StyleButton
+            key={type.label}
+            activeFn={inlineIsActive.bind(type.style)}
+            label={type.label}
+            onToggle={onToggleInline}
+            style={type.style}
+            icon={type.icon}
+        />))}
+        {editorStyles.BLOCK_TYPES.map(type =>
+          (<StyleButton
+            key={type.label}
+            activeFn={blockIsActive.bind(type.style)}
+            label={type.label}
+            onToggle={onToggleBlock}
+            style={type.style}
+            icon={type.icon}
+          />))}
+          {editorStyles.CUSTOM_STYLES.map(type =>
+            (<StyleButton
+              key={type.label}
+              activeFn={customBlockIsActive}
+              label={type.label}
+              onToggle={customBlockToggleFn}
+              style={type.style}
+              icon={type.icon}
+          />))}
+      </div>
+    </div>
+    )
 };
 
 export default EditorControls

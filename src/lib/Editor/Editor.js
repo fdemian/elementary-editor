@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useRef, useImperativeHandle } from 'react'
 import Draft from 'draft-js'
 import { Map } from 'immutable'
 import 'katex/dist/katex.css'
@@ -32,135 +32,118 @@ const {
   DefaultDraftBlockRenderMap,
   convertToRaw,
   convertFromRaw
-} = Draft
+} = Draft;
 
-const blockRenderMap = Map({ SPOILER: { element: Spoiler }, Latex: { element: TeXBlock } })
+const blockRenderMap = Map({
+  SPOILER: { element: Spoiler },
+  Latex: { element: TeXBlock }
+});
 const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap)
 
-class EditorComponent extends Component {
+const EditorComponent = (props) => {
 
-  constructor (props) {
-    super(props)
+  const { altEditor, initialState, containerRef } = props;
+  const editorRef = useRef(null);
 
-    const { altEditor } = this.props
-    let decorator = null
+  let decorator = null;
+  let initialStateEditor;
 
-    if (!altEditor) {
-      decorator = new CompositeDecorator([
-        {
-          strategy: (contentBlock, callback, contentState) =>
-          findLinkEntities(contentBlock, callback, contentState),
-          component: Link
-        },
-        {
-          strategy: (contentBlock, callback, contentState) =>
-          findSpoilerEntities(contentBlock, callback, contentState),
-          component: Spoiler
-        }
-      ])
-    }
-
-    const { initialState } = this.props
-
-    let initalStateEditor
-
-    if (initialState == null) {
-      initalStateEditor = EditorState.createEmpty(decorator)
-    } else {
-      const contentState = convertFromRaw(JSON.parse(initialState))
-      initalStateEditor = EditorState.createWithContent(contentState, decorator)
-    }
-
-    this.filterStyles = this.props.filterStyles === undefined ? null : this.props.filterStyles
-    this.state = { liveTeXEdits: Map(), editorState: initalStateEditor }
-    this.focus = () => this.editor.focus()
-    this.onChange = state => this.handleChangeFn(state)
-    this.handleKeyCommand = command => this.handleKeyCommandFn(command)
-    this.toggleBlockType = type => this.toggleBlockTypeFn(type)
-    this.toggleInlineStyle = style => this.toggleInlineStyleFn(style)
-    this.selectionIsCollapsed = () => this.selectionIsCollapsedFn()
-    this.getCurrentContent = () => this.state.editorState.getCurrentContent()
-    this.getContent = () => this.getContentFn()
-    this.blockIsActive = block => this.blockIsActiveFn(block)
-    this.inlineIsActive = style => this.inlineIsActiveFn(style)
-    this.customBlockIsActive = () => false
-    this.clear = () => this.clearFn()
-    this.insertQuote = comment => this.insertQuoteFn(comment)
-    this.insertQuoteBlock = (type, content, author) => this
-      .insertQuoteFnBlock(type, content, author)
-    this.insertTex = () => this.insertTexFn()
-    this.removeTex = blockKey => this.removeTeXFn(blockKey)
-    this.editorStyles = null
-    this.altEditor = this.props.altEditor
-    // If the user has defined which styles to whitelist, use only those.
-    // Otherwise use all of the styles.
-    if (this.filterStyles === null) {
-      this.editorStyles = editorStyles
-    } else {
-      this.editorStyles = this.filterWhiteListedStyles(editorStyles, this.filterStyles)
-    }
+  if (!altEditor) {
+   decorator = new CompositeDecorator([
+     {
+       strategy: (contentBlock, callback, contentState) =>
+       findLinkEntities(contentBlock, callback, contentState),
+       component: Link
+     },
+     {
+       strategy: (contentBlock, callback, contentState) =>
+       findSpoilerEntities(contentBlock, callback, contentState),
+       component: Spoiler
+     }
+   ])
   }
 
-  getContentFn = () => {
-    const currentContent = this.getCurrentContent()
-    return convertToRaw(currentContent)
+  const { createEmpty, createWithContent } = EditorState;
+
+  if (initialState == null) {
+    initialStateEditor = createEmpty(decorator)
+  } else {
+   const parsedState = JSON.parse(initialState);
+   const contentState = convertFromRaw(parsedState);
+   initialStateEditor = createWithContent(contentState, decorator);
   }
 
-  removeTeXFn = (blockKey) => {
-    const { editorState, liveTeXEdits } = this.state
-    this.setState({
-      liveTeXEdits: liveTeXEdits.remove(blockKey),
-      editorState: removeTeXBlock(editorState, blockKey)
-    })
+  // State and refs.
+  const [texEdits, setTexEdits] = useState(Map());
+  const [editorState, setEditorState] = useState(initialStateEditor);
+
+
+  // Functions.
+  const focus = () => console.log("FOCUS!"); //props.containerRef.current.focus();
+  const getCurrentContent = () => editorState.getCurrentContent();
+  const customBlockIsActive = () => false; // TODO: revise.
+
+  let _editorStyles = null;
+
+  // If the user has defined which styles to whitelist, use only those.
+  // Otherwise use all of the styles.
+  let filterStyles = (props.filterStyles === undefined)
+  ? null: props.filterStyles;
+
+  if(filterStyles === null) {
+    _editorStyles = editorStyles;
+  } else {
+   const whiteListed = filterWhiteListedStyles(editorStyles, props.filterStyles);
+   _editorStyles = whiteListed;
+  }
+
+  const getContent = () => {
+    const currentContent = getCurrentContent();
+    return convertToRaw(currentContent);
+  }
+
+  const removeTex = (blockKey) => {
+    setTexEdits(texEdits.remove(blockKey));
+    setEditorState(removeTeXBlock(editorState, blockKey));
   };
 
-  insertTexFn = () => {
-    this.setState({
-      liveTeXEdits: Map(),
-      editorState: insertTeXBlock(this.state)
-    })
+  const insertTex = () => {
+    setTexEdits(Map());
+    setEditorState(insertTeXBlock(editorState));
   };
 
-  clearFn() {
-    const emptyState = ContentState.createFromText('')
-    const editorState = EditorState.push(this.state.editorState, emptyState)
-    this.setState({ liveTeXEdits: Map(), editorState })
+
+  const insertQuote = (comment) => insertQuoteBlock('QuoteBlock', comment);
+
+  const insertQuoteBlock = (type, comment) => {
+    const { insertAtomicBlock } = AtomicBlockUtils;
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity
+    (type, 'IMMUTABLE', { props: comment });
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    const newState = insertAtomicBlock(editorState, entityKey, 'QuoteBlock');
+    setEditorState(newState, () => {
+      setTimeout(() => containerRef.current.focus(), 0)
+    })
   }
 
-  insertQuoteFn (comment) {
-    this.insertQuoteBlock('QuoteBlock', comment)
-  }
-
-  insertQuoteFnBlock (type, comment) {
-    const { editorState } = this.state
-    const contentState = editorState.getCurrentContent()
-    const contentStateWithEntity = contentState.createEntity(type, 'IMMUTABLE', { props: comment })
-    const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
-
-    this.setState(
-      {
-        editorState: AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, 'QuoteBlock')
-      },
-      () => { setTimeout(() => this.focus(), 0) }
-    )
-  }
-
-  blockIsActiveFn (block) {
-    const { editorState } = this.state
-    const selection = editorState.getSelection()
+  const blockIsActive = (block) => {
+    const selection = editorState.getSelection();
     const blockType = editorState.getCurrentContent()
       .getBlockForKey(selection.getStartKey())
-      .getType()
+      .getType();
 
-    return block === blockType
+    return block === blockType;
   }
 
-  inlineIsActiveFn (style) {
-    const currentStyle = this.state.editorState.getCurrentInlineStyle()
+  const inlineIsActive = (style) => {
 
-    if (currentStyle === undefined) { return false }
+   const currentStyle = editorState.getCurrentInlineStyle();
 
-    return currentStyle.has(style)
+   if (currentStyle === undefined)
+      return false;
+
+   return currentStyle.has(style);
   }
 
   /*
@@ -168,23 +151,25 @@ class EditorComponent extends Component {
     return false;
   } */
 
-  handleChangeFn (state) {
-    this.setState({ editorState: state })
+  const onChange = (state) => {
+    setEditorState(state);
   }
 
-  handleKeyCommandFn (command) {
-    const { editorState } = this.state
-    const newState = RichUtils.handleKeyCommand(editorState, command)
+  const handleKeyCommand = (command) => {
+
+    const {handleKeyCommand} = RichUtils;
+    const newState = handleKeyCommand(editorState, command);
 
     if (newState) {
-      this.onChange(newState);
+      onChange(newState);
       return true;
     }
 
     return false;
   }
 
-  customRenderFn (contentBlock) {
+  const customRenderFn = (contentBlock) => {
+
     const type = contentBlock.getType()
     const text = contentBlock.getText()
 
@@ -208,83 +193,100 @@ class EditorComponent extends Component {
         editable: false,
         props: {
           onStartEdit: (blockKey) => {
-            const { liveTeXEdits } = this.state
-            this.setState({ liveTeXEdits: liveTeXEdits.set(blockKey, true) })
+            const texEditState = texEdits.set(blockKey, true);
+            setTexEdits(texEditState);
           },
           onFinishEdit: (blockKey, newContentState) => {
-            const { liveTeXEdits } = this.state
-            this.setState({
-              liveTeXEdits: liveTeXEdits.remove(blockKey),
-              editorState: EditorState.createWithContent(newContentState)
-            })
+            const { createWithContent } = EditorState;
+            const texEditState = texEdits.remove(blockKey);
+            const editorContent = createWithContent(newContentState);
+            setTexEdits(texEditState);
+            setEditorState(editorContent);
           },
-          onRemove: blockKey => this.removeTeXFn(blockKey)
+          onRemove: blockKey => removeTex(blockKey)
         }
       }
     }
 
-    return null
+    return null;
   }
 
-  selectionIsCollapsedFn () {
-    const { editorState } = this.state
-    const selection = editorState.getSelection()
-    return selection.isCollapsed()
+  const selectionIsCollapsed = () => {
+    return editorState.getSelection().isCollapsed();
   }
 
-  toggleBlockTypeFn (blockType) {
-    this.onChange(RichUtils.toggleBlockType(this.state.editorState, blockType))
+  const toggleBlockType = (blockType) => {
+    const { toggleBlockType } = RichUtils;
+    onChange(toggleBlockType(editorState, blockType));
   }
 
-  toggleInlineStyleFn (inlineStyle) {
-    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, inlineStyle))
+  const toggleInlineStyle = (inlineStyle) => {
+    const { toggleInlineStyle } = RichUtils;
+    onChange(toggleInlineStyle(editorState, inlineStyle))
   }
 
-  render () {
-    const { editorState } = this.state
+  // TODO: check this out.
+  // If the user changes block type before entering any text, we can
+  // either style the placeholder or hide it. Let's just hide it now.
+  let className = 'RichEditor-editor Editor';
+  const contentState = editorState.getCurrentContent()
 
-    // If the user changes block type before entering any text, we can
-    // either style the placeholder or hide it. Let's just hide it now.
-    let className = 'RichEditor-editor Editor'
-    const contentState = editorState.getCurrentContent()
-
-    if (!contentState.hasText()) {
-      if (contentState.getBlockMap().first().getType() !== 'unstyled') {
-        className += ' RichEditor-hidePlaceholder Editor'
-      }
+  if (!contentState.hasText()) {
+    if (contentState.getBlockMap().first().getType() !== 'unstyled') {
+      className += ' RichEditor-hidePlaceholder Editor'
     }
-
-    return (
-    <div style={{ height: '100%' }}>
-      <EditorControls
-        editorState={editorState}
-        editorStyles={this.editorStyles}
-        onToggleBlock={this.toggleBlockType}
-        onToggleInline={this.toggleInlineStyle}
-        selectionCollapsed={this.selectionIsCollapsed}
-        blockIsActive={this.blockIsActive}
-        inlineIsActive={this.inlineIsActive}
-        customBlockIsActive={this.customBlockIsActive}
-        editor={this}
-      />
-      <div className={className} onClick={this.focus} role='textbox' tabIndex={0}>
-        <BaseEditor
-          blockStyleFn={getBlockStyle}
-          blockRendererFn={this.customRenderFn.bind(this)}
-          blockRenderMap={extendedBlockRenderMap}
-          editorState={editorState}
-          handleKeyCommand={this.handleKeyCommand.bind(this)}
-          onChange={this.onChange.bind(this)}
-          refFn={(e) => { this.editor = e }}
-          spellCheck={false}
-          readOnly={this.state.liveTeXEdits.count()}
-          altEditor={this.altEditor}
-        />
-      </div>
-
-    </div>
-    )
   }
+
+  const clear = () => {
+   const emptyState = ContentState.createFromText('');
+   const clearedState = EditorState.push(editorState, emptyState);
+   setTexEdits(Map());
+   setEditorState(clearedState);
+  }
+
+  // Exposed methods.
+  useImperativeHandle(containerRef, () => {
+    return {
+     clear: clear,
+     getContent: getContent
+    }
+  });
+
+  return (
+  <div style={{ height: '100%' }} ref={containerRef}>
+    <EditorControls
+      editorState={editorState}
+      editorStyles={_editorStyles}
+      onToggleBlock={toggleBlockType}
+      onToggleInline={toggleInlineStyle}
+      selectionCollapsed={selectionIsCollapsed}
+      blockIsActive={blockIsActive}
+      inlineIsActive={inlineIsActive}
+      customBlockIsActive={customBlockIsActive}
+      editor={containerRef}
+    />
+    <div
+      className={className}
+      onClick={focus}
+      role='textbox'
+      tabIndex={0}
+     >
+      <BaseEditor
+        blockStyleFn={getBlockStyle}
+        blockRendererFn={customRenderFn}
+        blockRenderMap={extendedBlockRenderMap}
+        editorState={editorState}
+        handleKeyCommand={handleKeyCommand}
+        onChange={onChange}
+        spellCheck={false}
+        readOnly={texEdits.count()}
+        altEditor={altEditor}
+      />
+    </div>
+
+  </div>
+  );
+
 }
 
 export default EditorComponent;
