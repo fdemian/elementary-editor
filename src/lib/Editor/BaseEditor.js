@@ -1,10 +1,9 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { Editor } from 'draft-js'
 
 const BaseEditor = (config) => {
 
   const AltEditor = config.altEditor;
-  const draftEditor = useRef(null);
 
   if (AltEditor) {
     return (

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import StyleButton from './StyleButton';
 import URLInput from './URLInput';
 import './css/Controls.css';
@@ -11,17 +11,15 @@ const EditorControls = (props) => {
   const [urlType, setUrlType] = useState('');
 
   const {
-    sendPost,
     editor,
     editorStyles,
-    selectionCollapsed,
     blockIsActive,
     inlineIsActive,
     customBlockIsActive,
     onToggleInline,
     onToggleBlock
   } = props;
-  
+
   const onUrlChange = (e) => {
     setUrlValue(e.target.value);
   }

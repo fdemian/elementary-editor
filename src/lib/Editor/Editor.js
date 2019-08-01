@@ -1,8 +1,8 @@
-import React, { useState, useRef, useImperativeHandle } from 'react'
+import React, { useState, useImperativeHandle } from 'react'
 import Draft from 'draft-js'
 import { Map } from 'immutable'
 import 'katex/dist/katex.css'
-import insertTeXBlock from './TextElements/Latex/insertTeXBlock'
+//import insertTeXBlock from './TextElements/Latex/insertTeXBlock'
 import removeTeXBlock from './TextElements/Latex/removeTeXBlock'
 import TeXBlock from './TextElements/Latex/TeXBlock'
 import Spoiler from './TextElements/Spoiler/SpoilerWrapper'
@@ -16,7 +16,6 @@ import {
   getBlockStyle,
   findLinkEntities,
   findSpoilerEntities,
-  filterStyle,
   filterWhiteListedStyles
 } from './utils';
 
@@ -28,7 +27,6 @@ const {
   ContentState,
   EditorState,
   RichUtils,
-  AtomicBlockUtils,
   DefaultDraftBlockRenderMap,
   convertToRaw,
   convertFromRaw
@@ -43,7 +41,6 @@ const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap)
 const EditorComponent = (props) => {
 
   const { altEditor, initialState, containerRef } = props;
-  const editorRef = useRef(null);
 
   let decorator = null;
   let initialStateEditor;
@@ -102,29 +99,21 @@ const EditorComponent = (props) => {
     return convertToRaw(currentContent);
   }
 
+  const getPlainText = () => {
+    return getCurrentContent().getPlainText();
+  }
+
   const removeTex = (blockKey) => {
     setTexEdits(texEdits.remove(blockKey));
     setEditorState(removeTeXBlock(editorState, blockKey));
   };
 
-  const insertTex = () => {
-    setTexEdits(Map());
-    setEditorState(insertTeXBlock(editorState));
-  };
-
-
-  const insertQuote = (comment) => insertQuoteBlock('QuoteBlock', comment);
-
-  const insertQuoteBlock = (type, comment) => {
-    const { insertAtomicBlock } = AtomicBlockUtils;
-    const contentState = editorState.getCurrentContent();
-    const contentStateWithEntity = contentState.createEntity
-    (type, 'IMMUTABLE', { props: comment });
-    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-    const newState = insertAtomicBlock(editorState, entityKey, 'QuoteBlock');
-    setEditorState(newState, () => {
-      setTimeout(() => containerRef.current.focus(), 0)
-    })
+  const insertTex = (blockKey, newContentState) => {
+    const { createWithContent } = EditorState;
+    const texEditState = texEdits.remove(blockKey);
+    const editorContent = createWithContent(newContentState);
+    setTexEdits(texEditState);
+    setEditorState(editorContent);
   }
 
   const blockIsActive = (block) => {
@@ -196,13 +185,7 @@ const EditorComponent = (props) => {
             const texEditState = texEdits.set(blockKey, true);
             setTexEdits(texEditState);
           },
-          onFinishEdit: (blockKey, newContentState) => {
-            const { createWithContent } = EditorState;
-            const texEditState = texEdits.remove(blockKey);
-            const editorContent = createWithContent(newContentState);
-            setTexEdits(texEditState);
-            setEditorState(editorContent);
-          },
+          onFinishEdit: (blockKey, newContentState) => insertTex(blockKey, newContentState),
           onRemove: blockKey => removeTex(blockKey)
         }
       }
@@ -248,7 +231,8 @@ const EditorComponent = (props) => {
   useImperativeHandle(containerRef, () => {
     return {
      clear: clear,
-     getContent: getContent
+     getContent: getContent,
+     getPlainText: getPlainText
     }
   });
 

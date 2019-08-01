@@ -93,6 +93,11 @@ const App = () => {
    setEditorState(jsonState);
  }
 
+ const getPlainText = () => {
+   const plaintext = containerRef.current.getPlainText();
+   setEditorState(plaintext);
+ }
+
  return (
  <div className="App">
 
@@ -189,6 +194,9 @@ const App = () => {
 				</Button>
 				<Button type="primary" onClick={logState}>
 					 Log State
+				</Button>
+        <Button type="primary" onClick={getPlainText}>
+					 Log plain text
 				</Button>
 			</ButtonGroup>
 		 </div>
