@@ -11,7 +11,7 @@ const Media = (props) => {
     src = entity.getData().src;
 
     if(entity.getType() === "Image")
-      return <img src={src} />;    
+      return <img src={src} alt="" />;    
   }
   else {
     src = props.src;

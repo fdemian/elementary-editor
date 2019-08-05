@@ -282,7 +282,6 @@ const EditorComponent = (props) => {
     const { type, mutability, content } = block;
 
     const { insertAtomicBlock } = AtomicBlockUtils;
-    const _contentState = editorState.getCurrentContent();
 
     const contentStateWithEntity = contentState.createEntity(type, mutability, content);
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();

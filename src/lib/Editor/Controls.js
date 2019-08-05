@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import StyleButton from './StyleButton';
 import URLInput from './URLInput';
 import './css/Controls.css';
@@ -6,7 +6,6 @@ import './css/Controls.css';
 const EditorControls = (props) => {
 
   const {
-    editor,
     editorStyles,
     blockIsActive,
     inlineIsActive,
@@ -22,16 +21,7 @@ const EditorControls = (props) => {
     inputType,
     inputValue,
   } = props;
-
-  const findStyleObjectByName = (name) => {
-    const customStyles = editorStyles.CUSTOM_STYLES;
-    const matches = customStyles.filter(style =>
-      (style.label === name || style.style === name)
-    )
-
-    return matches[0];
-  }
-
+  
   if (inputVisible) {
     return (
     <div className='EditorControls'>
