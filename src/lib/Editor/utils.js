@@ -53,3 +53,23 @@ export const filterWhiteListedStyles = (styles, allowedStyles) => {
     CUSTOM_STYLES: filterStyle(styles.CUSTOM_STYLES, allowedStyles)
   };
 }
+
+
+// element ==== "SPOILER"
+export function getImmutableSelectionBlock(editorState, element) {
+  const selection = editorState.getSelection()
+  const contentBlock = editorState.getCurrentContent().getBlockForKey(selection.getStartKey())
+  const selectionState = editorState.getSelection()
+  const start = selectionState.getStartOffset()
+  const end = selectionState.getEndOffset()
+  const selectedText = contentBlock.getText().slice(start, end)
+  const contentState = editorState.getCurrentContent()
+
+  const contentStateWithEntity = contentState.createEntity(element, 'IMMUTABLE', { text: selectedText })
+
+  return {
+    editorState: editorState,
+    newContentState: contentStateWithEntity
+  };
+
+}

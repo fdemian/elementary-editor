@@ -14,25 +14,14 @@
 
 import { AtomicBlockUtils, EditorState } from 'draft-js'
 
-export default function insertTeXBlock (editorState) {
+const defaultContent = { content: 'f(x) = ... ' };
 
-  const { insertAtomicBlock } = AtomicBlockUtils;
-  const { getCurrentContent } = editorState;
-  const contentState = getCurrentContent()
-  const { createEntity } = contentState;
-  const contentStateWithEntity = createEntity(
-    'LATEX',
-    'IMMUTABLE',
-    { content: 'f(x) = ... ' }
-  );
-
-  const entityKey = contentStateWithEntity
-  .getLastCreatedEntityKey();
-
-  const newEditorState = EditorState.set(
-    editorState,
-    { currentContent: contentStateWithEntity }
-  );
-
-  return insertAtomicBlock(newEditorState, entityKey, ' ');
+const getTexBlock = () => {
+   return {
+     type:'LATEX' ,
+     mutability:'Immutable',
+     content: defaultContent
+   };
 }
+
+export default getTexBlock;

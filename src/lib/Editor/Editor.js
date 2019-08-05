@@ -1,22 +1,23 @@
-import React, { useState, useImperativeHandle } from 'react'
-import Draft from 'draft-js'
-import { Map } from 'immutable'
-import 'katex/dist/katex.css'
-//import insertTeXBlock from './TextElements/Latex/insertTeXBlock'
-import removeTeXBlock from './TextElements/Latex/removeTeXBlock'
-import TeXBlock from './TextElements/Latex/TeXBlock'
-import Spoiler from './TextElements/Spoiler/SpoilerWrapper'
-import Media from './TextElements/Media/Media'
-import Link from './TextElements/Link/Link'
-import editorStyles from './EditorStyles'
-import QuoteBlockWrapper from './TextElements/QuoteBlock/QuoteBlockWrapper'
-import EditorControls from './Controls'
-import BaseEditor from './BaseEditor'
+import React, { useState, useImperativeHandle } from 'react';
+import Draft from 'draft-js';
+import { Map } from 'immutable';
+import 'katex/dist/katex.css';
+import getTexBlock from './TextElements/Latex/insertTeXBlock';
+import removeTeXBlock from './TextElements/Latex/removeTeXBlock';
+import TeXBlock from './TextElements/Latex/TeXBlock';
+import Spoiler from './TextElements/Spoiler/SpoilerWrapper';
+import Media from './TextElements/Media/Media';
+import Link from './TextElements/Link/Link';
+import editorStyles from './EditorStyles';
+import QuoteBlockWrapper from './TextElements/QuoteBlock/QuoteBlockWrapper';
+import EditorControls from './Controls';
+import BaseEditor from './BaseEditor';
 import {
   getBlockStyle,
   findLinkEntities,
   findSpoilerEntities,
-  filterWhiteListedStyles
+  filterWhiteListedStyles,
+  getImmutableSelectionBlock
 } from './utils';
 
 import './css/Draft.css'
@@ -29,12 +30,13 @@ const {
   RichUtils,
   DefaultDraftBlockRenderMap,
   convertToRaw,
-  convertFromRaw
+  convertFromRaw,
+  AtomicBlockUtils
 } = Draft;
 
 const blockRenderMap = Map({
   SPOILER: { element: Spoiler },
-  Latex: { element: TeXBlock }
+  LATEX: { element: TeXBlock }
 });
 const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap)
 
@@ -73,7 +75,9 @@ const EditorComponent = (props) => {
   // State and refs.
   const [texEdits, setTexEdits] = useState(Map());
   const [editorState, setEditorState] = useState(initialStateEditor);
-
+  const [inputVisible, setInputVisible] = useState(false);
+  const [inputType, setInputType] = useState('');
+  const [inputValue, setInputValue] = useState('');
 
   // Functions.
   const focus = () => console.log("FOCUS!"); //props.containerRef.current.focus();
@@ -159,10 +163,10 @@ const EditorComponent = (props) => {
 
   const customRenderFn = (contentBlock) => {
 
-    const type = contentBlock.getType()
-    const text = contentBlock.getText()
+    const type = contentBlock.getType();
+    const text = contentBlock.getText();
 
-    if (text === 'media') {
+    if (text === 'media' || text === 'Image') {
       return {
         component: Media,
         editable: false
@@ -196,6 +200,124 @@ const EditorComponent = (props) => {
 
   const selectionIsCollapsed = () => {
     return editorState.getSelection().isCollapsed();
+  }
+
+  const findStyleObjectByName = (name) => {
+    const customStyles = editorStyles.CUSTOM_STYLES;
+    const matches = customStyles.filter(style =>
+      (style.label === name || style.style === name)
+    )
+
+    return matches[0];
+  }
+
+  // TODO: this has been implemented using toggleLink.
+  // Should editorState be a parameter or not?
+  const insertEntity = (selectionState) => {
+      const { editorState, newContentState } = selectionState;
+      const entityKey = newContentState.getLastCreatedEntityKey();
+      const newEditorState = EditorState.set(editorState, {
+         currentContent: newContentState
+       });
+      const newState = RichUtils.toggleLink(newEditorState, newEditorState.getSelection(), entityKey);
+      setEditorState(newState, () => { setTimeout(() => focus(), 0) });
+  }
+
+  const customBlockToggleFn = (blockName, getInput) => {
+
+    const selectionCollapsed = selectionIsCollapsed();
+    const styleObject = findStyleObjectByName(blockName);
+    const { requiresSelection } = styleObject;
+
+    if (styleObject.toggleFn === null)
+       return;
+
+    if (requiresSelection && selectionCollapsed)
+       return;
+
+    if (styleObject.requiresInput) {
+      setInputVisible(true);
+      setInputType(styleObject.label);
+      return;
+    }
+
+    toggleCustomStyle(styleObject);
+  }
+
+  const confirmInput = (e) => {
+    e.preventDefault()
+
+    const styleObject = findStyleObjectByName(inputType);
+
+    if (styleObject.toggleFn == null)
+       return;
+
+    const newState = styleObject.toggleFn(editorState, inputType, inputValue);
+
+    // Reset input fields.
+    setInputVisible(false);
+    setInputValue('');
+    setInputType('');
+
+    // Set the new editor state.
+    if(newState !== null)
+      setEditorState(newState);
+
+  }
+
+  const onInputChange = (e) => {
+    setInputValue(e.target.value);
+  }
+
+  const cancelInput = () => {
+    setInputVisible(false);
+    setInputValue('');
+    setInputType('');
+  }
+
+  const showInput = () => setInputVisible(true);
+
+  const insertCustomBlock = (block) => {
+
+    const { type, mutability, content } = block;
+
+    const { insertAtomicBlock } = AtomicBlockUtils;
+    const _contentState = editorState.getCurrentContent();
+
+    const contentStateWithEntity = contentState.createEntity(type, mutability, content);
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+
+    const newEditorState = EditorState.set(
+      editorState,
+      { currentContent: contentStateWithEntity }
+    );
+
+    return insertAtomicBlock(newEditorState, entityKey, ' ');
+  }
+
+  const toggleCustomStyle = (styleObject) => {
+
+    let newState = null;
+
+    switch(styleObject.style.toUpperCase()) {
+
+        case 'SPOILER':
+          const _selection = getImmutableSelectionBlock(editorState, 'SPOILER');
+          insertEntity(_selection);
+          break;
+
+        case 'LATEX':
+          const texBlock = getTexBlock();
+          newState = insertCustomBlock(texBlock);
+          break;
+
+        default:
+          break;
+    }
+
+    if(newState !== null)
+      setEditorState(newState);
+
   }
 
   const toggleBlockType = (blockType) => {
@@ -232,7 +354,10 @@ const EditorComponent = (props) => {
     return {
      clear: clear,
      getContent: getContent,
-     getPlainText: getPlainText
+     getPlainText: getPlainText,
+     /* Private functions */
+     selectionIsCollapsed: selectionIsCollapsed,
+
     }
   });
 
@@ -247,7 +372,15 @@ const EditorComponent = (props) => {
       blockIsActive={blockIsActive}
       inlineIsActive={inlineIsActive}
       customBlockIsActive={customBlockIsActive}
+      customBlockToggleFn={customBlockToggleFn}
       editor={containerRef}
+      inputType={inputType}
+      inputVisible={inputVisible}
+      inputValue={inputValue}
+      confirmInput={confirmInput}
+      onInputChange={onInputChange}
+      cancelInput={cancelInput}
+      showInput={showInput}
     />
     <div
       className={className}

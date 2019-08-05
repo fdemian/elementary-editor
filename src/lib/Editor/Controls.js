@@ -5,68 +5,23 @@ import './css/Controls.css';
 
 const EditorControls = (props) => {
 
-  // Set state
-  const [showURLInput, setShowUrlInput] = useState(false);
-  const [urlValue, setUrlValue] = useState('');
-  const [urlType, setUrlType] = useState('');
-
   const {
     editor,
     editorStyles,
     blockIsActive,
     inlineIsActive,
     customBlockIsActive,
+    customBlockToggleFn,
     onToggleInline,
-    onToggleBlock
+    onToggleBlock,
+    confirmInput,
+    onInputChange,
+    showInput,
+    cancelInput,
+    inputVisible,
+    inputType,
+    inputValue,
   } = props;
-
-  const onUrlChange = (e) => {
-    setUrlValue(e.target.value);
-  }
-
-  const getInput = (type) => {
-    setShowUrlInput(true);
-    setUrlType(type);
-  }
-
-  const confirmUrl = (e) => {
-    e.preventDefault()
-
-    const styleObject = findStyleObjectByName(urlType);
-
-    if (styleObject.toggleFn == null)
-       return;
-
-    styleObject.toggleFn(editor, urlType, urlValue);
-
-    setShowUrlInput(false);
-    setUrlValue('');
-    setUrlType('');
-  }
-
-  const cancelUrl = () => {
-    setShowUrlInput(false);
-    setUrlValue('');
-    setUrlType('');
-  }
-
-  const customBlockToggleFn = (blockName) => {
-
-    const styleObject = findStyleObjectByName(blockName);
-
-    if (styleObject.toggleFn === null)
-      return;
-
-    if (styleObject.requiresSelection && editor.selectionIsCollapsed())
-      return;
-
-    if (styleObject.requiresInput) {
-      getInput(styleObject.label);
-      return;
-    }
-
-    styleObject.toggleFn(editor);
-  }
 
   const findStyleObjectByName = (name) => {
     const customStyles = editorStyles.CUSTOM_STYLES;
@@ -77,18 +32,18 @@ const EditorControls = (props) => {
     return matches[0];
   }
 
-  if (showURLInput) {
+  if (inputVisible) {
     return (
     <div className='EditorControls'>
        <div className='RichEditor-controls'>
          <URLInput
-            changeFn={onUrlChange}
-            urlValue={urlValue}
-            type={urlType}
-            cancelFn={cancelUrl}
-            confirmFn={confirmUrl}
+            changeFn={onInputChange}
+            urlValue={inputValue}
+            type={inputType}
+            cancelFn={cancelInput}
+            confirmFn={confirmInput}
          />
-       </div>
+        </div>
     </div>
     )
   }
@@ -120,6 +75,7 @@ const EditorControls = (props) => {
               activeFn={customBlockIsActive}
               label={type.label}
               onToggle={customBlockToggleFn}
+              getInput={showInput}
               style={type.style}
               icon={type.icon}
           />))}
