@@ -1,6 +1,7 @@
 {
   "name": "elementary-editor",
-  "version": "0.8.15",
+  "version": "0.8.16",
+  "license": "MIT",
   "dependencies": {
     "@babel/cli": "7.5.5",
     "@babel/core": "7.5.5",

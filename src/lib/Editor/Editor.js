@@ -166,7 +166,7 @@ const EditorComponent = (props) => {
     const type = contentBlock.getType();
     const text = contentBlock.getText();
 
-    if (text === 'media' || text === 'Image') {
+    if (text === 'media' || text === 'Image' || text === 'Video') {
       return {
         component: Media,
         editable: false
@@ -353,10 +353,7 @@ const EditorComponent = (props) => {
     return {
      clear: clear,
      getContent: getContent,
-     getPlainText: getPlainText,
-     /* Private functions */
-     selectionIsCollapsed: selectionIsCollapsed,
-
+     getPlainText: getPlainText
     }
   });
 
