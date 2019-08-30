@@ -14,31 +14,60 @@ You will need:
 
 To use this editor in your project:
 
-+ Install the npm package:
+- Install the npm package:
 
 ```
  yarn add elementary-editor
 ```
+- Then use the editor inside your code
 
-+ Import the editor and use it on your code:
+-- Using Classes
 
 ```
-import { Editor } from 'elementary-editor';
+import Editor from 'elementary-editor';
 
 class MyComponent extends Component  {
- /*
- ...
- */
+
+ constructor(props) {
+   super(props);
+   this.state = { editorState: null }
+   this.containerRef = null;
+ }
+
  render() {
-  return(
-   <div>
-     <Editor
-	   initialState={null}
-	   ref={(editor) => this.editor = editor}
-	 />   
+   return(
+   <Editor
+     initialState={null}
+     containerRef={(editor) => this.editor = editor}
+   />
    );
  }
+
+}
 ```
+
+-- Using hooks
+
+```
+import React, { useRef } from 'react';
+import Editor from 'elementary-editor';
+
+const MyComponent = () =>  {
+
+ const containerRef = useRef(null);
+ 
+ return(
+ <div>
+   <Editor
+     initialState={null}
+     containerRef={containerRef}
+   />
+ </div>
+  );
+}
+```
+
+The ref property is needed if you want to access the editor's internal methods.
 
 To use the default renderer that is bundled with the editor:
 

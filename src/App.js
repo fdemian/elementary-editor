@@ -40,7 +40,7 @@ const MyComponent = () =>  {
  <div>
    <Editor
      initialState={null}
-     containerRef={(editor) => this.containerRef = editor}
+     containerRef={containerRef}
    />
  </div>
   );
@@ -185,10 +185,6 @@ const App = () => {
 		  <br />
 		  <p>
 		  The ref property is needed if you want to access the editor's internal methods.
-		  </p>
-		  <p>
-			It's important to note that your containing component must be a class to make use
-			of the editor's methods.
 		  </p>
 		</div>
 
