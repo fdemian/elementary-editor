@@ -5,6 +5,7 @@ const Spoiler = (props) => {
 
   const [textStatus, setTextStatus] = useState('Concealed');
   const cssClass = `Spoiler ${textStatus}`;
+
   const changeStatus = () => {
    const newStatus = textStatus === '' ? 'Concealed' : ''
    setTextStatus({newStatus});
