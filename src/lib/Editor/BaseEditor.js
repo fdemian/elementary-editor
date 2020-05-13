@@ -1,5 +1,5 @@
-import React from 'react'
-import { Editor } from 'draft-js'
+import React from 'react';
+import { Editor } from 'draft-js';
 
 const BaseEditor = (config) => {
 
@@ -18,7 +18,7 @@ const BaseEditor = (config) => {
       spellCheck={config.spellCheck}
       readOnly={config.readOnly}
     />
-    )
+    );
   }
 
   return (
@@ -33,7 +33,8 @@ const BaseEditor = (config) => {
     spellCheck={config.spellCheck}
     readOnly={config.readOnly}
   />
-  )
+  );
+
 }
 
 export default BaseEditor
