@@ -1,49 +1,41 @@
-import React, { Component } from 'react'
-import katex from 'katex'
+import React, {useEffect, useRef} from 'react';
+import katex from 'katex';
 
-class KatexOutput extends Component {
-  constructor (props) {
-    super(props)
-    this.timer = null
-  }
+const KatexOutput = (props) => {
 
-  componentDidMount () {
-    this.update()
-  }
+  let timer = null;
+  const outputRef = useRef();
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.content !== this.props.content) {
-      this.update()
-    }
-  }
+  const update = () => {
+    if(timer)
+     clearTimeout(timer);
 
-  componentWillUnmount () {
-    clearTimeout(this.timer)
-    this.timer = null
-  }
-
-  update () {
-    if (this.timer) {
-      clearTimeout(this.timer)
-    }
-
-    this.timer = setTimeout(() => {
+    timer = setTimeout(() => {
       katex.render(
-        this.props.content,
-        this.container,
-        { displayMode: true }
+       props.content,
+       outputRef.current,
+       { displayMode: true }
       )
     }, 0)
   }
 
-  render () {
-    return (
-      <div
-        role='presentation'
-        ref={(c) => { this.container = c }}
-        onClick={this.props.onClick}
-      />)
-  }
+  useEffect(() => {
+    update()
+
+    return () => {
+      clearTimeout(timer);
+      timer = null;
+    }
+  }, [props]);
+
+  return (
+  <div
+    role='presentation'
+    ref={outputRef}
+    onClick={props.onClick}
+  />
+  );
+
 }
 
-export default KatexOutput
+export default KatexOutput;

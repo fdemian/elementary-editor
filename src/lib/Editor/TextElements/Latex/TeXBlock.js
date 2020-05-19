@@ -11,124 +11,114 @@
  * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-import katex from 'katex'
-import React from 'react'
-import { Input } from 'antd'
-import EditorButtons from './Buttons'
-import KatexOutput from './KatexOutput'
+import katex from 'katex';
+import React, { useState } from 'react';
+import { Input } from 'antd';
+import EditorButtons from './Buttons';
+import KatexOutput from './KatexOutput';
+import EditPanel from './EditPanel';
 
 const { TextArea } = Input
 
-export default class TeXBlock extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = { editMode: false }
+const TeXBlock = (props) => {
 
-    this.onClick = () => {
-      if (this.state.editMode) {
-        return
-      }
+ const [editMode, setEditMode ] = useState(false);
+ const [texValue, setTexValue] = useState(null);
+ const [invalidTeX , setInvalidTeX] = useState(false);
 
-      this.setState({
-        editMode: true,
-        texValue: this.getValue()
-      }, () => {
-        this.startEdit()
-      })
-    }
+ const onClick = () => {
+   if (editMode)
+     return
 
-    this.onValueChange = (evt) => {
-      const { value } = evt.target
-      let invalid = false
-      try {
-        /* eslint-disable */
-        katex.__parse(value);
-        /* eslint-enable */
-      } catch (e) {
-        invalid = true
-      } finally {
-        this.setState({
-          invalidTeX: invalid,
-          texValue: value
-        })
-      }
-    }
+   setEditMode(true);
+   setTexValue(getValue());
+   startEdit();
+ }
 
-    this.save = () => {
-      const entityKey = this.props.block.getEntityAt(0)
-      const { contentState } = this.props
-      const newContentState = contentState.mergeEntityData(
-        entityKey,
-        { content: this.state.texValue }
-      )
-      this.setState({
-        invalidTeX: false,
-        editMode: false,
-        texValue: null
-      }, this.finishEdit.bind(this, newContentState))
-    }
+ const onValueChange = (evt) => {
+   const { value } = evt.target;
+   let invalid = false;
 
-    this.remove = () => {
-      this.props.blockProps.onRemove(this.props.block.getKey())
-    }
-    this.startEdit = () => {
-      this.props.blockProps.onStartEdit(this.props.block.getKey())
-    }
-    this.finishEdit = (newContentState) => {
-      this.props.blockProps.onFinishEdit(this.props.block.getKey(), newContentState)
-    }
-  }
+   try {
+     /* eslint-disable */
+     katex.__parse(value);
+     /* eslint-enable */
+   } catch (e) {
+     invalid = true
+   } finally {
+     setInvalidTeX(invalid);
+     setTexValue(value);
+   }
+ }
 
-  getValue () {
-    return this.props.contentState
-      .getEntity(this.props.block.getEntityAt(0))
-      .getData().content
-  }
+ const save = () => {
+   const { contentState } = props;
+   const { block } = props;
+   const entityKey = block.getEntityAt(0);
+   const { mergeEntityData } = contentState;
+   const newContentState = mergeEntityData(
+     entityKey,
+     { content: texValue }
+   );
 
-  render () {
-    let texContent = null
+   setInvalidTeX(false);
+   setEditMode(false);
+   setTexValue(null);
 
-    if (this.state.editMode) {
-      texContent = (this.state.invalidTeX ? '' : this.state.texValue)
-    } else {
-      texContent = this.getValue()
-    }
+   setTimeout(0, () => finishEdit(newContentState));
+ }
 
-    let className = 'TeXEditor-tex'
-    if (this.state.editMode) {
-      className += ' TeXEditor-activeTeX'
-    }
+ const startEdit = () => {
+   const { blockProps, block } = props;
+   const key = block.getKey();
+   blockProps.onStartEdit(key);
+ }
 
-    let editPanel = null
-    if (this.state.editMode) {
-      editPanel =
-        (
-          <div>
+ const finishEdit = (newContentState) => {
+   const { blockProps, block } = props;
+   const key = block.getKey();
+   blockProps.onFinishEdit(key, newContentState);
+ }
 
-            <TextArea
-              rows={2}
-              style={{ width: '20%', marginLeft: '40%' }}
-              onChange={this.onValueChange}
-              value={this.state.texValue}
-            />
+ const remove = () => {
+   const { blockProps, block } = props;
+   const key = block.getKey();
+   blockProps.onRemove(key);
+ }
 
-            <div>
-              <EditorButtons
-                invalid={this.state.invalidTeX}
-                removeFn={this.remove}
-                saveFn={this.save}
-              />
-            </div>
+ const getValue = () => {
+   const { contentState, block } = props;
+   const entity = contentState.getEntity(block.getEntityAt(0));
+   return entity.getData().content;
+ }
 
-          </div>
-        )
-    }
+// TODO: Colapse into one line.
+ let texContent = null;
+ if (editMode) {
+   texContent = (invalidTeX ? '' : texValue)
+ } else {
+   texContent = getValue();
+ }
 
-    return (
-      <div className={className}>
-        <KatexOutput content={texContent} onClick={this.onClick} />
-        {editPanel}
-      </div>
-    )
-  }
+ let className = 'TeXEditor-tex' + (editMode ? ' TeXEditor-activeTeX' : "");
+
+ return (
+ <div className={className}>
+   <KatexOutput
+     content={texContent}
+     onClick={onClick}
+   />
+   <EditPanel
+     editMode={editMode}
+     onValueChange={onValueChange}
+     texValue={texValue}
+     invalidTeX={invalidTeX}
+     save={save}
+     remove={remove}
+   />
+ </div>
+ );
+
 }
+
+export default TeXBlock;

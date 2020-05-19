@@ -1,11 +1,12 @@
-import React from 'react'
-import { Entity } from 'draft-js'
-import RenderLink from './RenderLink'
+import React from 'react';
+import RenderLink from './RenderLink';
 
-const Link = (props) => {  
-  const { url } = Entity.get(props.entityKey).getData()
+const Link = (props) => {
+  const { contentState, entityKey } = props;
+  const entityInstance = contentState.getEntity(entityKey);
+  const { url } = entityInstance.getData();
 
-  return <RenderLink url={url} text={props.children} />
+  return <RenderLink url={url} text={props.children} />;
 }
 
-export default Link
+export default Link;

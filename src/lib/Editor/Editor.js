@@ -113,9 +113,11 @@ const EditorComponent = (props) => {
   };
 
   const insertTex = (blockKey, newContentState) => {
+
     const { createWithContent } = EditorState;
     const texEditState = texEdits.remove(blockKey);
     const editorContent = createWithContent(newContentState);
+    
     setTexEdits(texEditState);
     setEditorState(editorContent);
   }

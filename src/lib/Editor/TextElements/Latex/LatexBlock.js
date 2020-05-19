@@ -1,44 +1,35 @@
-import React, { Component } from 'react'
-import katex from 'katex'
+import React, {useEffect, useRef} from 'react';
+import katex from 'katex';
 
-class LatexBlock extends Component {
-  constructor (props) {
-    super(props)
-    this.timer = null
-  }
+const LatexBlock = (props) => {
 
-  componentDidMount () {
-    this.update()
-  }
+  let timer = null;
+  const latexRef = useRef();
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.content !== this.props.content) {
-      this.update()
-    }
-  }
+  const update = () => {
 
-  componentWillUnmount () {
-    clearTimeout(this.timer)
-    this.timer = null
-  }
+    if(timer)
+     clearTimeout(timer);
 
-  update () {
-    if (this.timer) {
-      clearTimeout(this.timer)
-    }
-
-    this.timer = setTimeout(() => {
+    timer = setTimeout(() => {
       katex.render(
-        this.props.content,
-        this.container,
+        props.content,
+        latexRef.current,
         { displayMode: true }
-      )
+      );
     }, 0)
   }
 
-  render () {
-    return <span ref={(c) => { this.container = c }} />
-  }
+  useEffect(() => {
+    update()
+
+    return () => {
+      clearTimeout(timer);
+      timer = null;
+    }
+  }, [props]);
+
+  return <span ref={latexRef} />;
 }
 
 export default LatexBlock

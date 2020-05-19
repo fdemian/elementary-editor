@@ -14,6 +14,7 @@ describe("<QuoteBlock />", () => {
         author: "user1"
       }
     };
+
     const component = render(<QuoteBlock {...props} />);
 
     expect(component[0].name).toStrictEqual('blockquote');

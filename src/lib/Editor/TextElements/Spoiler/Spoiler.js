@@ -19,7 +19,7 @@ const Spoiler = (props) => {
   >
     {props.text}
   </span>
-  )
+  );
 }
 
 export default Spoiler

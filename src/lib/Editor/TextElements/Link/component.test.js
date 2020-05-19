@@ -14,4 +14,14 @@ describe("Link >", () => {
    expect(componentAttribs['href']).toStrictEqual("www.url.com");
   })
 
+  /*
+  it("<Link />", () => {
+   const props = { url: "www.url.com", text: "Link Text" };
+   const component = render(<Link {...props} />);
+   const link = component.find(RenderLink);
+
+   expect(link.length).toStrictEqual(1);
+   //expect(componentAttribs['href']).toStrictEqual("www.url.com");
+ })*/
+
 });
