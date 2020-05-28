@@ -1,4 +1,9 @@
-import React, { useState, useImperativeHandle } from 'react';
+import React,
+{
+  useState,
+  useRef,
+  useImperativeHandle
+} from 'react';
 import Draft from 'draft-js';
 import { Map } from 'immutable';
 import 'katex/dist/katex.css';
@@ -72,6 +77,8 @@ const EditorComponent = (props) => {
    initialStateEditor = createWithContent(contentState, decorator);
   }
 
+  const editorRef = useRef(null);
+
   // State and refs.
   const [texEdits, setTexEdits] = useState(Map());
   const [editorState, setEditorState] = useState(initialStateEditor);
@@ -80,7 +87,8 @@ const EditorComponent = (props) => {
   const [inputValue, setInputValue] = useState('');
 
   // Functions.
-  const focus = () => console.log("FOCUS!"); //props.containerRef.current.focus();
+  const focus = () => editorRef.current.focus();
+  const readOnly = texEdits.count();
   const getCurrentContent = () => editorState.getCurrentContent();
   const customBlockIsActive = () => false; // TODO: revise.
 
@@ -117,7 +125,7 @@ const EditorComponent = (props) => {
     const { createWithContent } = EditorState;
     const texEditState = texEdits.remove(blockKey);
     const editorContent = createWithContent(newContentState);
-    
+
     setTexEdits(texEditState);
     setEditorState(editorContent);
   }
@@ -140,11 +148,6 @@ const EditorComponent = (props) => {
 
    return currentStyle.has(style);
   }
-
-  /*
-  static customBlockIsActiveFn(block) {
-    return false;
-  } */
 
   const onChange = (state) => {
     setEditorState(state);
@@ -394,8 +397,9 @@ const EditorComponent = (props) => {
         handleKeyCommand={handleKeyCommand}
         onChange={onChange}
         spellCheck={false}
-        readOnly={texEdits.count()}
+        readOnly={readOnly}
         altEditor={altEditor}
+        reference={editorRef}
       />
     </div>
 

@@ -3,15 +3,14 @@ import katex from 'katex';
 
 const LatexBlock = (props) => {
 
-  let timer = null;
+  const timerRef = useRef();
   const latexRef = useRef();
 
   const update = () => {
+    if(timerRef.current)
+     clearTimeout(timerRef.current);
 
-    if(timer)
-     clearTimeout(timer);
-
-    timer = setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       katex.render(
         props.content,
         latexRef.current,
@@ -21,13 +20,13 @@ const LatexBlock = (props) => {
   }
 
   useEffect(() => {
-    update()
+    update();
 
     return () => {
-      clearTimeout(timer);
-      timer = null;
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
     }
-  }, [props]);
+  });
 
   return <span ref={latexRef} />;
 }

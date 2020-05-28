@@ -3,14 +3,15 @@ import katex from 'katex';
 
 const KatexOutput = (props) => {
 
-  let timer = null;
+  const timerRef = useRef();
   const outputRef = useRef();
 
   const update = () => {
-    if(timer)
-     clearTimeout(timer);
 
-    timer = setTimeout(() => {
+    if(timerRef.current)
+     clearTimeout(timerRef.current);
+
+    timerRef.current = setTimeout(() => {
       katex.render(
        props.content,
        outputRef.current,
@@ -23,10 +24,10 @@ const KatexOutput = (props) => {
     update()
 
     return () => {
-      clearTimeout(timer);
-      timer = null;
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
     }
-  }, [props]);
+  });
 
   return (
   <div

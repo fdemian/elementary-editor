@@ -1,30 +1,25 @@
-/**
- * Copyright (c) 2013-present, Facebook, Inc. All rights reserved.
- *
- * This file provided by Facebook is for non-commercial testing and evaluation
- * purposes only. Facebook reserves all rights not expressly granted.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
 import katex from 'katex';
-import React, { useState } from 'react';
-import { Input } from 'antd';
-import EditorButtons from './Buttons';
+import React, { useState, useEffect } from 'react';
 import KatexOutput from './KatexOutput';
 import EditPanel from './EditPanel';
 
-const { TextArea } = Input
+const replaceData = (props) => {
+  const { entityKey, data, contentState } = props;
+  return contentState.mergeEntityData(entityKey,data);
+}
 
 const TeXBlock = (props) => {
 
  const [editMode, setEditMode ] = useState(false);
  const [texValue, setTexValue] = useState(null);
  const [invalidTeX , setInvalidTeX] = useState(false);
+ const [saveMode, setSaveMode] = useState(false);
+
+ const {
+   contentState,
+   blockProps,
+   block
+ } = props;
 
  const onClick = () => {
    if (editMode)
@@ -52,45 +47,40 @@ const TeXBlock = (props) => {
  }
 
  const save = () => {
-   const { contentState } = props;
-   const { block } = props;
-   const entityKey = block.getEntityAt(0);
-   const { mergeEntityData } = contentState;
-   const newContentState = mergeEntityData(
-     entityKey,
-     { content: texValue }
-   );
-
    setInvalidTeX(false);
    setEditMode(false);
-   setTexValue(null);
+   setSaveMode(true);
 
-   setTimeout(0, () => finishEdit(newContentState));
  }
 
  const startEdit = () => {
-   const { blockProps, block } = props;
    const key = block.getKey();
    blockProps.onStartEdit(key);
  }
 
- const finishEdit = (newContentState) => {
-   const { blockProps, block } = props;
-   const key = block.getKey();
-   blockProps.onFinishEdit(key, newContentState);
- }
-
  const remove = () => {
-   const { blockProps, block } = props;
    const key = block.getKey();
    blockProps.onRemove(key);
  }
 
  const getValue = () => {
-   const { contentState, block } = props;
    const entity = contentState.getEntity(block.getEntityAt(0));
    return entity.getData().content;
  }
+
+ useEffect(() => {
+  if(!editMode && !invalidTeX && saveMode) {
+    const editKey = block.getEntityAt(0);
+    const props = {
+      entityKey: editKey,
+      data: {'content': texValue},
+      contentState: contentState
+    };
+    let _newState = replaceData(props);
+    blockProps.onFinishEdit(editKey, _newState);
+  }
+}, [editMode, invalidTeX, saveMode, block, contentState, texValue])
+
 
 // TODO: Colapse into one line.
  let texContent = null;

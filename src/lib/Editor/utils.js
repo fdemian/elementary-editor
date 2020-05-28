@@ -16,17 +16,25 @@ export const getBlockStyle = (block) => {
 
 }
 
+/* TODO: generalizing function. Might save lines of code.
+export const findEntities = (contentBlock, callback, contentState, type) => {
+  contentBlock.findEntityRanges(character => {
+    const entityKey = character.getEntity();
+    return (
+      entityKey !== null &&
+      contentState.getEntity(entityKey).getType() === type
+    );
+  }, callback);
+}*/
+
 export const findLinkEntities = (contentBlock, callback, contentState) => {
-  contentBlock.findEntityRanges(
-    (character) => {
-      const entityKey = character.getEntity()
-      return (
-        entityKey !== null &&
-           contentState.getEntity(entityKey).getType() === 'LINK'
-      )
-    },
-    callback
-  )
+  contentBlock.findEntityRanges(character => {
+    const entityKey = character.getEntity();
+    return (
+      entityKey !== null &&
+      contentState.getEntity(entityKey).getType() === 'LINK'
+    );
+  }, callback);
 }
 
 export const findSpoilerEntities = (contentBlock, callback, contentState) => {
