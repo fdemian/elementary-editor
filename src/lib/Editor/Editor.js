@@ -6,7 +6,6 @@ import React,
 } from 'react';
 import Draft from 'draft-js';
 import { Map } from 'immutable';
-import 'katex/dist/katex.css';
 import getTexBlock from './TextElements/Latex/insertTeXBlock';
 import removeTeXBlock from './TextElements/Latex/removeTeXBlock';
 import TeXBlock from './TextElements/Latex/TeXBlock';
@@ -25,6 +24,7 @@ import {
   getImmutableSelectionBlock
 } from './utils';
 
+import 'katex/dist/katex.css';
 import './css/Draft.css'
 import './css/Editor.css'
 

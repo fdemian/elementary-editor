@@ -25,17 +25,17 @@ const EditorControls = (props) => {
   if (inputVisible) {
     return (
     <div className='EditorControls'>
-       <div className='RichEditor-controls'>
-         <URLInput
-            changeFn={onInputChange}
-            urlValue={inputValue}
-            type={inputType}
-            cancelFn={cancelInput}
-            confirmFn={confirmInput}
-         />
-        </div>
-    </div>
-    )
+      <div className='RichEditor-controls'>
+        <URLInput
+          changeFn={onInputChange}
+          urlValue={inputValue}
+          type={inputType}
+          cancelFn={cancelInput}
+          confirmFn={confirmInput}
+        />
+       </div>
+     </div>
+     );
   }
 
   // TODO merge stylebutton mappings.
