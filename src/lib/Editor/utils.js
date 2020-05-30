@@ -16,7 +16,6 @@ export const getBlockStyle = (block) => {
 
 }
 
-/* TODO: generalizing function. Might save lines of code.
 export const findEntities = (contentBlock, callback, contentState, type) => {
   contentBlock.findEntityRanges(character => {
     const entityKey = character.getEntity();
@@ -25,30 +24,13 @@ export const findEntities = (contentBlock, callback, contentState, type) => {
       contentState.getEntity(entityKey).getType() === type
     );
   }, callback);
-}*/
-
-export const findLinkEntities = (contentBlock, callback, contentState) => {
-  contentBlock.findEntityRanges(character => {
-    const entityKey = character.getEntity();
-    return (
-      entityKey !== null &&
-      contentState.getEntity(entityKey).getType() === 'LINK'
-    );
-  }, callback);
 }
 
-export const findSpoilerEntities = (contentBlock, callback, contentState) => {
-  contentBlock.findEntityRanges(
-  (character) => {
-    const entityKey = character.getEntity()
-    return (
-    entityKey !== null &&
-    contentState.getEntity(entityKey).getType() === 'SPOILER'
-    )
-  },
-  callback
-)
-}
+export const findLinkEntities = (contentBlock, callback, contentState) =>
+findEntities(contentBlock, callback, contentState, 'LINK');
+
+export const findSpoilerEntities = (contentBlock, callback, contentState) =>
+findEntities(contentBlock, callback, contentState, 'SPOILER');
 
 export const filterStyle = (listToFilter, filter) => {
   return listToFilter.filter(e =>filter.indexOf(e.style) !== -1);

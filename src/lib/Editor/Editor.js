@@ -43,6 +43,7 @@ const blockRenderMap = Map({
   SPOILER: { element: Spoiler },
   LATEX: { element: TeXBlock }
 });
+
 const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap)
 
 const EditorComponent = (props) => {

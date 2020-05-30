@@ -21,7 +21,7 @@ const EditorControls = (props) => {
     inputType,
     inputValue,
   } = props;
-  
+
   if (inputVisible) {
     return (
     <div className='EditorControls'>
@@ -38,6 +38,7 @@ const EditorControls = (props) => {
     )
   }
 
+  // TODO merge stylebutton mappings.
   return (
   <div className='EditorControls'>
     <div className='RichEditor-controls'>

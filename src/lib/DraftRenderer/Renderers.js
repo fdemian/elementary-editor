@@ -22,10 +22,10 @@ const styles = {
   listItem: {
     float: 'none'
   }
-}
+};
 
 // Adds a <br /> after a block.
-const addBreaklines = children => children.map(child => [child, <br />])
+const addBreaklines = children => children.map(child => [child, <br />]);
 
 const renderers = {
 
@@ -58,6 +58,6 @@ const renderers = {
     QuoteBlock: (children, data) => <QuoteBlock comment={data.props} />
   }
 
-}
+};
 
-export default renderers
+export default renderers;
