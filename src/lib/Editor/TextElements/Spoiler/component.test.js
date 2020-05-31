@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils';
-import Enzyme, { shallow, render} from 'enzyme';
+import { shallow, render} from 'enzyme';
 import Spoiler from './Spoiler';
 import SpoilerWrapper from './SpoilerWrapper';
 
@@ -47,22 +47,21 @@ describe("<Spoiler />", () => {
 
   it('Interaction test (text revealed and hidden)', () => {
 
-    // Test first render and effect
-    act(() => {
-      ReactDOM.render(<Spoiler {...spoilerProps} />, container);
-    });
+      // Test first render and effect
+      act(() => {
+        ReactDOM.render(<Spoiler {...spoilerProps} />, container);
+      });
 
-    const span = container.querySelector('span');
+      const span = container.querySelector('span');
 
-    expect(label.textContent).toBe('You clicked 0 times');
+      expect(span.className).toStrictEqual(`Spoiler Concealed`);
 
-  // Test second render and effect
-  act(() => {
-    button.dispatchEvent(new MouseEvent('click', {bubbles: true}));
+      // Test second render and effect
+      act(() => {
+        span.dispatchEvent(new MouseEvent('click', {bubbles: true}));
+      });
+
+      expect(span.className).toStrictEqual(`Spoiler `);
   });
-
-  //expect(label.textContent).toBe('You clicked 1 times');
-  //expect(document.title).toBe('You clicked 1 times');
-});
 
 });

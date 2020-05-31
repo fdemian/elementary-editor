@@ -7,7 +7,7 @@ const Spoiler = (props) => {
 
   const changeStatus = () => {
    const newStatus = textStatus === '' ? 'Concealed' : ''
-   setTextStatus({newStatus});
+   setTextStatus(newStatus);
   };
 
   return (
