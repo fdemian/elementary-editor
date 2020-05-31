@@ -6,11 +6,10 @@ import {
   faCheck
 } from '@fortawesome/free-solid-svg-icons'
 
-const URLInput = ({
-  changeFn, urlValue, confirmFn, cancelFn, type
-}) => {
-  const hintText = `Enter ${type.toLowerCase()} URL`
+const URLInput = ({ changeFn, urlValue, confirmFn, cancelFn, type }) => {
 
+  const hintText = `Enter ${type.toLowerCase()} URL`
+  
   return (
   <Fragment>
 

@@ -33,7 +33,7 @@ export const findSpoilerEntities = (contentBlock, callback, contentState) =>
 findEntities(contentBlock, callback, contentState, 'SPOILER');
 
 export const filterStyle = (listToFilter, filter) => {
-  return listToFilter.filter(e =>filter.indexOf(e.style) !== -1);
+  return listToFilter.filter(e => filter.indexOf(e.style) !== -1);
 }
 
 export const filterWhiteListedStyles = (styles, allowedStyles) => {
@@ -44,8 +44,6 @@ export const filterWhiteListedStyles = (styles, allowedStyles) => {
   };
 }
 
-
-// element ==== "SPOILER"
 export function getImmutableSelectionBlock(editorState, element) {
   const selection = editorState.getSelection()
   const contentBlock = editorState.getCurrentContent().getBlockForKey(selection.getStartKey())

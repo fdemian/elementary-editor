@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import './Spoiler.css';
 
 const Spoiler = (props) => {
-
   const [textStatus, setTextStatus] = useState('Concealed');
   const cssClass = `Spoiler ${textStatus}`;
 
