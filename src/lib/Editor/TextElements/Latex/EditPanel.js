@@ -4,7 +4,10 @@ import EditorButtons from './Buttons';
 
 const { TextArea } = Input;
 
-const textAreaStyle = { width: '20%', marginLeft: '40%' };
+const textAreaStyle = {
+  width: '20%',
+  marginLeft: '40%'
+};
 
 const EditPanel = (props) => {
 
@@ -21,7 +24,7 @@ const EditPanel = (props) => {
     return null;
 
   return (
-  <div>
+  <div className="edit-panel-container">
     <TextArea
        rows={2}
        style={textAreaStyle}

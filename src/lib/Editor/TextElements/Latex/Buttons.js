@@ -22,12 +22,23 @@ const EditorButtons = ({ invalid, removeFn, saveFn }) => {
   }
 
   return (
-  <Button.Group size='large' style={{ marginLeft: '40%' }}>
-    <Button type='danger' onClick={removeFn}>
+  <Button.Group
+    size='large'
+    style={{ marginLeft: '40%' }}
+  >
+    <Button
+      type='danger'
+      onClick={removeFn}
+      className="edit-panel-remove-btn"
+    >
       <FontAwesomeIcon icon={faTimes} />
       &nbsp; Remove
     </Button>
-    <Button type='primary' onClick={saveFn}>
+    <Button
+      type='primary'
+      onClick={saveFn}
+      className="edit-panel-ok-btn"
+    >
       Done &nbsp;
       <FontAwesomeIcon icon={faCheck} />
     </Button>

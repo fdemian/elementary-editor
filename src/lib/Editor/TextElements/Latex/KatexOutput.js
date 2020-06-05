@@ -31,6 +31,7 @@ const KatexOutput = (props) => {
 
   return (
   <div
+    className="katex-output"
     role='presentation'
     ref={outputRef}
     onClick={props.onClick}

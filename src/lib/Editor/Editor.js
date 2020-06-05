@@ -364,7 +364,11 @@ const EditorComponent = (props) => {
   });
 
   return (
-  <div style={{ height: '100%' }} ref={containerRef}>
+  <div
+    style={{ height: '100%' }}
+    ref={containerRef}
+    className="em-editor-container"
+  >
     <EditorControls
       editorState={editorState}
       editorStyles={_editorStyles}
