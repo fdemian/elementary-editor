@@ -6,8 +6,10 @@ import React,
 } from 'react';
 import Draft from 'draft-js';
 import { Map } from 'immutable';
-import getTexBlock from './TextElements/Latex/insertTeXBlock';
-import removeTeXBlock from './TextElements/Latex/removeTeXBlock';
+import {
+  getTexBlock,
+  removeTeXBlock
+} from './TextElements/Latex/texUtils';
 import TeXBlock from './TextElements/Latex/TeXBlock';
 import Spoiler from './TextElements/Spoiler/SpoilerWrapper';
 import Media from './TextElements/Media/Media';

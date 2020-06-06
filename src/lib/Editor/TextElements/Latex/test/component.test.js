@@ -2,10 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import { shallow, render} from 'enzyme';
-import LatexBlock from './LatexBlock';
-import TexBlock from './TeXBlock';
-import getTexBlock from './insertTexBlock';
-//import removeTeXBlock from './export default function removeTeXBlock';
+import LatexBlock from '../LatexBlock';
+import TexBlock from '../TeXBlock';
 
 const contentStateDesc = {"contentState":{"entityMap":{},"blockMap":{"d6790":{"key":"d6790","type":"unstyled","text":"","characterList":[],"depth":0,"data":{}},"d2b6a":{"key":"d2b6a","type":"atomic","text":" ","characterList":[{"style":[],"entity":"1"}],"depth":0,"data":{}},"1i5ek":{"key":"1i5ek","type":"unstyled","text":"","characterList":[],"depth":0,"data":{}}},"selectionBefore":{"anchorKey":"d6790","anchorOffset":0,"focusKey":"d6790","focusOffset":0,"isBackward":false,"hasFocus":false},"selectionAfter":{"anchorKey":"1i5ek","anchorOffset":0,"focusKey":"1i5ek","focusOffset":0,"isBackward":false,"hasFocus":true}},"block":{"key":"d2b6a","type":"atomic","text":" ","characterList":[{"style":[],"entity":"1"}],"depth":0,"data":{}},"blockProps":{},"customStyleMap":{"BOLD":{"fontWeight":"bold"},"CODE":{"fontFamily":"monospace","wordWrap":"break-word"},"ITALIC":{"fontStyle":"italic"},"STRIKETHROUGH":{"textDecoration":"line-through"},"UNDERLINE":{"textDecoration":"underline"}},"decorator":{"_decorators":[{},{}]},"direction":"LTR","forceSelection":true,"offsetKey":"d2b6a-0-0","selection":{"anchorKey":"1i5ek","anchorOffset":0,"focusKey":"1i5ek","focusOffset":0,"isBackward":false,"hasFocus":true},"tree":[{"start":0,"end":1,"decoratorKey":null,"leaves":[{"start":0,"end":1}]}]};
 const bProps = JSON.parse(JSON.stringify(contentStateDesc));
@@ -22,7 +20,6 @@ afterEach(() => {
   container = null;
 });
 
-const spoilerProps = { text: "spoiler text" };
 
 describe("Latex", () => {
 
@@ -83,21 +80,6 @@ describe("Latex", () => {
     */
 
   })
-
-
-it("getTexBlock (insert tex block)", () => {
-
-  const texBlock = getTexBlock();
-
-  expect(texBlock).toStrictEqual({
-    type:'LATEX' ,
-    mutability:'Immutable',
-    content: {
-     content: 'f(x) = ... '
-    }
-  });
-
-})
 
 
  /*
