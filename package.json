@@ -65,5 +65,13 @@
   },
   "devDependencies": {
     "@babel/preset-env": "7.10.1"
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "./src/lib/index.js",
+      "./src/index.js",
+      "./src/App.js",
+      "./src/App.css"
+    ]
   }
 }

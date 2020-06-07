@@ -2,10 +2,12 @@ import React from 'react'
 import redraft from 'redraft'
 import renderers from './Renderers'
 
-const RenderWarning = () => <div>Nothing to render.</div>;
+const RenderWarning = () => <div className="render-warning">Nothing to render.</div>;
 
 const Renderer = ({ raw }) => {
-  if (!raw) { return <RenderWarning /> }
+
+  if (!raw)
+    return <RenderWarning />;
 
   const rendered = redraft(raw, renderers);
 
