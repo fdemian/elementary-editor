@@ -4,7 +4,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/cli": "7.10.1",
-    "@babel/core": "7.10.1",
+    "@babel/core": "7.10.2",
     "@babel/plugin-proposal-class-properties": "7.10.1",
     "@babel/plugin-proposal-decorators": "7.10.1",
     "@babel/plugin-proposal-do-expressions": "7.10.1",
@@ -26,18 +26,18 @@
     "@fortawesome/free-brands-svg-icons": "5.13.0",
     "@fortawesome/free-regular-svg-icons": "5.13.0",
     "@fortawesome/free-solid-svg-icons": "5.13.0",
-    "@fortawesome/react-fontawesome": "0.1.9",
-    "antd": "4.2.5",
+    "@fortawesome/react-fontawesome": "0.1.10",
+    "antd": "4.3.3",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-react-app": "9.1.2",
-    "draft-js": "^0.11.5",
+    "draft-js": "0.11.6",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.2",
     "katex": "0.11.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-player": "2.1.0",
+    "react-player": "2.1.1",
     "react-scripts": "3.4.1",
     "redraft": "^0.10.2"
   },
@@ -64,7 +64,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/preset-env": "7.10.1"
+    "@babel/preset-env": "7.10.2"
   },
   "jest": {
     "coveragePathIgnorePatterns": [
