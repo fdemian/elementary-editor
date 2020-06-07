@@ -32,36 +32,21 @@ export const insertMedia = (editorState, type, value) => {
   const contentState = editorState.getCurrentContent();
   const contentStateWithEntity = contentState.createEntity(type, 'IMMUTABLE', { src: value });
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-  
+
   const mediaBlock = AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, type);
 
   return mediaBlock;
 }
 
-/*
-export function insertQuote (editor, type, value) {
-  const { editorState } = editor.state
-  const contentState = editorState.getCurrentContent()
-  const params = { text: value.text, author: value.author }
-  const contentStateWithEntity = contentState.createEntity(type, 'IMMUTABLE', params)
-  const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
-
-  editor.setState(
-    {
-      editorState: AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, 'QuoteBlock')
-    },
-    () => { setTimeout(() => editor.focus(), 0) }
-  )
-}*/
-
 export const insertLink = (editorState, type, value) => {
+
   const contentState = editorState.getCurrentContent();
   const contentStateWithEntity = contentState.createEntity('LINK', 'MUTABLE', { url: value });
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
 
   //
-  const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity })
-  const newStateSelection = newEditorState.getSelection()
+  const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
+  const newStateSelection = newEditorState.getSelection();
   const linkState = RichUtils.toggleLink(newEditorState, newStateSelection, entityKey);
 
   return linkState;
@@ -76,21 +61,6 @@ export const removeLink = (editorState) => {
 
   return null;
 }
-
-/*
-export function insertSpoiler (editor) {
-  const { editorState } = editor.state
-  const selection = editorState.getSelection()
-  const contentBlock = editorState.getCurrentContent().getBlockForKey(selection.getStartKey())
-  const selectionState = editorState.getSelection()
-  const start = selectionState.getStartOffset()
-  const end = selectionState.getEndOffset()
-  const selectedText = contentBlock.getText().slice(start, end)
-  const contentState = editorState.getCurrentContent()
-
-  const contentStateWithEntity = contentState.createEntity('SPOILER', 'IMMUTABLE', { text: selectedText })
-  insertEntity(editor, editorState, contentStateWithEntity)
-}*/
 
 /* ------------------- */
 

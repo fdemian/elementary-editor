@@ -1,12 +1,74 @@
-import React from 'react';
-//import ReactDOM from 'react-dom';
-//import { act } from 'react-dom/test-utils';
+import React, { useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { shallow, render} from 'enzyme';
 import Editor from './Editor';
 import EditorControls from './Controls';
 import BaseEditor from './BaseEditor';
 import URLInput from './URLInput';
-import { Input, Button } from 'antd'
+import { Input } from 'antd';
+import {
+  insertMedia,
+  insertLink,
+  removeLink
+} from './EditorStyles';
+import { List } from 'immutable';
+import { EditorState, ContentBlock, ContentState, genKey } from 'draft-js';
+
+// Todo: move to testing utils.
+const getEntities = (editorState, entityType = null) => {
+  const content = editorState.getCurrentContent();
+  const entities = [];
+  content.getBlocksAsArray().forEach((block) => {
+    block.findEntityRanges(
+      (character) => {
+         if (character.getEntity() !== null) {
+            const entity = content.getEntity(character.getEntity());
+            console.log(entity.getType());
+            console.log(entity.getData());
+            console.log("+++++++");
+            const entityResult = {
+              type: entity.getType(),
+              value: entity.getData()
+            };
+            entities.push(entityResult);
+         }
+       })
+  });
+
+  return entities;
+};
+
+const addEmptyBlock = (editorState) => {
+  const newBlock = new ContentBlock({
+    key: genKey(),
+    type: 'unstyled',
+    text: '',
+    characterList: List()
+  })
+
+  const contentState = editorState.getCurrentContent()
+  const newBlockMap = contentState.getBlockMap().set(newBlock.key, newBlock)
+
+  return EditorState.push(
+    editorState,
+    ContentState
+      .createFromBlockArray(newBlockMap.toArray())
+      .set('selectionBefore', contentState.getSelectionBefore())
+      .set('selectionAfter', contentState.getSelectionAfter())
+  )
+}
+
+let container;
+
+beforeEach(() => {
+  container = document.createElement('div');
+  document.body.appendChild(container);
+});
+
+afterEach(() => {
+  document.body.removeChild(container);
+  container = null;
+});
 
 describe("<Editor />", () => {
 
@@ -56,5 +118,60 @@ describe("<Editor />", () => {
   });
 
   // TODO: interaction test for URL Input.
+  // Test interaction with editor.
+
+  /*
+  it("Editory styles > Insert Media", () => {
+
+      const emptyState = EditorState.createEmpty();
+      const videoEntity = {
+        type: 'Video',
+        value: 'https://video.com/video.mp4',
+      };
+
+      const stateWithMedia = insertMedia(emptyState, videoEntity.type, videoEntity.value);
+      const entities = getEntities(stateWithMedia);
+
+      expect(entities.length).toStrictEqual(1);
+      expect(entities[0].type).toStrictEqual('Video');
+      expect(entities[0].value.src).toStrictEqual(videoEntity.value);
+  });*/
+
+
+  it("Editory styles > Insert Link", () => {
+
+      const contentState = ContentState.createFromText("Text for testing.");
+      const initialContentState = EditorState.createWithContent(contentState);
+      const addedBlockState = addEmptyBlock(initialContentState);
+
+      let selection = undefined;
+      let currentContent = addedBlockState.getCurrentContent();
+      selection = addedBlockState.getSelection().merge({
+        anchorKey: currentContent.getFirstBlock().getKey(),
+        anchorOffset: 0,
+        focusOffset: currentContent.getLastBlock().getText().length,
+        focusKey: currentContent.getLastBlock().getKey(),
+      });
+
+      console.log(currentContent.getFirstBlock().getKey());
+      console.log(currentContent.getLastBlock().getKey());
+      console.log("____");
+
+      //
+      const link = { type: 'LINK', value: 'http://www.link.com' };
+      const stateWithLink = insertLink(initialContentState, link.type, link.value);
+
+      console.log("???????????");
+      const linkBlockMap = stateWithLink.getCurrentContent().getBlockMap();
+      const ent = getEntities(stateWithLink);
+      console.log(ent);
+
+      //expect(entities.length).toStrictEqual(1);
+      //expect(entities[0].type).toStrictEqual('Video');
+      //expect(entities[0].value.src).toStrictEqual(videoEntity.value);
+  });
+
+ //Remove Link
+
 
 })

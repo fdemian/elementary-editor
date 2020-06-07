@@ -28,7 +28,7 @@ const getEntities = (editorState, entityType = null) => {
     let bCount = 0;
     content.getBlocksAsArray().forEach((block) => {
         bCount = bCount+1;
-        console.log(bCount);
+        //console.log(bCount);
         block.findEntityRanges(
            (character) => {
             console.log("''''''''");
