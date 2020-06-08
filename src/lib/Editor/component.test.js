@@ -12,7 +12,9 @@ import {
   removeLink
 } from './EditorStyles';
 import { List } from 'immutable';
-import { EditorState, ContentBlock, ContentState, genKey } from 'draft-js';
+import { EditorState, ContentBlock, ContentState,
+    RichUtils,
+   genKey } from 'draft-js';
 
 // Todo: move to testing utils.
 const getEntities = (editorState, entityType = null) => {
@@ -23,9 +25,6 @@ const getEntities = (editorState, entityType = null) => {
       (character) => {
          if (character.getEntity() !== null) {
             const entity = content.getEntity(character.getEntity());
-            console.log(entity.getType());
-            console.log(entity.getData());
-            console.log("+++++++");
             const entityResult = {
               type: entity.getType(),
               value: entity.getData()
@@ -120,7 +119,6 @@ describe("<Editor />", () => {
   // TODO: interaction test for URL Input.
   // Test interaction with editor.
 
-  /*
   it("Editory styles > Insert Media", () => {
 
       const emptyState = EditorState.createEmpty();
@@ -135,9 +133,10 @@ describe("<Editor />", () => {
       expect(entities.length).toStrictEqual(1);
       expect(entities[0].type).toStrictEqual('Video');
       expect(entities[0].value.src).toStrictEqual(videoEntity.value);
-  });*/
+  });
 
-
+  //TODO: find out why this is not working.
+  /*
   it("Editory styles > Insert Link", () => {
 
       const contentState = ContentState.createFromText("Text for testing.");
@@ -153,23 +152,19 @@ describe("<Editor />", () => {
         focusKey: currentContent.getLastBlock().getKey(),
       });
 
-      console.log(currentContent.getFirstBlock().getKey());
-      console.log(currentContent.getLastBlock().getKey());
-      console.log("____");
-
       //
       const link = { type: 'LINK', value: 'http://www.link.com' };
-      const stateWithLink = insertLink(initialContentState, link.type, link.value);
+      const stateWithLink = insertLink(addedBlockState, link.type, link.value);
 
       console.log("???????????");
-      const linkBlockMap = stateWithLink.getCurrentContent().getBlockMap();
-      const ent = getEntities(stateWithLink);
-      console.log(ent);
+      const doesIt = RichUtils.currentBlockContainsLink(stateWithLink);
+      console.log(doesIt);
 
       //expect(entities.length).toStrictEqual(1);
       //expect(entities[0].type).toStrictEqual('Video');
       //expect(entities[0].value.src).toStrictEqual(videoEntity.value);
   });
+  */
 
  //Remove Link
 

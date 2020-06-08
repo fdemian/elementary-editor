@@ -20,6 +20,42 @@ describe("<DraftRenderer />", () => {
 
   })
 
+  it("Render inline elements.", () => {
+
+   const componentsToRender = [
+    {
+      htmlTag: "strong",
+      draftState: {"blocks":[{"key":"e06sa","text":"Test","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":4,"style":"BOLD"}],"entityRanges":[],"data":{}}],"entityMap":{}}
+    },
+    {
+      htmlTag: "em", // Italic
+      draftState: {"blocks":[{"key":"e06sa","text":"Italic","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":6,"style":"ITALIC"}],"entityRanges":[],"data":{}}],"entityMap":{}}
+    },
+    {
+      htmlTag: "u", // underline
+      draftState: {"blocks":[{"key":"e06sa","text":"Underline","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":9,"style":"UNDERLINE"}],"entityRanges":[],"data":{}}],"entityMap":{}}
+    }
+   ];
+
+   for(const element of componentsToRender) {
+     const component = render(<DraftRenderer raw={element.draftState} />);
+     const boldComponent = component.find(element.htmlTag);
+     expect(boldComponent[0].name).toStrictEqual(element.htmlTag);
+   }
+
+  })
+
+  it("Render blockquote element.", () => {
+    const boldQuote = {"blocks":[{"key":"e06sa","text":"bold quote","type":"blockquote","depth":0,"inlineStyleRanges":[{"offset":0,"length":10,"style":"BOLD"}],"entityRanges":[],"data":{}}],"entityMap":{}};
+
+    const component = render(<DraftRenderer raw={boldQuote} />);
+    const blockquote = component.find('blockquote');
+    const bold = blockquote.find('strong');
+
+    expect(blockquote.length).toStrictEqual(1);
+    expect(bold.length).toStrictEqual(1);
+  })
+
   it("Rendering null state (show 'nothing to render' warning).", () => {
 
    const component = render(<DraftRenderer raw={null} />);

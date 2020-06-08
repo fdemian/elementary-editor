@@ -49,6 +49,12 @@ export const insertLink = (editorState, type, value) => {
   const newStateSelection = newEditorState.getSelection();
   const linkState = RichUtils.toggleLink(newEditorState, newStateSelection, entityKey);
 
+  console.log("!!!!!!!!!!!");
+  console.log(RichUtils.currentBlockContainsLink(newEditorState));
+  console.log(RichUtils.currentBlockContainsLink(linkState));
+  console.log("!!!!!!!!!!!");
+
+
   return linkState;
 }
 

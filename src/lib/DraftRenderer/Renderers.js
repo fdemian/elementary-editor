@@ -34,7 +34,7 @@ const renderers = {
     BOLD: children => <strong>{children}</strong>,
     ITALIC: children => <em>{children}</em>,
     UNDERLINE: children => <u>{children}</u>,
-    CODE: children => <span style={styles.code}>{children}</span>
+    CODE: children => <span className="code-block" style={styles.code}>{children}</span>
   },
 
   /* Block Styles */
