@@ -100,9 +100,10 @@ describe("Latex", () => {
 
     span = container.querySelector('span');
 
+   // TODO
    //console.log(span);
-   console.log(container);
-   console.log("______");
+   //console.log(container);
+   //console.log("______");
 
  })
 
