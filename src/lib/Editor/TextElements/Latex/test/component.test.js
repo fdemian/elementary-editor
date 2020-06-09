@@ -82,28 +82,28 @@ describe("Latex", () => {
   })
 
 
- /*
- it("<LatexBlock />", () => {
+  it("<LatexBlock />", () => {
 
-   const props = { content: 'f(x) = ... ' };
+    const props = { content: 'f(x) = ... ' };
 
-   act(() => {
-    ReactDOM.render(<LatexBlock {...props} />, container);
-   });
+    act(() => {
+      ReactDOM.render(<LatexBlock {...props} />, container);
+    });
 
-   const span = container.querySelector('span');
+    let span = container.querySelector('span');
 
-   expect(span.ref).toStrictEqual(undefined);
+    expect(span.className).toStrictEqual('latex-block');
 
-   act(() => {
-     span.dispatchEvent(new Event('timeupdate	', {bubbles: true}));
-   });
+    act(() => {
+      container.dispatchEvent(new Event('timeupdate', {bubbles: true}));
+    });
+
+    span = container.querySelector('span');
 
    //console.log(span);
-   //console.log(span.className);
-   console.log(span.ref);
-   console.log("__________");
+   console.log(container);
+   console.log("______");
 
- })*/
+ })
 
 });

@@ -28,7 +28,7 @@ const LatexBlock = (props) => {
     }
   });
 
-  return <span ref={latexRef} />;
+  return <span className="latex-block" ref={latexRef} />;
 }
 
 export default LatexBlock
