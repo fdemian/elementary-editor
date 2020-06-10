@@ -22,26 +22,17 @@ const insertCustomBlock = (block, editorState) => {
 }
 
 
+// Todo: move to testing utils.
 const getEntities = (editorState, entityType = null) => {
-    const content = editorState.getCurrentContent();
-    const entities = [];
-    let bCount = 0;
-    content.getBlocksAsArray().forEach((block) => {
-        bCount = bCount+1;
-        //console.log(bCount);
-        block.findEntityRanges(
-           (character) => {
-            console.log("''''''''");
-            console.log(character);
-            if (character.getEntity() !== null) {
-              const entity = content.getEntity(character.getEntity());
-              console.log(entity);
-              console.log("/////////////");
-            }
-        },
-        (start, end) => console.log(".")
-      )
-    });
+  const content = editorState.getCurrentContent();
+  const entities = [];
+  content.getBlocksAsArray().forEach((block) => {
+    const blockType = block.getType();
+    if(blockType == 'atomic')
+       entities.push(block);
+  });
+
+  return entities;
 };
 
 describe("Latex Block / Utils", () => {
@@ -66,16 +57,13 @@ describe("Latex Block / Utils", () => {
     const texBlock = getTexBlock();
     const newState = insertCustomBlock(texBlock, emptyState);
 
-    getEntities(newState);
-    //
-    //const key = newState.getSelection().getStartKey();
-    //const removedState = removeTeXBlock(newState, key);
+    const entities = getEntities(newState);
+    const insertedBlock = entities[0];
+    const key = insertedBlock.getKey();
+    const removedState = removeTeXBlock(newState, key);
+    const entitiesWithoutBlock = getEntities(removedState);
 
-    //console.log(removedState);
-    //console.log(":============");
-
-    //expect(JSON.stringify(newState)).toStrictEqual(JSON.stringify(withoutTex));
-
+    expect(entitiesWithoutBlock.length).toStrictEqual(entities.length-1);
   })
 
 })
