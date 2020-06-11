@@ -1,6 +1,4 @@
 import React from 'react';
-//import ReactDOM from 'react-dom';
-//import { act } from 'react-dom/test-utils';
 import { shallow, render} from 'enzyme';
 import DraftRenderer from './DraftRenderer';
 import ReactPlayer from 'react-player';
