@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Button } from 'antd';
 import { act } from 'react-dom/test-utils';
 import { shallow, render} from 'enzyme';
 import LatexBlock from '../LatexBlock';
 import TexBlock from '../TeXBlock';
+import EditorButtons from '../Buttons';
 
 const contentStateDesc = {"contentState":{"entityMap":{},"blockMap":{"d6790":{"key":"d6790","type":"unstyled","text":"","characterList":[],"depth":0,"data":{}},"d2b6a":{"key":"d2b6a","type":"atomic","text":" ","characterList":[{"style":[],"entity":"1"}],"depth":0,"data":{}},"1i5ek":{"key":"1i5ek","type":"unstyled","text":"","characterList":[],"depth":0,"data":{}}},"selectionBefore":{"anchorKey":"d6790","anchorOffset":0,"focusKey":"d6790","focusOffset":0,"isBackward":false,"hasFocus":false},"selectionAfter":{"anchorKey":"1i5ek","anchorOffset":0,"focusKey":"1i5ek","focusOffset":0,"isBackward":false,"hasFocus":true}},"block":{"key":"d2b6a","type":"atomic","text":" ","characterList":[{"style":[],"entity":"1"}],"depth":0,"data":{}},"blockProps":{},"customStyleMap":{"BOLD":{"fontWeight":"bold"},"CODE":{"fontFamily":"monospace","wordWrap":"break-word"},"ITALIC":{"fontStyle":"italic"},"STRIKETHROUGH":{"textDecoration":"line-through"},"UNDERLINE":{"textDecoration":"underline"}},"decorator":{"_decorators":[{},{}]},"direction":"LTR","forceSelection":true,"offsetKey":"d2b6a-0-0","selection":{"anchorKey":"1i5ek","anchorOffset":0,"focusKey":"1i5ek","focusOffset":0,"isBackward":false,"hasFocus":true},"tree":[{"start":0,"end":1,"decoratorKey":null,"leaves":[{"start":0,"end":1}]}]};
 const bProps = JSON.parse(JSON.stringify(contentStateDesc));
@@ -104,7 +106,24 @@ describe("Latex", () => {
    //console.log(span);
    //console.log(container);
    //console.log("______");
-
  })
+
+
+ it("<Buttons /> invalid tex", () => {
+
+   const props = {
+    invalid: true,
+    removeFn: jest.fn(),
+    saveFn: jest.fn()
+   };
+
+   const component = render(<EditorButtons {...props} />);
+   const buttons = component.children();
+
+   expect(buttons[0]['attribs'].class).toStrictEqual('ant-btn danger-btn ant-btn-danger');
+   expect(buttons[1]['attribs'].disabled).toBeTruthy();
+   expect(buttons.length).toStrictEqual(2);
+
+})
 
 });

@@ -1,16 +1,16 @@
-import React from 'react'
-import { Button } from 'antd'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react';
+import { Button } from 'antd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faTimes,
   faCheck
-} from '@fortawesome/free-solid-svg-icons'
+} from '@fortawesome/free-solid-svg-icons';
 
 const EditorButtons = ({ invalid, removeFn, saveFn }) => {
   if (invalid) {
     return (
     <Button.Group size='large' style={{ marginLeft: '40%' }}>
-      <Button type='danger' onClick={removeFn}>
+      <Button className="danger-btn" type='danger' onClick={removeFn}>
         <FontAwesomeIcon name={faTimes} size='lg' />
         &nbsp; Remove
       </Button>
@@ -46,4 +46,4 @@ const EditorButtons = ({ invalid, removeFn, saveFn }) => {
   )
 }
 
-export default EditorButtons
+export default EditorButtons;
