@@ -1,3 +1,5 @@
+import { EditorState, RichUtils } from 'draft-js';
+
 export const getBlockStyle = (block) => {
   let blockStyle = null
 
@@ -44,20 +46,24 @@ export const filterWhiteListedStyles = (styles, allowedStyles) => {
   };
 }
 
-export function getImmutableSelectionBlock(editorState, element) {
-  const selection = editorState.getSelection()
+export const createNewImmutableEntity = (editorState, element) => {
+  const selection = editorState.getSelection();
   const contentBlock = editorState.getCurrentContent().getBlockForKey(selection.getStartKey())
-  const selectionState = editorState.getSelection()
-  const start = selectionState.getStartOffset()
-  const end = selectionState.getEndOffset()
-  const selectedText = contentBlock.getText().slice(start, end)
-  const contentState = editorState.getCurrentContent()
+  const selectionState = editorState.getSelection();
+  const start = selectionState.getStartOffset();
+  const end = selectionState.getEndOffset();
+  const selectedText = contentBlock.getText().slice(start, end);
+  const contentState = editorState.getCurrentContent();
 
-  const contentStateWithEntity = contentState.createEntity(element, 'IMMUTABLE', { text: selectedText })
+  const contentStateEntity = contentState.createEntity(element, 'IMMUTABLE', { text: selectedText })
 
-  return {
-    editorState: editorState,
-    newContentState: contentStateWithEntity
-  };
+  return contentStateEntity;
+}
 
+export const insertEntityToState = (editorState, newEntity) => {
+  const entityKey = newEntity.getLastCreatedEntityKey();
+  const newEditorState = EditorState.set(editorState, { currentContent: newEntity});
+  const newState = RichUtils.toggleLink(newEditorState, newEditorState.getSelection(), entityKey);
+
+  return newState;
 }

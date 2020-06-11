@@ -5,8 +5,17 @@ import {
   findSpoilerEntities,
   filterStyle,
   filterWhiteListedStyles,
-  getImmutableSelectionBlock,
+  createNewImmutableEntity,
+  insertEntityToState,
 } from './utils';
+
+import { getEntities } from '../testingUtils.js';
+
+import {
+ EditorState,
+ ContentBlock,
+ ContentState,
+} from 'draft-js';
 
 /**/
 
@@ -76,6 +85,27 @@ describe("Editor Utils", () => {
     const blockquote = { label: 'Quote', style: 'blockquote', icon: null };
     const filtered = filterStyle(BLOCK_TYPES, ['blockquote']);
     expect(filtered).toStrictEqual([blockquote]);
+  })
+
+  it("Create and insert immutable entity", () => {
+    const editorText = "Test";
+    const contentState = ContentState.createFromText(editorText);
+    const editorState = EditorState.createWithContent(contentState);
+    const currentContent = editorState.getCurrentContent();
+    let newSelection = editorState.getSelection().merge({
+      anchorKey: currentContent.getFirstBlock().getKey(),
+      focusKey: currentContent.getLastBlock().getKey(),
+      anchorOffset: 0,
+      focusOffset: currentContent.getLastBlock().getText().length
+    });
+    let selectedState = EditorState.forceSelection(editorState, newSelection);
+
+    const newEntity = createNewImmutableEntity(selectedState, 'SPOILER');
+    const newState = insertEntityToState(selectedState, newEntity);
+    const entities = getEntities(newState);
+
+    expect(entities[0].type).toStrictEqual("SPOILER");
+    expect(entities[0].value.text).toStrictEqual(editorText);
   })
 
 })

@@ -2,7 +2,7 @@ import React from 'react'
 import Spoiler from '../Editor/TextElements/Spoiler/Spoiler'
 import LatexBlock from '../Editor/TextElements/Latex/LatexBlock'
 import Media from '../Editor/TextElements/Media/Media'
-import QuoteBlock from '../Editor/TextElements/QuoteBlock/QuoteBlock'
+//import QuoteBlock from '../Editor/TextElements/QuoteBlock/QuoteBlock'
 import RenderLink from '../Editor/TextElements/Link/RenderLink'
 
 /* Style callbacks */

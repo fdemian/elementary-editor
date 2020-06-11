@@ -71,7 +71,8 @@
       "./src/lib/index.js",
       "./src/index.js",
       "./src/App.js",
-      "./src/App.css"
+      "./src/App.css",
+      "./src/lib/testingUtils.js"
     ]
   }
 }

@@ -23,7 +23,8 @@ import {
   findLinkEntities,
   findSpoilerEntities,
   filterWhiteListedStyles,
-  getImmutableSelectionBlock
+  createNewImmutableEntity,
+  insertEntityToState
 } from './utils';
 
 import 'katex/dist/katex.css';
@@ -219,20 +220,13 @@ const EditorComponent = (props) => {
     return matches[0];
   }
 
-  // TODO: this has been implemented using toggleLink.
-  // Should editorState be a parameter or not?
-  const insertEntity = (selectionState) => {
-      const { editorState, newContentState } = selectionState;
-      const entityKey = newContentState.getLastCreatedEntityKey();
-      const newEditorState = EditorState.set(editorState, {
-         currentContent: newContentState
-       });
-      const newState = RichUtils.toggleLink(newEditorState, newEditorState.getSelection(), entityKey);
-      setEditorState(newState, () => { setTimeout(() => focus(), 0) });
+  const insertEntity = (entityName) => {
+    const newEntity = createNewImmutableEntity(editorState, entityName);
+    const newState = insertEntityToState(editorState, newEntity);
+    setEditorState(newState, () => { setTimeout(() => focus(), 0) });
   }
 
   const customBlockToggleFn = (blockName, getInput) => {
-
     const selectionCollapsed = selectionIsCollapsed();
     const styleObject = findStyleObjectByName(blockName);
     const { requiresSelection } = styleObject;
@@ -309,8 +303,7 @@ const EditorComponent = (props) => {
     switch(styleObject.style.toUpperCase()) {
 
         case 'SPOILER':
-          const _selection = getImmutableSelectionBlock(editorState, 'SPOILER');
-          insertEntity(_selection);
+          insertEntity('SPOILER');
           break;
 
         case 'LATEX':
