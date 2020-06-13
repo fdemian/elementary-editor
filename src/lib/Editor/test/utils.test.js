@@ -105,7 +105,6 @@ describe("Editor Utils", () => {
     const initialText = "Text for testing.";
     const contentState = ContentState.createFromText(initialText);
     const initialContentState = EditorState.createWithContent(contentState);
-    //const addedBlockState = addEmptyBlock(initialContentState);
 
     const blockStateContent = initialContentState.getCurrentContent();
     const anchorKey = blockStateContent.getFirstBlock().getKey();
@@ -150,7 +149,6 @@ describe("Editor Utils", () => {
     const initialText = "Text for testing.";
     const contentState = ContentState.createFromText(initialText);
     const initialContentState = EditorState.createWithContent(contentState);
-    //const addedBlockState = addEmptyBlock(initialContentState);
 
     const blockStateContent = initialContentState.getCurrentContent();
     const anchorKey = blockStateContent.getFirstBlock().getKey();
@@ -166,25 +164,27 @@ describe("Editor Utils", () => {
     const selectedState = EditorState.forceSelection(initialContentState,updatedSelection);
 
     //
-    const link = { type: 'LINK', value: 'http://www.link.com' };
-    const stateWithLink = insertLink(selectedState, link.type, link.value);
+    const newEntity = createNewImmutableEntity(selectedState, 'SPOILER');
+    const stateWithSpoiler = insertEntityToState(selectedState, newEntity);
 
-    const currentContent = stateWithLink.getCurrentContent();
-    let newSelection = stateWithLink.getSelection().merge({
+    const currentContent = stateWithSpoiler.getCurrentContent();
+    let newSelection = stateWithSpoiler.getSelection().merge({
       anchorKey: currentContent.getFirstBlock().getKey(),
       focusKey: currentContent.getLastBlock().getKey(),
       anchorOffset: 0,
       focusOffset: currentContent.getLastBlock().getText().length
     });
-    let newStateWithLink = EditorState.forceSelection(stateWithLink, newSelection);
+    let newStateWithSpoiler = EditorState.forceSelection(stateWithSpoiler, newSelection);
 
     // Check that there actually are link entities.
-    const contentBlock = newStateWithLink.getCurrentContent();
+    const contentBlock = newStateWithSpoiler.getCurrentContent();
     const foundRanges = [];
     const foundFn = (start, end) => foundRanges.push((end-start));
     contentBlock.getBlocksAsArray().forEach((block) => {
-      findLinkEntities(block,foundFn, contentBlock);
+      findSpoilerEntities(block,foundFn, contentBlock);
     });
+
+    console.log(foundRanges);
 
     expect(foundRanges.length).toStrictEqual(1);
     expect(foundRanges[0]).toStrictEqual(initialText.length);
