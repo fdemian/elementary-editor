@@ -144,8 +144,7 @@ describe("Editor Utils", () => {
     expect(foundRanges[0]).toStrictEqual(initialText.length);
   })
 
-
-  it("Find spoiler entities", () =>{
+  it("Find spoiler entities", () => {
     const initialText = "Text for testing.";
     const contentState = ContentState.createFromText(initialText);
     const initialContentState = EditorState.createWithContent(contentState);
@@ -183,8 +182,6 @@ describe("Editor Utils", () => {
     contentBlock.getBlocksAsArray().forEach((block) => {
       findSpoilerEntities(block,foundFn, contentBlock);
     });
-
-    console.log(foundRanges);
 
     expect(foundRanges.length).toStrictEqual(1);
     expect(foundRanges[0]).toStrictEqual(initialText.length);
