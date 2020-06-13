@@ -2,17 +2,7 @@ import React, { useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import { shallow, render} from 'enzyme';
-import Editor from './Editor';
-import EditorControls from './Controls';
-import BaseEditor from './BaseEditor';
-import StyleButton from './StyleButton';
-import URLInput from './URLInput';
 import { Input, Tooltip } from 'antd';
-import {
-  insertMedia,
-  insertLink,
-  removeLink
-} from './EditorStyles';
 import { List } from 'immutable';
 import {
  EditorState,
@@ -22,7 +12,18 @@ import {
  genKey
 } from 'draft-js';
 
-import { getEntities } from '../testingUtils.js';
+import Editor from '../Editor';
+import EditorControls from '../Controls';
+import EditorStyles from '../EditorStyles';
+import BaseEditor from '../BaseEditor';
+import StyleButton from '../StyleButton';
+import URLInput from '../URLInput';
+import {
+  insertMedia,
+  insertLink,
+  removeLink
+} from '../EditorStyles';
+import { getEntities } from '../../testingUtils.js';
 
 const addEmptyBlock = (editorState) => {
   const newBlock = new ContentBlock({
@@ -60,6 +61,9 @@ describe("<Editor />", () => {
 
   it("Render Editor", () => {
 
+   const _state = {"blocks":[{"key":"ba892","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}};
+   const initialState = JSON.stringify(_state);
+
    const component = render(
     <Editor
       initialState={null}
@@ -77,8 +81,85 @@ describe("<Editor />", () => {
     expect(controls).toBeTruthy();
     expect(baseEditor).toBeTruthy();
     expect(containerDiv).toBeTruthy();
-
   })
+
+  it("Render Editor with initialState and filtering styles.", () => {
+
+   const _state = {"blocks":[{"key":"ba892","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}};
+   const initialState = JSON.stringify(_state);
+
+   const component = render(
+    <Editor
+      initialState={initialState}
+      containerRef={null}
+      filterStyles={['blockquote']}
+    />
+    );
+
+    expect(component[0]['attribs'].class)
+    .toStrictEqual('em-editor-container');
+
+    const containerDiv = component.find('div');
+    const controls = component.find(EditorControls);
+    const baseEditor = component.find(BaseEditor);
+
+    expect(controls).toBeTruthy();
+    expect(baseEditor).toBeTruthy();
+    expect(containerDiv).toBeTruthy();
+  })
+
+  it("Render AltEditor.", () => {
+
+   const _state = {"blocks":[{"key":"ba892","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}};
+   const initialState = JSON.stringify(_state);
+
+   const component = render(
+    <Editor
+      initialState={initialState}
+      containerRef={null}
+      filterStyles={['blockquote']}
+      altEditor={Editor}
+    />
+    );
+
+    expect(component[0]['attribs'].class)
+    .toStrictEqual('em-editor-container');
+
+    const containerDiv = component.find('div');
+    const controls = component.find(EditorControls);
+    const baseEditor = component.find(BaseEditor);
+
+    expect(controls).toBeTruthy();
+    expect(baseEditor).toBeTruthy();
+    expect(containerDiv).toBeTruthy();
+  })
+
+  it("Render Controls with input visible.", () => {
+
+    const props = {
+      editorStyles: EditorStyles,
+      blockIsActive: jest.fn(),
+      inlineIsActive: jest.fn(),
+      customBlockIsActive: jest.fn(),
+      customBlockToggleFn: jest.fn(),
+      onToggleInline: jest.fn(),
+      onToggleBlock: jest.fn(),
+      confirmInput: jest.fn(),
+      onInputChange: jest.fn(),
+      showInput: jest.fn(),
+      cancelInput: jest.fn(),
+      inputVisible: true,
+      inputType: "URL",
+      inputValue: ""
+    };
+
+    const component = shallow(<EditorControls {...props} />);
+    const urlInput = component.find(URLInput);
+
+    // Expect URL Input to be present.
+    expect(urlInput.length).toStrictEqual(1);
+  })
+
 
   it("<URLInput /> Render", () => {
 
@@ -200,6 +281,10 @@ describe("<Editor />", () => {
     const focusKey =  blockStateContent.getLastBlock().getKey();
     const focusOffset = blockStateContent.getLastBlock().getText().length;
 
+    // Remove a link from a collapsed selection. Should be null.
+    const notRemoved = removeLink(initialContentState);
+    expect(notRemoved).toStrictEqual(null);
+
     // Select all text.
     let updatedSelection = initialContentState.getSelection().merge({
       anchorKey: anchorKey,
@@ -239,6 +324,5 @@ describe("<Editor />", () => {
 
     expect(RichUtils.currentBlockContainsLink(newStateWithoutLink)).toStrictEqual(false);
   });
-
 
 })

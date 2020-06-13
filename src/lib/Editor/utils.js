@@ -20,7 +20,7 @@ export const getBlockStyle = (block) => {
 
 export const findEntities = (contentBlock, callback, contentState, type) => {
   contentBlock.findEntityRanges(character => {
-    const entityKey = character.getEntity();
+    const entityKey = character.getEntity();    
     return (
       entityKey !== null &&
       contentState.getEntity(entityKey).getType() === type

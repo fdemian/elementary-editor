@@ -106,24 +106,22 @@ describe("Latex", () => {
    //console.log(span);
    //console.log(container);
    //console.log("______");
- })
+  })
 
+  it("<Buttons /> invalid tex", () => {
 
- it("<Buttons /> invalid tex", () => {
+    const props = {
+     invalid: true,
+     removeFn: jest.fn(),
+     saveFn: jest.fn()
+    };
 
-   const props = {
-    invalid: true,
-    removeFn: jest.fn(),
-    saveFn: jest.fn()
-   };
+    const component = render(<EditorButtons {...props} />);
+    const buttons = component.children();
 
-   const component = render(<EditorButtons {...props} />);
-   const buttons = component.children();
-
-   expect(buttons[0]['attribs'].class).toStrictEqual('ant-btn danger-btn ant-btn-danger');
-   expect(buttons[1]['attribs'].disabled).toBeTruthy();
-   expect(buttons.length).toStrictEqual(2);
-
-})
+    expect(buttons[0]['attribs'].class).toStrictEqual('ant-btn danger-btn ant-btn-danger');
+    expect(buttons[1]['attribs'].disabled).toStrictEqual("");
+    expect(buttons.length).toStrictEqual(2);
+  })
 
 });

@@ -9,11 +9,11 @@ import {
 const URLInput = ({ changeFn, urlValue, confirmFn, cancelFn, type }) => {
 
   const hintText = `Enter ${type.toLowerCase()} URL`
-  
+
   return (
   <Fragment>
 
-    <span >
+    <span className="url-input-container">
       <Input
         name='URL input'
         onChange={changeFn}
