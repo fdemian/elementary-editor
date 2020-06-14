@@ -1,45 +1,32 @@
-import React from 'react';
-import { Input } from 'antd';
-import EditorButtons from './Buttons';
+import React from "react";
+import { Input } from "antd";
+import EditorButtons from "./Buttons";
 
 const { TextArea } = Input;
 
 const textAreaStyle = {
-  width: '20%',
-  marginLeft: '40%'
+  width: "20%",
+  marginLeft: "40%",
 };
 
 const EditPanel = (props) => {
+  const { editMode, onValueChange, texValue, invalidTeX, save, remove } = props;
 
-  const {
-    editMode,
-    onValueChange,
-    texValue,
-    invalidTeX,
-    save,
-    remove,
-  } = props;
-
-  if(!editMode)
-    return null;
+  if (!editMode) return null;
 
   return (
-  <div className="edit-panel-container">
-    <TextArea
-       rows={2}
-       style={textAreaStyle}
-       onChange={onValueChange}
-       value={texValue}
-    />
-    <div>
-      <EditorButtons
-        invalid={invalidTeX}
-        removeFn={remove}
-        saveFn={save}
+    <div className="edit-panel-container">
+      <TextArea
+        rows={2}
+        style={textAreaStyle}
+        onChange={onValueChange}
+        value={texValue}
       />
-   </div>
- </div>
- );
-}
+      <div>
+        <EditorButtons invalid={invalidTeX} removeFn={remove} saveFn={save} />
+      </div>
+    </div>
+  );
+};
 
 export default EditPanel;

@@ -64,7 +64,8 @@
     ]
   },
   "devDependencies": {
-    "@babel/preset-env": "7.10.2"
+    "@babel/preset-env": "7.10.2",
+    "prettier": "2.0.5"
   },
   "jest": {
     "coveragePathIgnorePatterns": [
