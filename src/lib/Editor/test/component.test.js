@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils';
-import { shallow, render} from 'enzyme';
+import { shallow, render, mount} from 'enzyme';
 import { Input, Tooltip } from 'antd';
 import { List } from 'immutable';
 import {
@@ -323,6 +323,30 @@ describe("<Editor />", () => {
     let newStateWithoutLink = EditorState.forceSelection(stateWithoutLink, selectAll);
 
     expect(RichUtils.currentBlockContainsLink(newStateWithoutLink)).toStrictEqual(false);
-  });
+  })
+
+  it("Test editor internal methods.", () => {
+
+    const props = {
+      initialState: null,
+      containerRef: null
+    };
+
+    // Test first render and effect
+    act(() => {
+      ReactDOM.render(<Editor {...props} />, container);
+    });
+
+    const styleButton = container.querySelector('.StyleButton')
+
+    act(() => {
+      styleButton.dispatchEvent(new MouseEvent('click', {bubbles: true}));
+    });
+
+    let editor = container.querySelector('.em-editor-container');
+    //expect(controls).toBeTruthy();
+    //expect(baseEditor).toBeTruthy();
+    //expect(containerDiv).toBeTruthy();
+  })
 
 })

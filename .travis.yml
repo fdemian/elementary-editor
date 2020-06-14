@@ -1,0 +1,23 @@
+c59b0c9c-c616-4f92-ab2f-846a195d990b
+
+sudo: false
+language: node_js
+node_js:
+  - "12.18"
+
+cache:
+  directories:
+    - node_modules
+
+install:
+  - npm install -g yarn
+  - npm install -g codecov
+  - yarn install
+
+script:
+  - yarn test --watchAll=false --coverage
+  - codecov
+  - yarn build
+
+notifications:
+  email: false
