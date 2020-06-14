@@ -2,6 +2,9 @@
 
 A WYSWYG editor based on DraftJS and Ant.Design.
 
+[![codecov](https://codecov.io/gh/fdemian/elementary-editor/branch/master/graph/badge.svg)](https://codecov.io/gh/fdemian/elementary-editor)
+
+
 ## Getting Started
 
 ### Prerequisites
@@ -21,7 +24,7 @@ To use this editor in your project:
 ```
 - Then use the editor inside your code
 
--- Using Classes
+Using Classes
 
 ```
 import Editor from 'elementary-editor';
@@ -46,7 +49,7 @@ class MyComponent extends Component  {
 }
 ```
 
--- Using hooks
+Using hooks
 
 ```
 import React, { useRef } from 'react';
@@ -55,7 +58,7 @@ import Editor from 'elementary-editor';
 const MyComponent = () =>  {
 
  const containerRef = useRef(null);
- 
+
  return(
  <div>
    <Editor

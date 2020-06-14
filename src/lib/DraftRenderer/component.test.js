@@ -15,14 +15,8 @@ describe("<DraftRenderer />", () => {
   });
 
   it("Correctly render some draft-js state.", () => {
-
    const component = render(<DraftRenderer raw={contentStateDesc} />);
-
-   //console.log(component.children[0]['attribs']);
-   //console.log("==================");
-
    expect(component.length).toStrictEqual(1);
-
   })
 
   it("Render inline elements.", () => {
