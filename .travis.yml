@@ -1,5 +1,3 @@
-c59b0c9c-c616-4f92-ab2f-846a195d990b
-
 sudo: false
 language: node_js
 node_js:
