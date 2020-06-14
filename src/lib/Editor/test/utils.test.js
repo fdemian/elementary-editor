@@ -184,8 +184,6 @@ describe("Editor Utils", () => {
       findSpoilerEntities(block,foundFn, contentBlock);
     });
 
-    console.log(foundRanges);
-
     expect(foundRanges.length).toStrictEqual(1);
     expect(foundRanges[0]).toStrictEqual(initialText.length);
   })

@@ -100,12 +100,7 @@ describe("Latex", () => {
       container.dispatchEvent(new Event('timeupdate', {bubbles: true}));
     });
 
-    span = container.querySelector('span');
-
-   // TODO
-   //console.log(span);
-   //console.log(container);
-   //console.log("______");
+    //span = container.querySelector('span');
   })
 
   it("<Buttons /> invalid tex", () => {
