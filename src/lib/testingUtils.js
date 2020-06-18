@@ -1,4 +1,3 @@
-// Todo: move to testing utils.
 export const getEntities = (editorState, entityType = null) => {
   const content = editorState.getCurrentContent();
   const entities = [];
