@@ -42,6 +42,7 @@ const blockRenderMap = Map({
 const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
 const EditorComponent = (props) => {
+
   const { altEditor, initialState, containerRef } = props;
 
   let decorator = null;
@@ -62,14 +63,12 @@ const EditorComponent = (props) => {
     ]);
   }
 
-  const { createEmpty, createWithContent } = EditorState;
-
   if (initialState == null) {
-    initialStateEditor = createEmpty(decorator);
+    initialStateEditor = EditorState.createEmpty(decorator);
   } else {
     const parsedState = JSON.parse(initialState);
     const contentState = convertFromRaw(parsedState);
-    initialStateEditor = createWithContent(contentState, decorator);
+    initialStateEditor = EditorState.createWithContent(contentState, decorator);
   }
 
   const editorRef = useRef(null);
@@ -149,7 +148,7 @@ const EditorComponent = (props) => {
     setEditorState(state);
     if (props.onChange) props.onChange(state);
   };
-  
+
   const handleKeyCommand = (command) => {
     const { handleKeyCommand } = RichUtils;
     const newState = handleKeyCommand(editorState, command);
