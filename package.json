@@ -1,6 +1,6 @@
 {
   "name": "elementary-editor",
-  "version": "0.8.25",
+  "version": "0.8.50",
   "license": "MIT",
   "dependencies": {
     "@babel/cli": "7.10.1",
@@ -42,6 +42,9 @@
     "redraft": "^0.10.2"
   },
   "scripts": {
+    "start-rewired": "react-app-rewired start",
+    "build-rewired": "react-app-rewired build",
+    "test-rewired": "react-app-rewired test",
     "start": "react-scripts start",
     "build": "babel src/lib package.json README.md --out-dir dist --copy-files --ignore __tests__,spec.js,test.js",
     "test": "react-scripts test",
@@ -64,7 +67,11 @@
     ]
   },
   "devDependencies": {
-    "@babel/preset-env": "7.10.2"
+    "@babel/preset-env": "7.10.2",
+    "antd-dayjs-webpack-plugin": "^1.0.1",
+    "babel-plugin-import": "^1.13.0",
+    "customize-cra": "^1.0.0",
+    "react-app-rewired": "^2.1.6"
   },
   "jest": {
     "coveragePathIgnorePatterns": [
