@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const RenderLink = ({ url, text }) => (
   <a href={url} rel='nofollow'>

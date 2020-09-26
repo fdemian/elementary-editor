@@ -1,18 +1,17 @@
-import React, { Fragment } from 'react'
-import { Input, Button } from 'antd'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react';
+import { Input, Button } from 'antd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faTimes,
   faCheck
-} from '@fortawesome/free-solid-svg-icons'
+} from '@fortawesome/free-solid-svg-icons';
 
 const URLInput = ({ changeFn, urlValue, confirmFn, cancelFn, type }) => {
 
   const hintText = `Enter ${type.toLowerCase()} URL`
 
   return (
-  <Fragment>
-
+  <>
     <span className="url-input-container">
       <Input
         name='URL input'
@@ -31,8 +30,7 @@ const URLInput = ({ changeFn, urlValue, confirmFn, cancelFn, type }) => {
         <FontAwesomeIcon icon={faCheck} />
       </Button>
     </span>
-
-  </Fragment>
+  </>
   )
 }
 

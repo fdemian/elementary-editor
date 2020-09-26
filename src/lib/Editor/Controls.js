@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {
+  lazy,
+  Suspense
+} from 'react';
 import StyleButton from './StyleButton';
-import URLInput from './URLInput';
 import './css/Controls.css';
+
+const URLInput = lazy(() => import('./URLInput'));
 
 const EditorControls = (props) => {
 
@@ -24,6 +28,7 @@ const EditorControls = (props) => {
 
   if (inputVisible) {
     return (
+    <Suspense fallback={<p>Loading</p>}>
     <div className='EditorControls'>
       <div className='RichEditor-controls'>
         <URLInput
@@ -35,6 +40,7 @@ const EditorControls = (props) => {
         />
        </div>
      </div>
+    </Suspense>
      );
   }
 

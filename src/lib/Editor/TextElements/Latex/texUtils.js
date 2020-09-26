@@ -1,5 +1,4 @@
-import { EditorState, Modifier, SelectionState } from 'draft-js'
-
+import { EditorState, Modifier, SelectionState } from 'draft-js';
 
 export const defaultContent = { content: 'f(x) = ... ' };
 
@@ -15,7 +14,7 @@ export const removeTeXBlock = (editorState, blockKey) => {
 
   const content = editorState.getCurrentContent();
   const block = content.getBlockForKey(blockKey);
-  
+
   const targetRange = new SelectionState({
     anchorKey: blockKey,
     anchorOffset: 0,
