@@ -10,11 +10,15 @@
         "loose": true
       }
     ],
-    ["@babel/plugin-syntax-import-meta", {
-     "libraryName": "antd",
-     "libraryDirectory": "es",
-     "style": "css"
-   }]
-
+    [
+      "@babel/plugin-syntax-import-meta",
+    ],
+    [
+      "babel-plugin-import", {
+        "libraryName": "antd",
+        "libraryDirectory": "es",
+        "style": "css",
+      }
+    ]
   ]
 }
