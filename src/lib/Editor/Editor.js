@@ -62,10 +62,10 @@ const EditorComponent = (props) => {
     ]);
   }
 
-  const { createEmpty, createWithContent } = EditorState;
+  const { createWithContent } = EditorState;
 
   if (initialState == null) {
-    initialStateEditor = createEmpty(decorator);
+    initialStateEditor = EditorState.createEmpty(decorator);
   } else {
     const parsedState = JSON.parse(initialState);
     const contentState = convertFromRaw(parsedState);
