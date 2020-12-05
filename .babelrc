@@ -7,6 +7,15 @@
         "loose": true
       }
     ],
-    ["@babel/plugin-syntax-import-meta"]
+    [
+      "@babel/plugin-syntax-import-meta",
+    ],
+    [
+      "babel-plugin-import", {
+        "libraryName": "antd",
+        "libraryDirectory": "es",
+        "style": "css",
+      }
+    ]
   ]
 }

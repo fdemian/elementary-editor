@@ -63,6 +63,8 @@ const EditorComponent = (props) => {
     ]);
   }
 
+  const { createWithContent } = EditorState;
+
   if (initialState == null) {
     initialStateEditor = EditorState.createEmpty(decorator);
   } else {
@@ -146,7 +148,7 @@ const EditorComponent = (props) => {
 
   const onChange = (state) => {
     setEditorState(state);
-    if (props.onChange) props.onChange(state);
+    if (props.onChange) props.onChange(getContent());
   };
 
   const handleKeyCommand = (command) => {

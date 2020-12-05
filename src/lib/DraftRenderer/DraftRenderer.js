@@ -1,6 +1,6 @@
-import React from "react";
-import redraft from "redraft";
-import renderers from "./Renderers";
+import React from 'react';
+import redraft from 'redraft';
+import renderers from './Renderers';
 
 const RenderWarning = () => (
   <div className="render-warning">Nothing to render.</div>

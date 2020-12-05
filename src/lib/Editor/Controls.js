@@ -1,7 +1,12 @@
-import React from "react";
-import StyleButton from "./StyleButton";
-import URLInput from "./URLInput";
-import "./css/Controls.css";
+import React, {
+  lazy,
+  Suspense
+} from 'react';
+import StyleButton from './StyleButton';
+import './css/Controls.css';
+
+
+const URLInput = lazy(() => import('./URLInput'));
 
 const EditorControls = (props) => {
   const {
@@ -23,18 +28,20 @@ const EditorControls = (props) => {
 
   if (inputVisible) {
     return (
-      <div className="EditorControls">
-        <div className="RichEditor-controls">
-          <URLInput
-            changeFn={onInputChange}
-            urlValue={inputValue}
-            type={inputType}
-            cancelFn={cancelInput}
-            confirmFn={confirmInput}
-          />
-        </div>
-      </div>
-    );
+    <Suspense fallback={<p>Loading</p>}>
+    <div className='EditorControls'>
+      <div className='RichEditor-controls'>
+        <URLInput
+          changeFn={onInputChange}
+          urlValue={inputValue}
+          type={inputType}
+          cancelFn={cancelInput}
+          confirmFn={confirmInput}
+        />
+       </div>
+     </div>
+    </Suspense>
+     );
   }
 
   // TODO merge stylebutton mappings.

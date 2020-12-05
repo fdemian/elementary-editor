@@ -1,6 +1,6 @@
-import { EditorState, Modifier, SelectionState } from "draft-js";
+import { EditorState, Modifier, SelectionState } from 'draft-js';
 
-export const defaultContent = { content: "f(x) = ... " };
+export const defaultContent = { content: 'f(x) = ... ' };
 
 export const getTexBlock = () => {
   return {
