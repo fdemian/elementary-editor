@@ -3,15 +3,14 @@ import { EditorState, Modifier, SelectionState } from 'draft-js';
 export const defaultContent = { content: 'f(x) = ... ' };
 
 export const getTexBlock = () => {
-   return {
-     type:'LATEX' ,
-     mutability:'Immutable',
-     content: defaultContent
-   };
-}
+  return {
+    type: "LATEX",
+    mutability: "Immutable",
+    content: defaultContent,
+  };
+};
 
 export const removeTeXBlock = (editorState, blockKey) => {
-
   const content = editorState.getCurrentContent();
   const block = content.getBlockForKey(blockKey);
 
@@ -19,18 +18,21 @@ export const removeTeXBlock = (editorState, blockKey) => {
     anchorKey: blockKey,
     anchorOffset: 0,
     focusKey: blockKey,
-    focusOffset: block.getLength()
+    focusOffset: block.getLength(),
   });
 
-  const withoutTeX = Modifier.removeRange(content, targetRange, 'backward');
+  const withoutTeX = Modifier.removeRange(content, targetRange, "backward");
   const resetBlock = Modifier.setBlockType(
     withoutTeX,
     withoutTeX.getSelectionAfter(),
-    'unstyled'
+    "unstyled"
   );
 
-  const newState = EditorState.push(editorState, resetBlock, 'remove-range');
-  const newStateWithoutTex = EditorState.forceSelection(newState, resetBlock.getSelectionAfter());
+  const newState = EditorState.push(editorState, resetBlock, "remove-range");
+  const newStateWithoutTex = EditorState.forceSelection(
+    newState,
+    resetBlock.getSelectionAfter()
+  );
 
   return newStateWithoutTex;
-}
+};

@@ -4,39 +4,27 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './css/StyleButton.css'
 
 const StyleButton = (props) => {
-
-  const {
-   onToggle,
-   getInput,
-   activeFn,
-   icon,
-   style,
-   label
-  } = props
+  const { onToggle, getInput, activeFn, icon, style, label } = props;
 
   const isActive = activeFn(style);
-  const iconColor = isActive ? 'black' : 'gainsboro';
-  const iconStyle = { color: iconColor, marginTop: '6px' };
+  const iconColor = isActive ? "black" : "gainsboro";
+  const iconStyle = { color: iconColor, marginTop: "6px" };
 
   const toggleFn = (e) => {
-   e.preventDefault();
-   onToggle(style);
-  }
+    e.preventDefault();
+    onToggle(style);
+  };
 
   return (
-  <Tooltip placement='bottom' title={label} >
-    <button
-      className='StyleButton'
-      onClick={(blockName) => toggleFn(blockName, getInput)}
-     >
-      <FontAwesomeIcon
-        size='lg'
-        style={iconStyle}
-        icon={icon}
-      />
-    </button>
-  </Tooltip>
-  )
-}
+    <Tooltip placement="bottom" title={label}>
+      <button
+        className="StyleButton"
+        onClick={(blockName) => toggleFn(blockName, getInput)}
+      >
+        <FontAwesomeIcon size="lg" style={iconStyle} icon={icon} />
+      </button>
+    </Tooltip>
+  );
+};
 
-export default StyleButton
+export default StyleButton;

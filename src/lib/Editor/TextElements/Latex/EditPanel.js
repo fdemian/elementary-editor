@@ -11,23 +11,14 @@ const EditorButtons = lazy(() => import('./Buttons'));
 const { TextArea } = Input;
 
 const textAreaStyle = {
-  width: '20%',
-  marginLeft: '40%'
+  width: "20%",
+  marginLeft: "40%",
 };
 
 const EditPanel = (props) => {
+  const { editMode, onValueChange, texValue, invalidTeX, save, remove } = props;
 
-  const {
-    editMode,
-    onValueChange,
-    texValue,
-    invalidTeX,
-    save,
-    remove,
-  } = props;
-
-  if(!editMode)
-    return null;
+  if (!editMode) return null;
 
   return (
   <Suspense fallback={<Spin />}>

@@ -7,8 +7,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const URLInput = ({ changeFn, urlValue, confirmFn, cancelFn, type }) => {
-
-  const hintText = `Enter ${type.toLowerCase()} URL`
+  const hintText = `Enter ${type.toLowerCase()} URL`;
 
   return (
   <>
@@ -22,8 +21,12 @@ const URLInput = ({ changeFn, urlValue, confirmFn, cancelFn, type }) => {
       />
     </span>
 
-    <span style={{ marginLeft: '8px' }}>
-      <Button type='primary' onClick={cancelFn} style={{ marginRight: '2px' }}>
+      <span style={{ marginLeft: "8px" }}>
+        <Button
+          type="primary"
+          onClick={cancelFn}
+          style={{ marginRight: "2px" }}
+        >
           <FontAwesomeIcon icon={faTimes} />
       </Button>
       <Button type='primary' onClick={confirmFn}>
@@ -34,4 +37,4 @@ const URLInput = ({ changeFn, urlValue, confirmFn, cancelFn, type }) => {
   )
 }
 
-export default URLInput
+export default URLInput;
