@@ -1,7 +1,6 @@
-import React from 'react'
-import { Tooltip } from 'antd'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import React from 'react';
+import { Tooltip } from 'antd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './css/StyleButton.css'
 
 const StyleButton = (props) => {
