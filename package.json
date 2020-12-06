@@ -73,6 +73,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/helper-regex": "^7.10.5",
     "@babel/preset-env": "7.12.7",
     "antd-dayjs-webpack-plugin": "^1.0.1",
     "babel-plugin-import": "1.13.3",
@@ -87,6 +88,12 @@
       "./src/App.css",
       "./src/lib/testingUtils.js",
       "./src/lib/testing-utils.js"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "src/node_modules/*"
     ]
   }
 }
