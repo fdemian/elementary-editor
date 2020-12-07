@@ -1,59 +1,41 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { act } from "react-dom/test-utils";
-import { shallow, render } from "enzyme";
 import Spoiler from "./Spoiler";
 import SpoilerWrapper from "./SpoilerWrapper";
 
-let container;
-
-beforeEach(() => {
-  container = document.createElement("div");
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  document.body.removeChild(container);
-  container = null;
-});
+import { render, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 const spoilerProps = { text: "spoiler text" };
 
 describe("<Spoiler />", () => {
+
   it("<Spoiler />", () => {
-    const component = shallow(<Spoiler {...spoilerProps} />);
-    const textSpan = component.find("span");
-
-    const spanProps = textSpan.props();
-
-    expect(spanProps.children).toStrictEqual("spoiler text");
-    expect(spanProps.className).toStrictEqual(`Spoiler Concealed`);
-    expect(spanProps.role).toStrictEqual("presentation");
+    const { getByText } = render(<Spoiler {...spoilerProps} />);
+    const spoiler = getByText(spoilerProps.text);
+    expect(spoiler).toHaveClass("Spoiler Concealed");
   });
 
   it("<SpoilerWrapper />", () => {
-    const wrapperProps = { decoratedText: spoilerProps };
-    const component = shallow(<SpoilerWrapper {...wrapperProps} />);
-    const spoilerComponent = component.find(Spoiler);
+    const wrapperProps = { decoratedText: spoilerProps.text };
+    const { getByText } = render(<SpoilerWrapper {...wrapperProps} />);
 
-    expect(spoilerComponent.length).toStrictEqual(1);
+    const spoiler = getByText(spoilerProps.text);
+    expect(spoiler).toHaveClass("Spoiler Concealed")
   });
 
-  it("Interaction test (text revealed and hidden)", () => {
+  it("Interaction test (text revealed and hidden)", async () => {
     // Test first render and effect
-    act(() => {
-      ReactDOM.render(<Spoiler {...spoilerProps} />, container);
-    });
 
-    const span = container.querySelector("span");
+    const { getByText } = render(<Spoiler {...spoilerProps} />);
+    const spoiler = getByText(spoilerProps.text);
+    expect(spoiler).toHaveClass("Spoiler Concealed");
 
-    expect(span.className).toStrictEqual(`Spoiler Concealed`);
+    // Click the spoiler.
+    fireEvent.click(spoiler);
 
-    // Test second render and effect
-    act(() => {
-      span.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    });
-
-    expect(span.className).toStrictEqual(`Spoiler `);
+    // Class "concealed" has been removed.
+    expect(getByText(spoilerProps.text)).toHaveClass("Spoiler");
   });
+
 });

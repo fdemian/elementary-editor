@@ -1,7 +1,9 @@
 import React from "react";
-import Enzyme, { render } from "enzyme";
 import QuoteBlock from "./QuoteBlock";
 import QuoteBlockWrapper from "./QuoteBlockWrapper";
+
+import { render } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 const commentContent = {
   blocks: [
@@ -25,11 +27,15 @@ const commentProps = {
 };
 
 describe("<QuoteBlock />", () => {
-  it("<QuoteBlock />", () => {
-    const component = render(<QuoteBlock {...commentProps} />);
 
-    expect(component[0].name).toStrictEqual("blockquote");
-    expect(component[0].attribs.cite).toStrictEqual("user1");
+  it("<QuoteBlock />", () => {
+    const { getByText, getByTestId } = render(<QuoteBlock {...commentProps} />);
+
+    const textContents = getByText(commentContent.blocks[0].text);
+    const blockquoteElement = getByTestId("blockquote-element");
+
+    expect(textContents).toBeInTheDocument();
+    expect(blockquoteElement).toHaveAttribute("cite", commentProps.author);
   });
 
   it("<QuoteBlockWrapper />", () => {
@@ -48,9 +54,13 @@ describe("<QuoteBlock />", () => {
       },
     };
 
-    const component = render(<QuoteBlockWrapper {...wrapperProps} />);
+    const { getByText, getByTestId } = render(<QuoteBlockWrapper {...wrapperProps} />);
 
-    expect(component[0].name).toStrictEqual("blockquote");
-    expect(component[0].attribs.cite).toStrictEqual("user1");
+    const textContents = getByText(commentContent.blocks[0].text);
+    const blockquoteElement = getByTestId("blockquote-element");
+
+    expect(textContents).toBeInTheDocument();
+    expect(blockquoteElement).toHaveAttribute("cite", commentProps.author);
   });
+
 });

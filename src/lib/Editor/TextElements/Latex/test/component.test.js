@@ -2,10 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Button } from "antd";
 import { act } from "react-dom/test-utils";
-import { shallow, render } from "enzyme";
 import LatexBlock from "../LatexBlock";
 import TexBlock from "../TeXBlock";
 import EditorButtons from "../Buttons";
+
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 const contentStateDesc = {
   contentState: {
@@ -87,6 +89,8 @@ const contentStateDesc = {
 };
 const bProps = JSON.parse(JSON.stringify(contentStateDesc));
 
+
+/*
 let container;
 
 beforeEach(() => {
@@ -97,10 +101,12 @@ beforeEach(() => {
 afterEach(() => {
   document.body.removeChild(container);
   container = null;
-});
+});*/
 
 describe("Latex", () => {
-  it("<TexBlock />", () => {
+
+  it("<TexBlock />", async () => {
+
     bProps.block.getKey = () => 0;
     bProps.blockProps.onStartEdit = (k) => null;
     bProps.block.getEntityAt = (n) => {};
@@ -114,13 +120,24 @@ describe("Latex", () => {
       };
     };
 
-    act(() => {
-      ReactDOM.render(<TexBlock {...bProps} />, container);
+
+    const { debug, getByRole, getByText } = render(<TexBlock {...bProps} />);
+
+    const texOutput = getByRole("presentation");
+    expect(texOutput).toHaveClass("katex-output");
+
+    fireEvent.click(texOutput);
+
+    await waitFor(() => {
+      const removeBtn = getByText('Remove');
+      const doneBtn = getByText('Done');
+      expect(removeBtn).toBeInTheDocument();
+      expect(doneBtn).toBeInTheDocument();
+      expect(getByRole("textbox")).toHaveAttribute("rows", "2");
+      expect(getByText('f(x)', {exact: false})).toBeInTheDocument();
     });
 
-    const div = container.querySelector("div");
-    const katexOutput = div.querySelector(".katex-output");
-    let editPanel = div.querySelector(".edit-panel-container");
+    /*
 
     expect(div.className).toStrictEqual("TeXEditor-tex");
 
@@ -156,6 +173,7 @@ describe("Latex", () => {
     */
   });
 
+  /*
   it("<LatexBlock />", () => {
     const props = { content: "f(x) = ... " };
 
@@ -190,4 +208,5 @@ describe("Latex", () => {
     expect(buttons[1]["attribs"].disabled).toStrictEqual("");
     expect(buttons.length).toStrictEqual(2);
   });
+  */
 });

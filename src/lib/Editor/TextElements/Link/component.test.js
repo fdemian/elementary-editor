@@ -1,16 +1,19 @@
 import React from "react";
-import Enzyme, { render } from "enzyme";
 import RenderLink from "./RenderLink";
 import Link from "./Link";
+
+import { render } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 describe("Link >", () => {
   it("<RenderLink />", () => {
     const props = { url: "www.url.com", text: "Link Text" };
-    const component = render(<RenderLink {...props} />);
-    const componentAttribs = component[0]["attribs"];
+    const { getByText } = render(<RenderLink {...props} />);
 
-    expect(componentAttribs["rel"]).toStrictEqual("nofollow");
-    expect(componentAttribs["href"]).toStrictEqual("www.url.com");
+    const linkElement = getByText(props.text);
+
+    expect(linkElement).toHaveAttribute("rel", "nofollow");
+    expect(linkElement).toHaveAttribute("href", props.url);
   });
 
   it("<Link />", () => {
@@ -27,10 +30,10 @@ describe("Link >", () => {
       entityKey: 1,
     };
 
-    const component = render(<Link {...props} />);
-    const componentAttribs = component[0]["attribs"];
+    const { getByText } = render(<Link {...props} />);
+    const linkElement = getByText(urlprops.text);
 
-    expect(componentAttribs["rel"]).toStrictEqual("nofollow");
-    expect(componentAttribs["href"]).toStrictEqual("www.url.com");
+    expect(linkElement).toHaveAttribute("rel", "nofollow");
+    expect(linkElement).toHaveAttribute("href", urlprops.url);
   });
 });

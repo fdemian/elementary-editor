@@ -1,16 +1,14 @@
 import React from "react";
-import Enzyme, { render, shallow } from "enzyme";
 import Media from "./Media";
 import ReactPlayer from "react-player";
 
-beforeEach(() => {
-  const React = jest.requireActual("react");
-  React.Suspense = ({ children }) => children;
-  return React;
-});
+import { render, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+
 
 describe("<Media >", () => {
-  it("<Img />", () => {
+
+  it("<Img />",  async () => {
     const imgProps = { src: "www.url.com/image.png" };
     const props = {
       block: {
@@ -27,20 +25,25 @@ describe("<Media >", () => {
       entityKey: 1,
     };
 
-    const component = render(<Media {...props} />);
-    const componentAttribs = component[0]["attribs"];
+    const { getByRole } = render(<Media {...props} />);
 
-    expect(componentAttribs["src"]).toStrictEqual("www.url.com/image.png");
-    expect(componentAttribs["alt"]).toStrictEqual("");
+    await waitFor(() => {
+      const image = getByRole('img');
+
+      expect(image).toHaveAttribute("src", imgProps.src);
+      expect(image).toHaveAttribute("alt", "");
+    });
+
   });
 
-  it("<Video /> (ReactPlayer)", () => {
+  it("<Video /> (ReactPlayer)", async () => {
     const videoSrc = "www.url.com/video.mp4";
-    const component = shallow(<Media src={videoSrc} />);
-    const player = component.find(ReactPlayer);
+    const { getByTestId } = render(<Media src={videoSrc} />);
 
-    expect(player.length).toStrictEqual(1);
-    expect(player.props().url).toStrictEqual(videoSrc);
-    expect(player.props().playing).toStrictEqual(false);
+    await waitFor(() => {
+      const rpl = getByTestId("react-player");
+      expect(rpl).toBeInTheDocument();
+    });
   });
+
 });
