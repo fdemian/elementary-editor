@@ -1,11 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { Button } from "antd";
-import { act } from "react-dom/test-utils";
 import LatexBlock from "../LatexBlock";
 import TexBlock from "../TeXBlock";
-import EditorButtons from "../Buttons";
-
+import EditorButtons from '../Buttons';
+import { EditorState, ContentState, AtomicBlockUtils } from "draft-js";
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
@@ -89,27 +86,16 @@ const contentStateDesc = {
 };
 const bProps = JSON.parse(JSON.stringify(contentStateDesc));
 
-
-/*
-let container;
-
-beforeEach(() => {
-  container = document.createElement("div");
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  document.body.removeChild(container);
-  container = null;
-});*/
-
 describe("Latex", () => {
 
-  it("<TexBlock />", async () => {
+  it("<TexBlock /> (render, change values)", async () => {
 
     bProps.block.getKey = () => 0;
     bProps.blockProps.onStartEdit = (k) => null;
     bProps.block.getEntityAt = (n) => {};
+    bProps.contentState.mergeEntityData = (key, data) => {
+      return EditorState.createWithContent(data);
+    }
     bProps.contentState.getEntity = (e) => {
       return {
         getData: () => {
@@ -121,7 +107,7 @@ describe("Latex", () => {
     };
 
 
-    const { debug, getByRole, getByText } = render(<TexBlock {...bProps} />);
+    const { debug, getByRole, getByText, getAllByText } = render(<TexBlock {...bProps} />);
 
     const texOutput = getByRole("presentation");
     expect(texOutput).toHaveClass("katex-output");
@@ -131,65 +117,33 @@ describe("Latex", () => {
     await waitFor(() => {
       const removeBtn = getByText('Remove');
       const doneBtn = getByText('Done');
+      const textBox = getByRole("textbox");
       expect(removeBtn).toBeInTheDocument();
       expect(doneBtn).toBeInTheDocument();
-      expect(getByRole("textbox")).toHaveAttribute("rows", "2");
-      expect(getByText('f(x)', {exact: false})).toBeInTheDocument();
+      expect(textBox).toHaveAttribute("rows", "2");
+      expect(getAllByText('f(x)', {exact: false})[1]).toBeInTheDocument();
+
+      // Change checkbox.
+      fireEvent.change(textBox, { target: { value: 'g(x)' } });
+
+      // Save current status.
+      // TODO.
+      //fireEvent.click(doneBtn);
+
+
     });
 
-    /*
-
-    expect(div.className).toStrictEqual("TeXEditor-tex");
-
-    expect(katexOutput).toBeTruthy();
-    expect(editPanel).toStrictEqual(null);
-    expect(katexOutput.className).toStrictEqual("katex-output");
-
-    // Trigger editing mode on KatexBlock.
-    act(() => {
-      katexOutput.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    });
-
-    editPanel = div.querySelector(".edit-panel-container");
-
-    expect(editPanel).toBeTruthy();
-    expect(div.className).toStrictEqual("TeXEditor-tex TeXEditor-activeTeX");
-
-    // TODO:
-    // Trigger edit update.
-    // Trigger remove button.
-
-    /*
-    const okButton = editPanel.querySelector('.edit-panel-ok-btn');
-
-
-    // Ok button. Disable edit.
-    act(() => {
-      okButton.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-    });
-
-    //editPanel = div.querySelector('.edit-panel-container');
-    //expect(editPanel).toStrictEqual(null);
-    */
   });
 
-  /*
   it("<LatexBlock />", () => {
     const props = { content: "f(x) = ... " };
 
-    act(() => {
-      ReactDOM.render(<LatexBlock {...props} />, container);
-    });
+    const { debug, getByTestId } = render(<LatexBlock {...props} />);
+    const textElem = getByTestId('latex-block');
 
-    let span = container.querySelector("span");
+    fireEvent(textElem, new Event("timeupdate", { bubbles: true }))
 
-    expect(span.className).toStrictEqual("latex-block");
-
-    act(() => {
-      container.dispatchEvent(new Event("timeupdate", { bubbles: true }));
-    });
-
-    //span = container.querySelector('span');
+    expect(getByTestId('latex-block')).toBeInTheDocument();
   });
 
   it("<Buttons /> invalid tex", () => {
@@ -199,14 +153,10 @@ describe("Latex", () => {
       saveFn: jest.fn(),
     };
 
-    const component = render(<EditorButtons {...props} />);
-    const buttons = component.children();
+    const { getByText } = render(<EditorButtons {...props} />);
 
-    expect(buttons[0]["attribs"].class).toStrictEqual(
-      "ant-btn danger-btn ant-btn-danger"
-    );
-    expect(buttons[1]["attribs"].disabled).toStrictEqual("");
-    expect(buttons.length).toStrictEqual(2);
+    expect(getByText("Remove")).toBeInTheDocument();
+    expect(getByText("Invalid TeX")).toBeInTheDocument();
   });
-  */
+
 });

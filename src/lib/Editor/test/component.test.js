@@ -1,7 +1,5 @@
 import React, { useRef } from "react";
 import ReactDOM from "react-dom";
-import { act } from "react-dom/test-utils";
-import { shallow, render, mount } from "enzyme";
 import { Input, Tooltip } from "antd";
 import { List } from "immutable";
 import {
@@ -20,6 +18,9 @@ import StyleButton from "../StyleButton";
 import URLInput from "../URLInput";
 import { insertMedia, insertLink, removeLink } from "../EditorStyles";
 import { getEntities } from "../../testingUtils.js";
+
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 const addEmptyBlock = (editorState) => {
   const newBlock = new ContentBlock({
@@ -40,20 +41,10 @@ const addEmptyBlock = (editorState) => {
   );
 };
 
-let container;
-
-beforeEach(() => {
-  container = document.createElement("div");
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  document.body.removeChild(container);
-  container = null;
-});
-
 describe("<Editor />", () => {
+
   it("Render Editor", () => {
+
     const _state = {
       blocks: [
         {
@@ -70,19 +61,17 @@ describe("<Editor />", () => {
     };
     const initialState = JSON.stringify(_state);
 
-    const component = render(
-      <Editor initialState={null} containerRef={null} />
-    );
+    const { getAllByRole } = render(<Editor initialState={null} containerRef={null} />);
 
-    expect(component[0]["attribs"].class).toStrictEqual("em-editor-container");
+    const textBoxes = getAllByRole("textbox");
+    const buttons = getAllByRole("button");
 
-    const containerDiv = component.find("div");
-    const controls = component.find(EditorControls);
-    const baseEditor = component.find(BaseEditor);
+    expect(textBoxes[1]).toBeInTheDocument();
+    expect(textBoxes[1]).toHaveAttribute("spellCheck", "false");
+    expect(textBoxes[1]).toHaveAttribute("contenteditable", "true");
 
-    expect(controls).toBeTruthy();
-    expect(baseEditor).toBeTruthy();
-    expect(containerDiv).toBeTruthy();
+    // The default editor has exactly 15 buttons.
+    expect(buttons.length).toStrictEqual(15);
   });
 
   it("Render Editor with initialState and filtering styles.", () => {
@@ -90,7 +79,7 @@ describe("<Editor />", () => {
       blocks: [
         {
           key: "ba892",
-          text: "",
+          text: "peccorino",
           type: "unstyled",
           depth: 0,
           inlineStyleRanges: [],
@@ -102,7 +91,7 @@ describe("<Editor />", () => {
     };
     const initialState = JSON.stringify(_state);
 
-    const component = render(
+    const { debug, getAllByRole, getByText } = render(
       <Editor
         initialState={initialState}
         containerRef={null}
@@ -110,15 +99,11 @@ describe("<Editor />", () => {
       />
     );
 
-    expect(component[0]["attribs"].class).toStrictEqual("em-editor-container");
+    const buttons = getAllByRole("button");
+    const textNode = getByText("peccorino");
 
-    const containerDiv = component.find("div");
-    const controls = component.find(EditorControls);
-    const baseEditor = component.find(BaseEditor);
-
-    expect(controls).toBeTruthy();
-    expect(baseEditor).toBeTruthy();
-    expect(containerDiv).toBeTruthy();
+    expect(buttons.length).toStrictEqual(1);
+    expect(textNode).toBeInTheDocument();
   });
 
   it("Render AltEditor.", () => {
@@ -126,7 +111,7 @@ describe("<Editor />", () => {
       blocks: [
         {
           key: "ba892",
-          text: "",
+          text: "peccorino",
           type: "unstyled",
           depth: 0,
           inlineStyleRanges: [],
@@ -138,27 +123,19 @@ describe("<Editor />", () => {
     };
     const initialState = JSON.stringify(_state);
 
-    const component = render(
+    const { getAllByRole, getByRole } = render(
       <Editor
         initialState={initialState}
         containerRef={null}
-        filterStyles={["blockquote"]}
         altEditor={Editor}
       />
     );
 
-    expect(component[0]["attribs"].class).toStrictEqual("em-editor-container");
+    expect(getAllByRole("textbox").length).toStrictEqual(3);
 
-    const containerDiv = component.find("div");
-    const controls = component.find(EditorControls);
-    const baseEditor = component.find(BaseEditor);
-
-    expect(controls).toBeTruthy();
-    expect(baseEditor).toBeTruthy();
-    expect(containerDiv).toBeTruthy();
   });
 
-  it("Render Controls with input visible.", () => {
+  it("Render Controls with input visible.", async () => {
     const props = {
       editorStyles: EditorStyles,
       blockIsActive: jest.fn(),
@@ -176,13 +153,32 @@ describe("<Editor />", () => {
       inputValue: "",
     };
 
-    const component = shallow(<EditorControls {...props} />);
-    const urlInput = component.find(URLInput);
+    const { debug, getByRole } = render(<EditorControls {...props} />);
+
+    await waitFor(() => {
+      const input = getByRole('input');
+      const eventOpts = { bubbles: true, cancelable: false };
+      fireEvent.change(input, { target: { value: 'www.url.com' }}, eventOpts);
+
+      debug();
+
+      //expect(input.value).toStrictEqual('www.url.com');
+    })
+
+    /*
+    expect(getByRole('form')).toHaveFormValues({
+      username: 'user1',
+      password: 'pass',
+    });*/
+
+    //debug();
+    //const urlInput = component.find(URLInput);
 
     // Expect URL Input to be present.
-    expect(urlInput.length).toStrictEqual(1);
+    //expect(urlInput.length).toStrictEqual(1);
   });
 
+  /*
   it("<URLInput /> Render", () => {
     const changeFn = jest.fn();
 
@@ -365,27 +361,59 @@ describe("<Editor />", () => {
       RichUtils.currentBlockContainsLink(newStateWithoutLink)
     ).toStrictEqual(false);
   });
+  */
 
   it("Test editor internal methods.", () => {
     const props = {
       initialState: null,
       containerRef: null,
+      filterStyles: ["Video"]
     };
 
-    // Test first render and effect
-    act(() => {
-      ReactDOM.render(<Editor {...props} />, container);
-    });
+    const {
+      getAllByRole,
+      getByRole,
+      getByTestId,
+      getByText
+      /*getByText*/
+    } = render(<Editor {...props} />);
 
-    const styleButton = container.querySelector(".StyleButton");
+    // Accept and cancel input.
 
-    act(() => {
-      styleButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    });
+    // Change input.
+    fireEvent.click(getByRole('button'));
 
+    const input = getByRole('input');
+    fireEvent.change(input, { target: { value: "www.url.com" }});
+
+    expect(input.value).toStrictEqual("www.url.com");
+    fireEvent.click(getByTestId("confirm-url-button"));
+
+    // Cancel input.
+    fireEvent.click(getByRole('button'));
+    expect(getByRole('input').value).toStrictEqual("");
+    fireEvent.click(getByTestId("cancel-url-button"));
+
+    /*
+    const textbox = getByTestId("draft-editor");
+    fireEvent.change(textbox, { target: { value: "Lorem Ipsum" }});
+
+    //expect(getByText("Lorem Ipsum")).toBeInTheDocument();
+    //fireEvent.click(getByTestId("cancel-url-button"));
+    //const input2 = getByRole('textbox');
+
+    /*
+    // Insert Tex block.
+    for(var button of styleButtons) {
+      console.log(button);
+    }
+
+    */
+
+    /*
     let editor = container.querySelector(".em-editor-container");
     //expect(controls).toBeTruthy();
     //expect(baseEditor).toBeTruthy();
-    //expect(containerDiv).toBeTruthy();
+    //expect(containerDiv).toBeTruthy();*/
   });
 });

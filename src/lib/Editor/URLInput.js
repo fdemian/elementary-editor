@@ -13,6 +13,8 @@ const URLInput = ({ changeFn, urlValue, confirmFn, cancelFn, type }) => {
   <>
     <span className="url-input-container">
       <Input
+        type="text"
+        role="input"
         name='URL input'
         onChange={changeFn}
         value={urlValue}
@@ -26,10 +28,15 @@ const URLInput = ({ changeFn, urlValue, confirmFn, cancelFn, type }) => {
           type="primary"
           onClick={cancelFn}
           style={{ marginRight: "2px" }}
+          data-testid="cancel-url-button"
         >
           <FontAwesomeIcon icon={faTimes} />
       </Button>
-      <Button type='primary' onClick={confirmFn}>
+      <Button
+        type='primary'
+        onClick={confirmFn}
+        data-testid="confirm-url-button"
+      >
         <FontAwesomeIcon icon={faCheck} />
       </Button>
     </span>
