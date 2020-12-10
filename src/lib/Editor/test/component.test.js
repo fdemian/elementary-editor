@@ -370,13 +370,7 @@ describe("<Editor />", () => {
       filterStyles: ["Video"]
     };
 
-    const {
-      getAllByRole,
-      getByRole,
-      getByTestId,
-      getByText
-      /*getByText*/
-    } = render(<Editor {...props} />);
+    const { getByRole, getByTestId } = render(<Editor {...props} />);
 
     // Accept and cancel input.
 
