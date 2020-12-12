@@ -2,7 +2,7 @@ import React from "react";
 import LatexBlock from "../LatexBlock";
 import TexBlock from "../TeXBlock";
 import EditorButtons from '../Buttons';
-import { EditorState, ContentState, AtomicBlockUtils } from "draft-js";
+import { EditorState, Entity, ContentState, AtomicBlockUtils } from "draft-js";
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
@@ -93,8 +93,9 @@ describe("Latex", () => {
     bProps.block.getKey = () => 0;
     bProps.blockProps.onStartEdit = (k) => null;
     bProps.block.getEntityAt = (n) => {};
+    bProps.blockProps.onFinishEdit = () => {};
     bProps.contentState.mergeEntityData = (key, data) => {
-      return EditorState.createWithContent(data);
+      return data;
     }
     bProps.contentState.getEntity = (e) => {
       return {
@@ -107,7 +108,7 @@ describe("Latex", () => {
     };
 
 
-    const { debug, getByRole, getByText, getAllByText } = render(<TexBlock {...bProps} />);
+    const { getByRole, getByText, getAllByText } = render(<TexBlock {...bProps} />);
 
     const texOutput = getByRole("presentation");
     expect(texOutput).toHaveClass("katex-output");
@@ -127,24 +128,65 @@ describe("Latex", () => {
       fireEvent.change(textBox, { target: { value: 'g(x)' } });
 
       // Save current status.
+      fireEvent.click(doneBtn);
       // TODO.
-      //fireEvent.click(doneBtn);
+    })
+
+  })
+
+  it("<TexBlock /> render invalid tex", async () => {
+
+      bProps.block.getKey = () => 0;
+      bProps.blockProps.onStartEdit = (k) => null;
+      bProps.block.getEntityAt = (n) => {};
+      bProps.blockProps.onFinishEdit = () => {};
+      bProps.contentState.mergeEntityData = (key, data) => {
+        return data;
+      }
+      bProps.contentState.getEntity = (e) => {
+        return {
+          getData: () => {
+            return {
+              content: "f(x) = ... ",
+            };
+          },
+        };
+      };
 
 
-    });
+      const { getByRole, getByText, getAllByText } = render(<TexBlock {...bProps} />);
 
-  });
+      const texOutput = getByRole("presentation");
+      expect(texOutput).toHaveClass("katex-output");
+
+      fireEvent.click(texOutput);
+
+      await waitFor(() => {
+        const removeBtn = getByText('Remove');
+        const doneBtn = getByText('Done');
+        const textBox = getByRole("textbox");
+        expect(removeBtn).toBeInTheDocument();
+        expect(doneBtn).toBeInTheDocument();
+        expect(textBox).toHaveAttribute("rows", "2");
+        expect(getAllByText('f(x)', {exact: false})[1]).toBeInTheDocument();
+
+        // Change checkbox.
+        fireEvent.change(textBox, { target: { value: "\\" } });
+
+        expect(getByText("Invalid TeX")).toBeInTheDocument();
+      });
+  })
 
   it("<LatexBlock />", () => {
     const props = { content: "f(x) = ... " };
 
-    const { debug, getByTestId } = render(<LatexBlock {...props} />);
+    const { getByTestId } = render(<LatexBlock {...props} />);
     const textElem = getByTestId('latex-block');
 
     fireEvent(textElem, new Event("timeupdate", { bubbles: true }))
 
     expect(getByTestId('latex-block')).toBeInTheDocument();
-  });
+  })
 
   it("<Buttons /> invalid tex", () => {
     const props = {
@@ -157,6 +199,6 @@ describe("Latex", () => {
 
     expect(getByText("Remove")).toBeInTheDocument();
     expect(getByText("Invalid TeX")).toBeInTheDocument();
-  });
+  })
 
-});
+})
