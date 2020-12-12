@@ -1,7 +1,7 @@
 sudo: false
 language: node_js
 node_js:
-  - "12.18"
+  - "15.0.1"
 
 cache:
   directories:
@@ -13,7 +13,7 @@ install:
   - yarn install
 
 script:
-  - yarn test --watchAll=false --coverage
+  - yarn test:coverage
   - codecov
   - yarn build
 

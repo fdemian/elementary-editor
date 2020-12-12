@@ -6,7 +6,10 @@ const QuoteBlock = ({ comment }) => {
   const rawContent = JSON.parse(comment.content);
 
   return (
-    <blockquote cite={comment.author}>
+    <blockquote
+        cite={comment.author}
+        data-testid="blockquote-element"
+    >
       <Renderer raw={rawContent} />
     </blockquote>
   );

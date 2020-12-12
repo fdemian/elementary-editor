@@ -1,7 +1,7 @@
 import React from "react";
-import { shallow, render } from "enzyme";
 import DraftRenderer from "./DraftRenderer";
-import ReactPlayer from "react-player";
+import { render, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 const contentStateDesc = {
   blocks: [
@@ -17,6 +17,7 @@ const contentStateDesc = {
   ],
   entityMap: {},
 };
+
 const invalidContentState = {
   blocsks: [
     {
@@ -24,8 +25,8 @@ const invalidContentState = {
       text: "Text",
       type: "unstyled",
       depath: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
+      inlineStyleRanges: null,
+      entityRanges: null,
       data: {},
     },
   ],
@@ -33,18 +34,29 @@ const invalidContentState = {
 };
 
 describe("<DraftRenderer />", () => {
-  beforeEach(() => {
-    const React = jest.requireActual("react");
-    React.Suspense = ({ children }) => children;
-    return React;
-  });
 
   it("Correctly render some draft-js state.", () => {
-    const component = render(<DraftRenderer raw={contentStateDesc} />);
-    expect(component.length).toStrictEqual(1);
+    const { getByText } = render(<DraftRenderer raw={contentStateDesc} />);
+    const textElement = getByText(contentStateDesc.blocks[0].text);
+    expect(textElement).toBeInTheDocument();
   });
 
-  it("Render inline elements.", () => {
+  it("Render invalid state.", () => {
+    const { getByText } = render(<DraftRenderer raw={invalidContentState} />);
+    const textInvalidRender = getByText("Nothing to render.");
+    expect(textInvalidRender).toBeInTheDocument();
+  });
+
+  it("Render state without raw data.", () => {
+    const { getByText } = render(<DraftRenderer raw={null} />);
+    const textInvalidRender = getByText("Nothing to render.");
+    expect(textInvalidRender).toBeInTheDocument();
+  });
+
+ /*
+  *  Renders inline elements and blocks.
+  */
+  it("Render inline elements and blocks.", () => {
     const componentsToRender = [
       {
         htmlTag: "strong",
@@ -131,121 +143,82 @@ describe("<DraftRenderer />", () => {
           entityMap: {},
         },
       },
+      {
+        htmlTag: "blockquote",
+        draftState: {
+          blocks: [
+            {
+              key: "edmlk",
+              text: "Quoted text",
+              type: "blockquote",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+          ],
+          entityMap: {},
+        },
+      },
+      {
+        htmlTag: "ul",
+        draftState: {
+          blocks: [
+            {
+              key: "edmlk",
+              text: "one",
+              type: "unordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "e7pb8",
+              text: "two",
+              type: "unordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            }
+          ],
+          entityMap: {},
+        },
+      },
+      {
+        htmlTag: "ol",
+        draftState: {
+          blocks: [
+            {
+              key: "edmlk",
+              text: "one",
+              type: "ordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "e7pb8",
+              text: "two",
+              type: "ordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            }
+          ],
+          entityMap: {},
+        },
+      }
     ];
 
     for (const element of componentsToRender) {
-      const component = render(<DraftRenderer raw={element.draftState} />);
-      const boldComponent = component.find(element.htmlTag);
-      expect(boldComponent[0].name).toStrictEqual(element.htmlTag);
+      const { container } = render(<DraftRenderer raw={element.draftState} />);
+      const expectedElement = container.querySelector(element.htmlTag);
+      expect(expectedElement).toBeInTheDocument();
     }
-  });
-
-  it("Render blockquote element.", () => {
-    const boldQuote = {
-      blocks: [
-        {
-          key: "e06sa",
-          text: "bold quote",
-          type: "blockquote",
-          depth: 0,
-          inlineStyleRanges: [{ offset: 0, length: 10, style: "BOLD" }],
-          entityRanges: [],
-          data: {},
-        },
-      ],
-      entityMap: {},
-    };
-
-    const component = render(<DraftRenderer raw={boldQuote} />);
-    const blockquote = component.find("blockquote");
-    const bold = blockquote.find("strong");
-
-    expect(blockquote.length).toStrictEqual(1);
-    expect(bold.length).toStrictEqual(1);
-  });
-
-  it("Render unordered list.", () => {
-    const ulState = {
-      blocks: [
-        {
-          key: "edmlk",
-          text: "one",
-          type: "unordered-list-item",
-          depth: 0,
-          inlineStyleRanges: [],
-          entityRanges: [],
-          data: {},
-        },
-        {
-          key: "d7pec",
-          text: "two",
-          type: "unordered-list-item",
-          depth: 0,
-          inlineStyleRanges: [],
-          entityRanges: [],
-          data: {},
-        },
-        {
-          key: "ocg8",
-          text: "three",
-          type: "unordered-list-item",
-          depth: 0,
-          inlineStyleRanges: [],
-          entityRanges: [],
-          data: {},
-        },
-      ],
-      entityMap: {},
-    };
-    const component = render(<DraftRenderer raw={ulState} />);
-
-    const ulElement = component.find("ul");
-    const listElem = component.find("li");
-
-    expect(ulElement.length).toStrictEqual(1);
-    expect(listElem.length).toStrictEqual(3);
-  });
-
-  it("Render ordered list.", () => {
-    const olState = {
-      blocks: [
-        {
-          key: "edmlk",
-          text: "one",
-          type: "ordered-list-item",
-          depth: 0,
-          inlineStyleRanges: [],
-          entityRanges: [],
-          data: {},
-        },
-        {
-          key: "cgpf",
-          text: "two",
-          type: "ordered-list-item",
-          depth: 0,
-          inlineStyleRanges: [],
-          entityRanges: [],
-          data: {},
-        },
-        {
-          key: "2bkc3",
-          text: "three",
-          type: "ordered-list-item",
-          depth: 0,
-          inlineStyleRanges: [],
-          entityRanges: [],
-          data: {},
-        },
-      ],
-      entityMap: {},
-    };
-    const component = render(<DraftRenderer raw={olState} />);
-
-    const olElement = component.find("ol");
-    const listElem = component.find("li");
-
-    expect(olElement.length).toStrictEqual(1);
-    expect(listElem.length).toStrictEqual(3);
   });
 
   it("Render <img> element.", () => {
@@ -284,16 +257,62 @@ describe("<DraftRenderer />", () => {
         "0": {
           type: "Image",
           mutability: "IMMUTABLE",
-          data: { src: "https://www.url.com/image.jpg" },
+          data: { src: imgUrl }
+        }
+      }
+    };
+    const { container } = render(<DraftRenderer raw={imgState} />);
+    const imgElement = container.querySelector("img");
+
+    expect(imgElement.src).toStrictEqual(imgUrl);
+  });
+
+  it("Render Latex element.", () => {
+    const latexState = {
+      blocks: [
+        {
+          key: "edmlk",
+          text: "",
+          type: "unstyled",
+          depth: 0,
+          inlineStyleRanges: [],
+          entityRanges: [],
+          data: {},
+        },
+        {
+          key: "epdm5",
+          text: "LATEX",
+          type: "atomic",
+          depth: 0,
+          inlineStyleRanges: [],
+          entityRanges: [{ offset: 0, length: 5, key: 0 }],
+          data: {},
+        },
+        {
+          key: "4kijn",
+          text: "",
+          type: "unstyled",
+          depth: 0,
+          inlineStyleRanges: [],
+          entityRanges: [],
+          data: {},
+        },
+      ],
+      entityMap: {
+        "0": {
+          type: "LATEX",
+          mutability: "IMMUTABLE",
+          data: { content: "f(x) = ... " }
         },
       },
     };
-    const component = render(<DraftRenderer raw={imgState} />);
-    const imgElement = component.find("img");
 
-    expect(imgElement.length).toStrictEqual(1);
-    expect(imgElement[0]["attribs"]["src"]).toStrictEqual(imgUrl);
+    const { getByTestId } = render(<DraftRenderer raw={latexState} />);
+    const textElem = getByTestId('latex-block');
+
+    expect(textElem).toBeInTheDocument();
   });
+
 
   // TODO: find where is the href prop.
   it("Render <Link> element.", () => {
@@ -314,12 +333,11 @@ describe("<DraftRenderer />", () => {
         "0": { type: "LINK", mutability: "MUTABLE", data: { url: linkUrl } },
       },
     };
-    const component = render(<DraftRenderer raw={linkState} />);
-    const linkElement = component.find("a");
 
-    expect(linkElement.length).toStrictEqual(1);
-    expect(linkElement.text()).toStrictEqual("Link");
-    expect(linkElement[0]["attribs"].rel).toStrictEqual("nofollow");
+    const { getByText ,  } = render(<DraftRenderer raw={linkState} />);
+
+    const linkElement = getByText("Link");
+    expect(linkElement).toHaveAttribute("rel", "nofollow");
   });
 
   it("Render <Spoiler> element.", () => {
@@ -344,61 +362,12 @@ describe("<DraftRenderer />", () => {
         },
       },
     };
-    const component = render(<DraftRenderer raw={spoilerState} />);
-    const textSpan = component.find("span");
 
-    expect(textSpan.text()).toStrictEqual(spoilerText);
-    expect(textSpan[0]["attribs"].class).toStrictEqual(`Spoiler Concealed`);
-    expect(textSpan[0]["attribs"].role).toStrictEqual("presentation");
+    const { getByText } = render(<DraftRenderer raw={spoilerState} />);
+    expect(getByText(spoilerText)).toHaveClass("Spoiler Concealed");
   });
 
-  it("Render <Latex> element.", () => {
-    //const spoilerText = "spoiled text";
-    const latexState = {
-      blocks: [
-        {
-          key: "5a36h",
-          text: "",
-          type: "unstyled",
-          depth: 0,
-          inlineStyleRanges: [],
-          entityRanges: [],
-          data: {},
-        },
-        {
-          key: "e6b3g",
-          text: " ",
-          type: "atomic",
-          depth: 0,
-          inlineStyleRanges: [],
-          entityRanges: [{ offset: 0, length: 1, key: 0 }],
-          data: {},
-        },
-        {
-          key: "75dr8",
-          text: "",
-          type: "unstyled",
-          depth: 0,
-          inlineStyleRanges: [],
-          entityRanges: [],
-          data: {},
-        },
-      ],
-      entityMap: {
-        "0": {
-          type: "LATEX",
-          mutability: "Immutable",
-          data: { content: "f(x) = ... " },
-        },
-      },
-    };
-    const component = render(<DraftRenderer raw={latexState} />);
-    let span = component.find("span");
-
-    expect(span[0]["attribs"].class).toStrictEqual("latex-block");
-  });
-
-  it("Render <Video> element.", () => {
+  it("Render <Video> element.", async () => {
     const videoSrc = "www.url.com/video.mp4";
     const videoState = {
       blocks: [
@@ -438,29 +407,14 @@ describe("<DraftRenderer />", () => {
         },
       },
     };
-    const component = shallow(<DraftRenderer raw={videoState} />);
-    const videoElement = component.find(".video-element");
+    const { getByTestId } = render(<DraftRenderer raw={videoState} />);
 
-    expect(videoElement.length).toStrictEqual(1);
-  });
+    await waitFor(() => {
+      const rpl = getByTestId("react-player");
+      expect(rpl).toBeInTheDocument();
+    });
 
-  it("Rendering null state (show 'nothing to render' warning).", () => {
-    const component = render(<DraftRenderer raw={null} />);
-    const componentClass = component[0]["attribs"]["class"];
-    const componentName = component[0]["name"];
+  })
 
-    expect(componentClass).toStrictEqual("render-warning");
-    expect(componentName).toStrictEqual("div");
-    expect(component.text()).toStrictEqual("Nothing to render.");
-  });
 
-  it("Rendering invalid content state (show 'nothing to render' warning).", () => {
-    const component = render(<DraftRenderer raw={invalidContentState} />);
-    const componentClass = component[0]["attribs"]["class"];
-    const componentName = component[0]["name"];
-
-    expect(componentClass).toStrictEqual("render-warning");
-    expect(componentName).toStrictEqual("div");
-    expect(component.text()).toStrictEqual("Nothing to render.");
-  });
 });

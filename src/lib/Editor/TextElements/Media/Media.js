@@ -18,7 +18,7 @@ const Media = (props) => {
     src = props.src;
   }
 
-  return <ReactPlayer url={src} playing={false} />;
+  return <ReactPlayer url={src} playing={false} data-testid="react-player" />;
 }
 
 export default Media;

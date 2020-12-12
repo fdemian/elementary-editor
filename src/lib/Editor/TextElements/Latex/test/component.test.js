@@ -1,11 +1,10 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { Button } from "antd";
-import { act } from "react-dom/test-utils";
-import { shallow, render } from "enzyme";
 import LatexBlock from "../LatexBlock";
 import TexBlock from "../TeXBlock";
-import EditorButtons from "../Buttons";
+import EditorButtons from '../Buttons';
+import { EditorState, Entity, ContentState, AtomicBlockUtils } from "draft-js";
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 const contentStateDesc = {
   contentState: {
@@ -87,23 +86,17 @@ const contentStateDesc = {
 };
 const bProps = JSON.parse(JSON.stringify(contentStateDesc));
 
-let container;
-
-beforeEach(() => {
-  container = document.createElement("div");
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  document.body.removeChild(container);
-  container = null;
-});
-
 describe("Latex", () => {
-  it("<TexBlock />", () => {
+
+  it("<TexBlock /> (render, change values)", async () => {
+
     bProps.block.getKey = () => 0;
     bProps.blockProps.onStartEdit = (k) => null;
     bProps.block.getEntityAt = (n) => {};
+    bProps.blockProps.onFinishEdit = () => {};
+    bProps.contentState.mergeEntityData = (key, data) => {
+      return data;
+    }
     bProps.contentState.getEntity = (e) => {
       return {
         getData: () => {
@@ -114,65 +107,86 @@ describe("Latex", () => {
       };
     };
 
-    act(() => {
-      ReactDOM.render(<TexBlock {...bProps} />, container);
-    });
 
-    const div = container.querySelector("div");
-    const katexOutput = div.querySelector(".katex-output");
-    let editPanel = div.querySelector(".edit-panel-container");
+    const { getByRole, getByText, getAllByText } = render(<TexBlock {...bProps} />);
 
-    expect(div.className).toStrictEqual("TeXEditor-tex");
+    const texOutput = getByRole("presentation");
+    expect(texOutput).toHaveClass("katex-output");
 
-    expect(katexOutput).toBeTruthy();
-    expect(editPanel).toStrictEqual(null);
-    expect(katexOutput.className).toStrictEqual("katex-output");
+    fireEvent.click(texOutput);
 
-    // Trigger editing mode on KatexBlock.
-    act(() => {
-      katexOutput.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    });
+    await waitFor(() => {
+      const removeBtn = getByText('Remove');
+      const doneBtn = getByText('Done');
+      const textBox = getByRole("textbox");
+      expect(removeBtn).toBeInTheDocument();
+      expect(doneBtn).toBeInTheDocument();
+      expect(textBox).toHaveAttribute("rows", "2");
+      expect(getAllByText('f(x)', {exact: false})[1]).toBeInTheDocument();
 
-    editPanel = div.querySelector(".edit-panel-container");
+      // Change checkbox.
+      fireEvent.change(textBox, { target: { value: 'g(x)' } });
 
-    expect(editPanel).toBeTruthy();
-    expect(div.className).toStrictEqual("TeXEditor-tex TeXEditor-activeTeX");
+      // Save current status.
+      fireEvent.click(doneBtn);
+      // TODO.
+    })
 
-    // TODO:
-    // Trigger edit update.
-    // Trigger remove button.
+  })
 
-    /*
-    const okButton = editPanel.querySelector('.edit-panel-ok-btn');
+  it("<TexBlock /> render invalid tex", async () => {
+
+      bProps.block.getKey = () => 0;
+      bProps.blockProps.onStartEdit = (k) => null;
+      bProps.block.getEntityAt = (n) => {};
+      bProps.blockProps.onFinishEdit = () => {};
+      bProps.contentState.mergeEntityData = (key, data) => {
+        return data;
+      }
+      bProps.contentState.getEntity = (e) => {
+        return {
+          getData: () => {
+            return {
+              content: "f(x) = ... ",
+            };
+          },
+        };
+      };
 
 
-    // Ok button. Disable edit.
-    act(() => {
-      okButton.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-    });
+      const { getByRole, getByText, getAllByText } = render(<TexBlock {...bProps} />);
 
-    //editPanel = div.querySelector('.edit-panel-container');
-    //expect(editPanel).toStrictEqual(null);
-    */
-  });
+      const texOutput = getByRole("presentation");
+      expect(texOutput).toHaveClass("katex-output");
+
+      fireEvent.click(texOutput);
+
+      await waitFor(() => {
+        const removeBtn = getByText('Remove');
+        const doneBtn = getByText('Done');
+        const textBox = getByRole("textbox");
+        expect(removeBtn).toBeInTheDocument();
+        expect(doneBtn).toBeInTheDocument();
+        expect(textBox).toHaveAttribute("rows", "2");
+        expect(getAllByText('f(x)', {exact: false})[1]).toBeInTheDocument();
+
+        // Change checkbox.
+        fireEvent.change(textBox, { target: { value: "\\" } });
+
+        expect(getByText("Invalid TeX")).toBeInTheDocument();
+      });
+  })
 
   it("<LatexBlock />", () => {
     const props = { content: "f(x) = ... " };
 
-    act(() => {
-      ReactDOM.render(<LatexBlock {...props} />, container);
-    });
+    const { getByTestId } = render(<LatexBlock {...props} />);
+    const textElem = getByTestId('latex-block');
 
-    let span = container.querySelector("span");
+    fireEvent(textElem, new Event("timeupdate", { bubbles: true }))
 
-    expect(span.className).toStrictEqual("latex-block");
-
-    act(() => {
-      container.dispatchEvent(new Event("timeupdate", { bubbles: true }));
-    });
-
-    //span = container.querySelector('span');
-  });
+    expect(getByTestId('latex-block')).toBeInTheDocument();
+  })
 
   it("<Buttons /> invalid tex", () => {
     const props = {
@@ -181,13 +195,10 @@ describe("Latex", () => {
       saveFn: jest.fn(),
     };
 
-    const component = render(<EditorButtons {...props} />);
-    const buttons = component.children();
+    const { getByText } = render(<EditorButtons {...props} />);
 
-    expect(buttons[0]["attribs"].class).toStrictEqual(
-      "ant-btn danger-btn ant-btn-danger"
-    );
-    expect(buttons[1]["attribs"].disabled).toStrictEqual("");
-    expect(buttons.length).toStrictEqual(2);
-  });
-});
+    expect(getByText("Remove")).toBeInTheDocument();
+    expect(getByText("Invalid TeX")).toBeInTheDocument();
+  })
+
+})
