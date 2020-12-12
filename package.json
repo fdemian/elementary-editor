@@ -3,8 +3,8 @@
   "version": "0.9.8",
   "license": "MIT",
   "dependencies": {
-    "@babel/cli": "7.12.8",
-    "@babel/core": "7.12.9",
+    "@babel/cli": "7.12.10",
+    "@babel/core": "7.12.10",
     "@babel/plugin-proposal-class-properties": "7.12.1",
     "@babel/plugin-proposal-decorators": "7.12.1",
     "@babel/plugin-proposal-do-expressions": "7.12.1",
@@ -22,7 +22,7 @@
     "@babel/plugin-syntax-dynamic-import": "7.8.3",
     "@babel/plugin-syntax-import-meta": "7.10.4",
     "@babel/plugin-transform-modules-commonjs": "^7.12.1",
-    "@babel/preset-react": "7.12.7",
+    "@babel/preset-react": "7.12.10",
     "@babel/preset-stage-0": "^7.8.3",
     "@fortawesome/fontawesome-svg-core": "1.2.32",
     "@fortawesome/free-brands-svg-icons": "5.15.1",
@@ -73,7 +73,7 @@
   },
   "devDependencies": {
     "@babel/helper-regex": "^7.10.5",
-    "@babel/preset-env": "7.12.7",
+    "@babel/preset-env": "7.12.10",
     "antd-dayjs-webpack-plugin": "^1.0.1",
     "babel-plugin-import": "1.13.3",
     "customize-cra": "^1.0.0",
