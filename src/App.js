@@ -5,6 +5,21 @@ import "./App.css";
 
 const ButtonGroup = Button.Group;
 
+const sampleContent = {
+  blocks: [
+    {
+      key: "1bkrq",
+      text: "asdfdsfdasfdsaf",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [{ offset: 0, length: 15, style: "BOLD" }],
+      entityRanges: [],
+      data: {},
+    },
+  ],
+  entityMap: {},
+};
+
 const editorUsageCodeClass = `import Editor from 'elementary-editor';
  class MyComponent extends Component  {
 
@@ -139,6 +154,16 @@ const App = () => {
     setEditorState(plaintext);
   };
 
+  const addContentState = () => {
+    const { addNewEntity } = containerRef.current;
+    addNewEntity('blockquote', 'blockquote', {
+      content: JSON.stringify(sampleContent),
+      author: "rulo",
+      authorLink: "#",
+      cite: "/comments/1"
+    });
+  }
+
   return (
     <div className="App">
       <div>
@@ -245,6 +270,9 @@ const App = () => {
             </Button>
             <Button type="primary" onClick={getPlainText}>
               Log plain text
+            </Button>
+            <Button type="primary" onClick={addContentState}>
+              Add content
             </Button>
           </ButtonGroup>
         </div>

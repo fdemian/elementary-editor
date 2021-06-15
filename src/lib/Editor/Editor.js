@@ -8,6 +8,7 @@ import Media from "./TextElements/Media/Media";
 import Link from "./TextElements/Link/Link";
 import editorStyles from "./EditorStyles";
 import QuoteBlockWrapper from "./TextElements/QuoteBlock/QuoteBlockWrapper";
+import QuoteBlock from "./TextElements/QuoteBlock/QuoteBlock";
 import EditorControls from "./Controls";
 import BaseEditor from "./BaseEditor";
 import {
@@ -31,12 +32,13 @@ const {
   DefaultDraftBlockRenderMap,
   convertToRaw,
   convertFromRaw,
-  AtomicBlockUtils,
+  AtomicBlockUtils
 } = Draft;
 
 const blockRenderMap = Map({
   SPOILER: { element: Spoiler },
   LATEX: { element: TeXBlock },
+  QUOTEBLOCK: { element: QuoteBlock }
 });
 
 const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
@@ -62,8 +64,6 @@ const EditorComponent = (props) => {
       },
     ]);
   }
-
-  const { createWithContent } = EditorState;
 
   if (initialState == null) {
     initialStateEditor = EditorState.createEmpty(decorator);
@@ -177,11 +177,16 @@ const EditorComponent = (props) => {
     if (text === "QuoteBlock") {
       return {
         component: QuoteBlockWrapper,
-        editable: false,
+        editable: false
       };
     }
 
     if (type === "atomic") {
+      return {
+        component: QuoteBlockWrapper,
+        editable: false
+      };
+
       return {
         component: TeXBlock,
         editable: false,
@@ -271,16 +276,13 @@ const EditorComponent = (props) => {
 
   const insertCustomBlock = (block) => {
     const { type, mutability, content } = block;
-
     const { insertAtomicBlock } = AtomicBlockUtils;
-
     const contentStateWithEntity = contentState.createEntity(
       type,
       mutability,
       content
     );
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-
     const newEditorState = EditorState.set(editorState, {
       currentContent: contentStateWithEntity,
     });
@@ -337,12 +339,23 @@ const EditorComponent = (props) => {
     setEditorState(clearedState);
   };
 
+  const addNewEntity = (type, mutability, data) => {
+    const block = {
+      type: type,
+      mutability: mutability,
+      content: data
+    };
+    const newState = insertCustomBlock(block);
+    setEditorState(newState);
+  }
+
   // Exposed methods.
   useImperativeHandle(containerRef, () => {
     return {
       clear: clear,
       getContent: getContent,
       getPlainText: getPlainText,
+      addNewEntity: addNewEntity
     };
   });
 

@@ -3,16 +3,23 @@ import Renderer from "../../../DraftRenderer/DraftRenderer";
 import "./QuoteBlock.css";
 
 const QuoteBlock = ({ comment }) => {
-  const rawContent = JSON.parse(comment.content);
-
-  return (
+  const { content, author, authorLink, cite } = comment.content;
+  const rawContent = JSON.parse(content);
+  return(
+  <figure>
+    <figcaption>
+      <a href={authorLink}>{author}</a>
+      <cite><a href={cite}> says</a></cite>
+    </figcaption>
     <blockquote
-        cite={comment.author}
-        data-testid="blockquote-element"
-    >
-      <Renderer raw={rawContent} />
+       cite={cite}
+       data-testid="blockquote-element"
+     >
+       <Renderer raw={rawContent.content ?? rawContent} />
     </blockquote>
+  </figure>
   );
+
 };
 
 export default QuoteBlock;
