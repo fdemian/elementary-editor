@@ -182,10 +182,13 @@ const EditorComponent = (props) => {
     }
 
     if (type === "atomic") {
-      return {
-        component: QuoteBlockWrapper,
-        editable: false
-      };
+
+      if(text === "blockquote"){
+        return {
+          component: QuoteBlockWrapper,
+          editable: false
+        };
+      }
 
       return {
         component: TeXBlock,
@@ -274,7 +277,7 @@ const EditorComponent = (props) => {
 
   const showInput = () => setInputVisible(true);
 
-  const insertCustomBlock = (block) => {
+  const insertCustomBlock = (block, text) => {
     const { type, mutability, content } = block;
     const { insertAtomicBlock } = AtomicBlockUtils;
     const contentStateWithEntity = contentState.createEntity(
@@ -287,7 +290,7 @@ const EditorComponent = (props) => {
       currentContent: contentStateWithEntity,
     });
 
-    return insertAtomicBlock(newEditorState, entityKey, " ");
+    return insertAtomicBlock(newEditorState, entityKey, (text ? text : " "));
   };
 
   const toggleCustomStyle = (styleObject) => {
@@ -345,7 +348,7 @@ const EditorComponent = (props) => {
       mutability: mutability,
       content: data
     };
-    const newState = insertCustomBlock(block);
+    const newState = insertCustomBlock(block, type);
     setEditorState(newState);
   }
 
