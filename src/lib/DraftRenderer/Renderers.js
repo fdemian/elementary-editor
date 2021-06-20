@@ -2,7 +2,7 @@ import React from "react";
 import Spoiler from "../Editor/TextElements/Spoiler/Spoiler";
 import LatexBlock from "../Editor/TextElements/Latex/LatexBlock";
 import Media from "../Editor/TextElements/Media/Media";
-//import QuoteBlock from '../Editor/TextElements/QuoteBlock/QuoteBlock'
+import QuoteBlock from '../Editor/TextElements/QuoteBlock/QuoteBlock'
 import RenderLink from "../Editor/TextElements/Link/RenderLink";
 
 /* Style callbacks */
@@ -37,9 +37,11 @@ const renderers = {
 
   /* Block Styles */
   blocks: {
-    unstyled: (children) => children.map((child) => <p>{child}</p>),
+    unstyled: (children) => (
+      children.map((child) => <p>{child}</p>)
+    ),
     blockquote: (children) => (
-      <blockquote key={1}>{addBreaklines(children)}</blockquote>
+      <blockquote>{addBreaklines(children)}</blockquote>
     ),
     "header-two": (children) => children.map((child) => <h2>{child}</h2>),
     "code-block": (children) => (
@@ -76,7 +78,12 @@ const renderers = {
         <Media src={data.src} />
       </div>
     ),
-    /*QuoteBlock: (children, data) => <QuoteBlock comment={data.props} />*/
+    blockquote: (children, data) => {
+      const commentData = { comment:  { content: data } };
+      return(
+       <QuoteBlock {...commentData} />
+      );
+    }
   },
 };
 
