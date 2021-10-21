@@ -33,6 +33,7 @@ const renderers = {
     BOLD: (children) => <strong>{children}</strong>,
     ITALIC: (children) => <em>{children}</em>,
     UNDERLINE: (children) => <u>{children}</u>,
+    STRIKETHROUGH: (children) => <del>{children}</del>
   },
 
   /* Block Styles */

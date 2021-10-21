@@ -1,5 +1,7 @@
 import React, { useRef, useState } from "react";
 import Editor from "./lib/Editor/Editor";
+import DefaultRenderer from "./lib/DraftRenderer/DraftRenderer";
+
 import { Button, Card, Menu, Table } from "antd";
 import "./App.css";
 
@@ -283,6 +285,10 @@ const App = () => {
                 ? editorState
                 : "Press 'Log state' to log the current state."}
             </p>
+          </Card>
+          <Card>
+            <h1>Default rendering example</h1>
+            <DefaultRenderer raw={JSON.parse(editorState)} />
           </Card>
         </div>
       </div>
