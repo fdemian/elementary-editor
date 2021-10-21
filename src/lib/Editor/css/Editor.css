@@ -44,6 +44,20 @@
   margin: 0;
 }
 
+kbd {
+  margin: 0 .2em;
+  padding: .15em .4em .1em;
+  font-size: 90%;
+  background: rgba(150,150,150,.06);
+  border: 1px solid rgba(100,100,100,.2);
+  border-bottom-width: 2px;
+  border-radius: 3px;
+}
+
+kbd * {
+  display: inline;
+}
+
 .public-DraftStyleDefault-pre
 {
       background-color: rgba(0, 0, 0, 0.05);

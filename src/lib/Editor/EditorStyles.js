@@ -2,6 +2,7 @@ import Draft from "draft-js";
 
 // Font awesome icons.
 import {
+  faKeyboard,
   faQuoteLeft,
   faHeading,
   faList,
@@ -17,6 +18,7 @@ import {
   faEye,
   faVideo,
   faCalculator,
+  faInfoCircle
 } from "@fortawesome/free-solid-svg-icons";
 
 const { EditorState, RichUtils, AtomicBlockUtils } = Draft;
@@ -38,6 +40,29 @@ export const insertMedia = (editorState, type, value) => {
 
   return mediaBlock;
 };
+
+
+/*
+export const insertAbbr = (editorState, type, value) => {
+  const contentState = editorState.getCurrentContent();
+  const contentStateWithEntity = contentState.createEntity("LINK", "MUTABLE", {
+    url: value,
+  });
+  const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+
+  //
+  const newEditorState = EditorState.set(editorState, {
+    currentContent: contentStateWithEntity,
+  });
+  const newStateSelection = newEditorState.getSelection();
+  const linkState = RichUtils.toggleBlock(
+    newEditorState,
+    newStateSelection,
+    entityKey
+  );
+
+  return linkState;
+}*/
 
 export const insertLink = (editorState, type, value) => {
   const contentState = editorState.getCurrentContent();
@@ -78,6 +103,7 @@ const BLOCK_TYPES = [
   { label: "Unordered List", style: "unordered-list-item", icon: faList },
   { label: "Ordered List", style: "ordered-list-item", icon: faListOl },
   { label: "Code Block", style: "code-block", icon: faCode },
+  { label: "Keyboard", style: "Keyboard", icon: faKeyboard }
 ];
 
 const INLINE_STYLES = [
@@ -88,13 +114,22 @@ const INLINE_STYLES = [
 ];
 
 const CUSTOM_STYLES = [
+  /*
+  {
+    label: "Abbreviation",
+    style: "Abbreviation",
+    toggleFn: insertAbbr,
+    requiresInput: true,
+    requiresSelection: true,
+    icon: faInfoCircle
+  },*/
   {
     label: "Link",
     style: "Link",
     toggleFn: insertLink,
     requiresInput: true,
     requiresSelection: true,
-    icon: faLink,
+    icon: faLink
   },
   {
     label: "Remove Link",
@@ -102,7 +137,7 @@ const CUSTOM_STYLES = [
     toggleFn: removeLink,
     requiresInput: false,
     requiresSelection: false,
-    icon: faUnlink,
+    icon: faUnlink
   },
   {
     label: "Image",
@@ -110,7 +145,7 @@ const CUSTOM_STYLES = [
     toggleFn: insertMedia,
     requiresInput: true,
     requiresSelection: false,
-    icon: faImage,
+    icon: faImage
   },
   {
     label: "Spoiler",
@@ -118,7 +153,7 @@ const CUSTOM_STYLES = [
     //toggleFn: insertSpoiler,
     requiresInput: false,
     requiresSelection: true,
-    icon: faEye,
+    icon: faEye
   },
   {
     label: "Video",
@@ -126,7 +161,7 @@ const CUSTOM_STYLES = [
     toggleFn: insertMedia,
     requiresInput: true,
     requiresSelection: false,
-    icon: faVideo,
+    icon: faVideo
   },
   {
     label: "Latex",
@@ -134,7 +169,7 @@ const CUSTOM_STYLES = [
     //toggleFn: insertTex,
     requiresInput: false,
     requiresSelection: false,
-    icon: faCalculator,
+    icon: faCalculator
   },
 ];
 

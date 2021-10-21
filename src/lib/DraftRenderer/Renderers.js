@@ -28,12 +28,14 @@ const styles = {
 const addBreaklines = (children) => children.map((child) => [child, <br />]);
 
 const renderers = {
+
   /* Inline Styles */
   inline: {
     BOLD: (children) => <strong>{children}</strong>,
     ITALIC: (children) => <em>{children}</em>,
     UNDERLINE: (children) => <u>{children}</u>,
-    STRIKETHROUGH: (children) => <del>{children}</del>
+    STRIKETHROUGH: (children) => <del>{children}</del>,
+    ABBREVIATION: (children) => <abbr title="Thing">{children}</abbr>
   },
 
   /* Block Styles */
@@ -48,6 +50,7 @@ const renderers = {
     "code-block": (children) => (
       <pre style={styles.codeBlock}>{addBreaklines(children)}</pre>
     ),
+    Keyboard: (children) => (<kbd>{children}</kbd>),
     "unordered-list-item": (children) => (
       <ul>
         {children.map((child) => (

@@ -35,12 +35,14 @@ const {
   AtomicBlockUtils
 } = Draft;
 
+const KeyboardElem = ({children}) => <kbd>{children}</kbd>;
+
 const blockRenderMap = Map({
   SPOILER: { element: Spoiler },
   LATEX: { element: TeXBlock },
-  QUOTEBLOCK: { element: QuoteBlock }
+  QUOTEBLOCK: { element: QuoteBlock },
+  Keyboard: { element: KeyboardElem }
 });
-
 const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
 const EditorComponent = (props) => {

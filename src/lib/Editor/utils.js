@@ -10,6 +10,9 @@ export const getBlockStyle = (block) => {
     case "code-block":
       blockStyle = "Code";
       break;
+    case "kbd":
+      blockStyle = "Keyboard"
+      break;
     default:
       blockStyle = null;
   }
