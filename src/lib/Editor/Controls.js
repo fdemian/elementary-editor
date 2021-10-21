@@ -24,22 +24,23 @@ const EditorControls = (props) => {
     inputVisible,
     inputType,
     inputValue,
+    altControls
   } = props;
 
   if (inputVisible) {
     return (
     <Suspense fallback={<p>Loading</p>}>
-    <div className='EditorControls'>
-      <div className='RichEditor-controls'>
-        <URLInput
-          changeFn={onInputChange}
-          urlValue={inputValue}
-          type={inputType}
-          cancelFn={cancelInput}
-          confirmFn={confirmInput}
-        />
+      <div className='EditorControls'>
+        <div className='RichEditor-controls'>
+          <URLInput
+            changeFn={onInputChange}
+            urlValue={inputValue}
+            type={inputType}
+            cancelFn={cancelInput}
+            confirmFn={confirmInput}
+          />
+         </div>
        </div>
-     </div>
     </Suspense>
      );
   }
@@ -79,6 +80,9 @@ const EditorControls = (props) => {
             icon={type.icon}
           />
         ))}
+        {altControls ? altControls.map(P => (
+          <P  />
+        )) : null}
       </div>
     </div>
   );
