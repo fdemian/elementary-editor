@@ -15,6 +15,7 @@ import {
   getBlockStyle,
   findLinkEntities,
   findSpoilerEntities,
+  findKeyboardEntities,
   filterWhiteListedStyles,
   createNewImmutableEntity,
   insertEntityToState,
@@ -35,14 +36,18 @@ const {
   AtomicBlockUtils
 } = Draft;
 
-const KeyboardElem = ({children}) => <kbd>{children}</kbd>;
+const Keyboard = ({ decoratedText }) => {
+  return (<kbd>{decoratedText}</kbd>);
+};
 
 const blockRenderMap = Map({
   SPOILER: { element: Spoiler },
+  KEYBOARD: { element: Keyboard },
   LATEX: { element: TeXBlock },
-  QUOTEBLOCK: { element: QuoteBlock },
-  Keyboard: { element: KeyboardElem }
+  QUOTEBLOCK: { element: QuoteBlock }
 });
+
+
 const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
 const EditorComponent = (props) => {
@@ -64,6 +69,11 @@ const EditorComponent = (props) => {
           findSpoilerEntities(contentBlock, callback, contentState),
         component: Spoiler,
       },
+      {
+        strategy: (contentBlock, callback, contentState) =>
+          findKeyboardEntities(contentBlock, callback, contentState),
+          component: Keyboard,
+      }
     ]);
   }
 
@@ -303,6 +313,11 @@ const EditorComponent = (props) => {
         insertEntity("SPOILER");
         break;
 
+      case "KEYBOARD":
+        insertEntity("KEYBOARD");
+        break;
+
+
       case "LATEX":
         const texBlock = getTexBlock();
         newState = insertCustomBlock(texBlock);
@@ -322,8 +337,12 @@ const EditorComponent = (props) => {
 
   const toggleInlineStyle = (inlineStyle) => {
     const { toggleInlineStyle } = RichUtils;
-    onChange(toggleInlineStyle(editorState, inlineStyle));
+    const selection = editorState.getSelection();
+    if (!selection.isCollapsed()) {
+      onChange(toggleInlineStyle(editorState, inlineStyle));
+    }
   };
+
 
   // TODO: check this out.
   // If the user changes block type before entering any text, we can

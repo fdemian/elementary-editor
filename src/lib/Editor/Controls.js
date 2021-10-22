@@ -5,7 +5,6 @@ import React, {
 import StyleButton from './StyleButton';
 import './css/Controls.css';
 
-
 const URLInput = lazy(() => import('./URLInput'));
 
 const EditorControls = (props) => {
@@ -24,6 +23,7 @@ const EditorControls = (props) => {
     inputVisible,
     inputType,
     inputValue,
+    editorState
   } = props;
 
   if (inputVisible) {
@@ -56,6 +56,7 @@ const EditorControls = (props) => {
             onToggle={onToggleInline}
             style={type.style}
             icon={type.icon}
+            editorState={editorState}
           />
         ))}
         {editorStyles.BLOCK_TYPES.map((type) => (

@@ -95,6 +95,16 @@ export const removeLink = (editorState) => {
   return null;
 };
 
+export const insertKeyboard = (editorState) => {
+  const selection = editorState.getSelection();
+
+  if (!selection.isCollapsed()) {
+    return RichUtils.toggleInlineStyle(editorState, 'Keyboard');
+  }
+
+  return null;
+}
+
 /* ------------------- */
 
 const BLOCK_TYPES = [
@@ -102,27 +112,25 @@ const BLOCK_TYPES = [
   { label: "Heading", style: "header-two", icon: faHeading },
   { label: "Unordered List", style: "unordered-list-item", icon: faList },
   { label: "Ordered List", style: "ordered-list-item", icon: faListOl },
-  { label: "Code Block", style: "code-block", icon: faCode },
-  { label: "Keyboard", style: "Keyboard", icon: faKeyboard }
+  { label: "Code Block", style: "code-block", icon: faCode }
 ];
 
 const INLINE_STYLES = [
   { label: "Bold", style: "BOLD", icon: faBold },
   { label: "Italic", style: "ITALIC", icon: faItalic },
   { label: "Underline", style: "UNDERLINE", icon: faUnderline },
-  { label: "Strikethrough", style: "STRIKETHROUGH", icon: faStrikethrough },
+  { label: "Strikethrough", style: "STRIKETHROUGH", icon: faStrikethrough }
 ];
 
 const CUSTOM_STYLES = [
-  /*
   {
-    label: "Abbreviation",
-    style: "Abbreviation",
-    toggleFn: insertAbbr,
-    requiresInput: true,
+    label: "Keyboard",
+    style: "Keyboard",
+    /*toggleFn: insertKeyboard,*/
+    requiresInput: false,
     requiresSelection: true,
-    icon: faInfoCircle
-  },*/
+    icon: faKeyboard
+  },
   {
     label: "Link",
     style: "Link",

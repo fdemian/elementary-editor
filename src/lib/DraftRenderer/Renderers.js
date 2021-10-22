@@ -50,7 +50,6 @@ const renderers = {
     "code-block": (children) => (
       <pre style={styles.codeBlock}>{addBreaklines(children)}</pre>
     ),
-    Keyboard: (children) => (<kbd>{children}</kbd>),
     "unordered-list-item": (children) => (
       <ul>
         {children.map((child) => (
@@ -82,6 +81,7 @@ const renderers = {
         <Media src={data.src} />
       </div>
     ),
+    KEYBOARD: (children) => (<kbd>{children[0]}</kbd>),
     blockquote: (children, data) => {
       const commentData = { comment:  { content: data } };
       return(
