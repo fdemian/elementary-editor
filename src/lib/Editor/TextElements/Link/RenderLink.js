@@ -4,7 +4,7 @@ const RenderLink = (props) => {
   const { src, text } = props;
 
   return(
-  <a href={'-'+src} rel="nofollow">
+  <a href={src} rel="nofollow">
     {text}
   </a>
   );
