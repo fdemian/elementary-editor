@@ -1,9 +1,19 @@
 import React, { useRef, useState } from "react";
 import Editor from "./lib/Editor/Editor";
 import DefaultRenderer from "./lib/DraftRenderer/DraftRenderer";
-
 import { Button, Card, Menu, Table } from "antd";
 import "./App.css";
+
+const RendererText = ({ text }) => {
+  let jsonText;
+
+  try {
+    jsonText = JSON.parse(text);
+    return <DefaultRenderer raw={jsonText} />;
+  } catch (error) {
+    return <p>{text}</p>;
+  }
+}
 
 const ButtonGroup = Button.Group;
 
@@ -239,7 +249,7 @@ const App = () => {
       content: JSON.stringify(sampleContent),
       author: "rulo",
       authorLink: "#",
-      cite: "/comments/1"
+      cite: "#comment-1"
     });
   }
 
@@ -365,7 +375,7 @@ const App = () => {
           </Card>
           <Card>
             <h1>Default rendering example</h1>
-            <DefaultRenderer raw={JSON.parse(editorState)} />
+            <RendererText text={editorState} />
           </Card>
         </div>
       </div>
