@@ -7,8 +7,7 @@ import Spoiler from "./TextElements/Spoiler/SpoilerWrapper";
 import Media from "./TextElements/Media/Media";
 import Link from "./TextElements/Link/Link";
 import editorStyles from "./EditorStyles";
-import QuoteBlockWrapper from "./TextElements/QuoteBlock/QuoteBlockWrapper";
-import QuoteBlock from "./TextElements/QuoteBlock/QuoteBlock";
+import QuoteBlockWrapper from "./TextElements/QuoteBlock/QuoteBlockEditor";
 import EditorControls from "./Controls";
 import BaseEditor from "./BaseEditor";
 import {
@@ -44,7 +43,7 @@ const blockRenderMap = Map({
   SPOILER: { element: Spoiler },
   KEYBOARD: { element: Keyboard },
   LATEX: { element: TeXBlock },
-  QUOTEBLOCK: { element: QuoteBlock }
+  QUOTEBLOCK: { element: QuoteBlockWrapper }
 });
 
 
@@ -89,6 +88,7 @@ const EditorComponent = (props) => {
 
   // State and refs.
   const [texEdits, setTexEdits] = useState(Map());
+  const [quoteEdits, setQuoteEdits] = useState(Map());
   const [editorState, setEditorState] = useState(initialStateEditor);
   const [inputVisible, setInputVisible] = useState(false);
   const [inputType, setInputType] = useState("");
@@ -198,7 +198,15 @@ const EditorComponent = (props) => {
       if(text === "blockquote"){
         return {
           component: QuoteBlockWrapper,
-          editable: false
+          editable: false,
+          props: {
+            onStartEdit: (blockKey) => {
+              const quoteEditState = quoteEdits.set(blockKey, true);
+              setTexEdits(quoteEditState);
+            },
+            onFinishEdit: (blockKey, newContentState) => insertTex(blockKey, newContentState),
+            onRemove: (blockKey) => removeTex(blockKey)
+          }
         };
       }
 
@@ -207,13 +215,15 @@ const EditorComponent = (props) => {
         editable: false,
         props: {
           onStartEdit: (blockKey) => {
+            alert(":::::");
             const texEditState = texEdits.set(blockKey, true);
             setTexEdits(texEditState);
           },
           onFinishEdit: (blockKey, newContentState) =>
-            insertTex(blockKey, newContentState),
+            addNewEntity('blockquote', "contentEditable", newContentState),
+
           onRemove: (blockKey) => removeTex(blockKey),
-        },
+        }
       };
     }
 
