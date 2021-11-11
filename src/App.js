@@ -247,7 +247,7 @@ const App = () => {
     const { addNewEntity } = containerRef.current;
     addNewEntity('blockquote', 'contentEditable', {
       content: JSON.stringify(sampleContent),
-      author: "rulo",
+      author: "@rulo",
       authorLink: "#",
       cite: "#comment-1"
     });
