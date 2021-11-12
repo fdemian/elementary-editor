@@ -4,6 +4,7 @@ import LatexBlock from "../Editor/TextElements/Latex/LatexBlock";
 import Media from "../Editor/TextElements/Media/Media";
 import QuoteBlock from '../Editor/TextElements/QuoteBlock/QuoteBlock'
 import RenderLink from "../Editor/TextElements/Link/RenderLink";
+import CodeHighlighter from '../Editor/TextElements/CodeHighlighter/CodeHighlighter';
 
 /* Style callbacks */
 const styles = {
@@ -48,7 +49,9 @@ const renderers = {
     ),
     "header-two": (children) => children.map((child) => <h2>{child}</h2>),
     "code-block": (children) => (
-      <pre style={styles.codeBlock}>{addBreaklines(children)}</pre>
+      <CodeHighlighter>
+        {children}
+      </CodeHighlighter>
     ),
     "unordered-list-item": (children) => (
       <ul>

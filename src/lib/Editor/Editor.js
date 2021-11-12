@@ -9,6 +9,8 @@ import Link from "./TextElements/Link/Link";
 import editorStyles from "./EditorStyles";
 import QuoteBlockWrapper from "./TextElements/QuoteBlock/QuoteBlockWrapper";
 import QuoteBlock from "./TextElements/QuoteBlock/QuoteBlock";
+import CodeHighlighter from './TextElements/CodeHighlighter/HighlightedEditor';
+
 import EditorControls from "./Controls";
 import BaseEditor from "./BaseEditor";
 import {
@@ -44,7 +46,8 @@ const blockRenderMap = Map({
   SPOILER: { element: Spoiler },
   KEYBOARD: { element: Keyboard },
   LATEX: { element: TeXBlock },
-  QUOTEBLOCK: { element: QuoteBlock }
+  QUOTEBLOCK: { element: QuoteBlock },
+  "code-block": { element: CodeHighlighter }
 });
 
 
