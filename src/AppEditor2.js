@@ -64,22 +64,8 @@ const App = () => {
     });
   }
 
-/*
-const EmojiClass = (state) => {
-  const store = {
-    getEditorState: () => state
-  };
-
-  return(
-  <div className={editorStyles.options}>
-    <EmojiSuggestions store={store} />
-    <EmojiSelect closeOnEmojiSelect />
-  </div>
-  )
-}*/
-
   const altRenderProps = [EmojiSuggestions];
-  const altControls = [ EmojiSelect ];
+  const altControls = [];
 
   return (
     <div className="App">

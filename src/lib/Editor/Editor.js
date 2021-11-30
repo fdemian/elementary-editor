@@ -11,7 +11,6 @@ import QuoteBlockWrapper from "./TextElements/QuoteBlock/QuoteBlockWrapper";
 import QuoteBlock from "./TextElements/QuoteBlock/QuoteBlock";
 import EditorControls from "./Controls";
 //import BaseEditor from "./BaseEditor";
-import AltEditor from '@draft-js-plugins/editor';
 import { Editor } from "draft-js";
 
 import {
@@ -51,8 +50,8 @@ const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
 const EditorComponent = (props) => {
 
-  const { altEditor, initialState, containerRef , altRenderProps, altControls } = props;
-  const BaseEditor = altEditor ? AltEditor : Editor;
+  const { altEditor, initialState, containerRef , altRenderProps, altControls, plugins } = props;
+  const BaseEditor = altEditor ? altEditor : Editor;
 
   let decorator = null;
   let initialStateEditor;
@@ -404,6 +403,7 @@ const EditorComponent = (props) => {
           handleKeyCommand={handleKeyCommand}
           onChange={onChange}
           ref={containerRef}
+          plugins={plugins}
           spellCheck={false}
           altEditor={altEditor}
           reference={editorRef}
