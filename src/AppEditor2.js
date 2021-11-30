@@ -14,7 +14,7 @@ const hashtagPlugin = createHashtagPlugin();
 const emojiPlugin = createEmojiPlugin({
   useNativeArt: true,
 });
-const { EmojiSuggestions, EmojiSelect } = emojiPlugin;
+const { EmojiSuggestions } = emojiPlugin;
 const plugins = [emojiPlugin, hashtagPlugin];
 
 const ButtonGroup = Button.Group;
