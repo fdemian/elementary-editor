@@ -1,11 +1,16 @@
 import React from "react";
 import { Editor } from "draft-js";
 
+import '../../../node_modules/@draft-js-plugins/hashtag/lib/plugin.css'
+
+
 const BaseEditor = (config) => {
   const AltEditor = config.altEditor;
+  const { altRenderProps } = config;
 
   if (AltEditor) {
-    return (
+    return(
+    <>
       <AltEditor
         blockStyleFn={config.getBlockStyle}
         blockRendererFn={config.blockRendererFn}
@@ -16,7 +21,10 @@ const BaseEditor = (config) => {
         ref={config.reference}
         spellCheck={config.spellCheck}
         readOnly={config.readOnly}
+        plugins={config.plugins}
       />
+      {altRenderProps ? altRenderProps.map(P => (<P />)): null}
+    </>
     );
   }
 

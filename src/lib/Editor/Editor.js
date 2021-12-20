@@ -10,7 +10,9 @@ import editorStyles from "./EditorStyles";
 import QuoteBlockWrapper from "./TextElements/QuoteBlock/QuoteBlockWrapper";
 import QuoteBlock from "./TextElements/QuoteBlock/QuoteBlock";
 import EditorControls from "./Controls";
-import BaseEditor from "./BaseEditor";
+//import BaseEditor from "./BaseEditor";
+import { Editor } from "draft-js";
+
 import {
   getBlockStyle,
   findLinkEntities,
@@ -24,6 +26,9 @@ import {
 import "katex/dist/katex.css";
 import "./css/Draft.css";
 import "./css/Editor.css";
+
+import '../../../node_modules/@draft-js-plugins/emoji/lib/plugin.css';
+import '../../../node_modules/@draft-js-plugins/hashtag/lib/plugin.css'
 
 const {
   CompositeDecorator,
@@ -52,7 +57,8 @@ const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
 const EditorComponent = (props) => {
 
-  const { altEditor, initialState, containerRef } = props;
+  const { altEditor, initialState, containerRef , altRenderProps, altControls, plugins } = props;
+  const BaseEditor = altEditor ? altEditor : Editor;
 
   let decorator = null;
   let initialStateEditor;
@@ -95,7 +101,7 @@ const EditorComponent = (props) => {
   const [inputValue, setInputValue] = useState("");
 
   // Functions.
-  const focus = () => editorRef.current.focus();
+  const focus = () => editorRef.current ? editorRef.current.focus() : {};
   const readOnly = texEdits.count();
   const getCurrentContent = () => editorState.getCurrentContent();
   const customBlockIsActive = () => false; // TODO: revise.
@@ -407,6 +413,7 @@ const EditorComponent = (props) => {
         onInputChange={onInputChange}
         cancelInput={cancelInput}
         showInput={showInput}
+        altControls={altControls}
       />
       <div className={className} onClick={focus} role="textbox" tabIndex={0}>
         <BaseEditor
@@ -416,11 +423,16 @@ const EditorComponent = (props) => {
           editorState={editorState}
           handleKeyCommand={handleKeyCommand}
           onChange={onChange}
+          ref={containerRef}
+          plugins={plugins}
           spellCheck={false}
-          readOnly={readOnly}
           altEditor={altEditor}
           reference={editorRef}
+          readOnly={readOnly}
         />
+        {altEditor ? altRenderProps.map(P => (
+          <P  />
+        )) : null}
       </div>
     </div>
   );
