@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './css/StyleButton.css'
 
 const StyleButton = (props) => {
-  const { onToggle, getInput, activeFn, icon, style, label } = props;
+  const { onToggle, getInput, activeFn, icon, style, label, editorState } = props;
 
   const isActive = activeFn(style);
   const iconColor = isActive ? "black" : "gainsboro";
@@ -12,7 +12,7 @@ const StyleButton = (props) => {
 
   const toggleFn = (e) => {
     e.preventDefault();
-    onToggle(style);
+    onToggle(style, editorState);
   };
 
   return (

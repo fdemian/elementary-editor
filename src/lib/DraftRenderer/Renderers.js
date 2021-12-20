@@ -28,11 +28,14 @@ const styles = {
 const addBreaklines = (children) => children.map((child) => [child, <br />]);
 
 const renderers = {
+
   /* Inline Styles */
   inline: {
     BOLD: (children) => <strong>{children}</strong>,
     ITALIC: (children) => <em>{children}</em>,
     UNDERLINE: (children) => <u>{children}</u>,
+    STRIKETHROUGH: (children) => <del>{children}</del>,
+    ABBREVIATION: (children) => <abbr title="Thing">{children}</abbr>
   },
 
   /* Block Styles */
@@ -78,6 +81,7 @@ const renderers = {
         <Media src={data.src} />
       </div>
     ),
+    KEYBOARD: (children) => (<kbd>{children[0]}</kbd>),
     blockquote: (children, data) => {
       const commentData = { comment:  { content: data } };
       return(
