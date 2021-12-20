@@ -23,7 +23,7 @@ const EditorControls = (props) => {
     inputVisible,
     inputType,
     inputValue,
-    altControls
+    altControls,
     editorState
   } = props;
 
