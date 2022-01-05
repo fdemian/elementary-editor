@@ -2,8 +2,12 @@ import React from "react";
 import Spoiler from "../Editor/TextElements/Spoiler/Spoiler";
 import LatexBlock from "../Editor/TextElements/Latex/LatexBlock";
 import Media from "../Editor/TextElements/Media/Media";
-import QuoteBlock from '../Editor/TextElements/QuoteBlock/QuoteBlock'
+import QuoteBlock from '../Editor/TextElements/QuoteBlock/QuoteBlock';
+import CodeBlock from '../Editor/TextElements/CodeBlock/CodeBlock';
 import RenderLink from "../Editor/TextElements/Link/RenderLink";
+import { Typography } from 'antd';
+
+const { Text } = Typography;
 
 /* Style callbacks */
 const styles = {
@@ -47,9 +51,7 @@ const renderers = {
       <blockquote>{addBreaklines(children)}</blockquote>
     ),
     "header-two": (children) => children.map((child) => <h2>{child}</h2>),
-    "code-block": (children) => (
-      <pre style={styles.codeBlock}>{addBreaklines(children)}</pre>
-    ),
+    "code-block": (children) => <CodeBlock>{children}</CodeBlock>,
     "unordered-list-item": (children) => (
       <ul>
         {children.map((child) => (

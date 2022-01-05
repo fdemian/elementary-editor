@@ -8,6 +8,7 @@ import Media from "./TextElements/Media/Media";
 import Link from "./TextElements/Link/Link";
 import editorStyles from "./EditorStyles";
 import QuoteBlockWrapper from "./TextElements/QuoteBlock/QuoteBlockWrapper";
+import CodeBlock from './TextElements/CodeBlock/CodeBlock';
 import QuoteBlock from "./TextElements/QuoteBlock/QuoteBlock";
 import EditorControls from "./Controls";
 //import BaseEditor from "./BaseEditor";
@@ -206,6 +207,14 @@ const EditorComponent = (props) => {
           component: QuoteBlockWrapper,
           editable: false
         };
+
+      if(text === "code-block"){
+        return{
+          component: CodeBlock,
+          editable: false
+        }
+      }
+
       }
 
       return {
