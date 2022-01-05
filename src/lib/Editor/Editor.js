@@ -1,16 +1,15 @@
 import React, { useState, useRef, useImperativeHandle } from "react";
 import Draft from "draft-js";
 import { Map } from "immutable";
+import editorStyles from "./EditorStyles";
+import QuoteBlockWrapper from "./TextElements/QuoteBlock/QuoteBlockWrapper";
+import QuoteBlock from "./TextElements/QuoteBlock/QuoteBlock";
 import { getTexBlock, removeTeXBlock } from "./TextElements/Latex/texUtils";
 import TeXBlock from "./TextElements/Latex/TeXBlock";
 import Spoiler from "./TextElements/Spoiler/SpoilerWrapper";
 import Media from "./TextElements/Media/Media";
 import Link from "./TextElements/Link/Link";
-import editorStyles from "./EditorStyles";
-import QuoteBlockWrapper from "./TextElements/QuoteBlock/QuoteBlockWrapper";
-import QuoteBlock from "./TextElements/QuoteBlock/QuoteBlock";
 import EditorControls from "./Controls";
-//import BaseEditor from "./BaseEditor";
 import { Editor } from "draft-js";
 
 import {
@@ -184,7 +183,6 @@ const EditorComponent = (props) => {
   const customRenderFn = (contentBlock) => {
     const type = contentBlock.getType();
     const text = contentBlock.getText();
-
     if (text === "media" || text === "Image" || text === "Video") {
       return {
         component: Media,

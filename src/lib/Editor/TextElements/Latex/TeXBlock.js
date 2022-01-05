@@ -71,8 +71,9 @@ const TeXBlock = (props) => {
       };
       let _newState = replaceData(props);
       blockProps.onFinishEdit(editKey, _newState);
+      setSaveMode(false);
     }
-  }, [editMode, invalidTeX, saveMode, block, contentState, texValue]);
+  }, [editMode, invalidTeX, saveMode, block, contentState, texValue, blockProps]);
 
   // TODO: Colapse into one line.
   let texContent = null;

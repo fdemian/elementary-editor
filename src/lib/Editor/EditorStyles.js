@@ -17,8 +17,7 @@ import {
   faImage,
   faEye,
   faVideo,
-  faCalculator,
-  faInfoCircle
+  faCalculator
 } from "@fortawesome/free-solid-svg-icons";
 
 const { EditorState, RichUtils, AtomicBlockUtils } = Draft;
@@ -40,29 +39,6 @@ export const insertMedia = (editorState, type, value) => {
 
   return mediaBlock;
 };
-
-
-/*
-export const insertAbbr = (editorState, type, value) => {
-  const contentState = editorState.getCurrentContent();
-  const contentStateWithEntity = contentState.createEntity("LINK", "MUTABLE", {
-    url: value,
-  });
-  const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-
-  //
-  const newEditorState = EditorState.set(editorState, {
-    currentContent: contentStateWithEntity,
-  });
-  const newStateSelection = newEditorState.getSelection();
-  const linkState = RichUtils.toggleBlock(
-    newEditorState,
-    newStateSelection,
-    entityKey
-  );
-
-  return linkState;
-}*/
 
 export const insertLink = (editorState, type, value) => {
   const contentState = editorState.getCurrentContent();
@@ -126,7 +102,6 @@ const CUSTOM_STYLES = [
   {
     label: "Keyboard",
     style: "Keyboard",
-    /*toggleFn: insertKeyboard,*/
     requiresInput: false,
     requiresSelection: true,
     icon: faKeyboard
@@ -158,7 +133,6 @@ const CUSTOM_STYLES = [
   {
     label: "Spoiler",
     style: "Spoiler",
-    //toggleFn: insertSpoiler,
     requiresInput: false,
     requiresSelection: true,
     icon: faEye
@@ -174,7 +148,6 @@ const CUSTOM_STYLES = [
   {
     label: "Latex",
     style: "Latex",
-    //toggleFn: insertTex,
     requiresInput: false,
     requiresSelection: false,
     icon: faCalculator
