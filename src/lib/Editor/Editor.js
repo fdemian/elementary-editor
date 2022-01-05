@@ -182,58 +182,55 @@ const EditorComponent = (props) => {
     return false;
   };
 
+
   const customRenderFn = (contentBlock) => {
-    const type = contentBlock.getType();
-    const text = contentBlock.getText();
+      const type = contentBlock.getType();
+      const text = contentBlock.getText();
 
-    if (text === "media" || text === "Image" || text === "Video") {
-      return {
-        component: Media,
-        editable: false,
-      };
-    }
+      console.log(type);
+      console.log(text);
+      console.log("______P");
 
-    if (text === "QuoteBlock") {
-      return {
-        component: QuoteBlockWrapper,
-        editable: false
-      };
-    }
+      if (text === "media" || text === "Image" || text === "Video") {
+        return {
+          component: Media,
+          editable: false,
+        };
+      }
 
-    if (type === "atomic") {
-
-      if(text === "blockquote"){
+      if (text === "QuoteBlock") {
         return {
           component: QuoteBlockWrapper,
           editable: false
         };
+      }
 
-      if(text === "code-block"){
-        return{
-          component: CodeBlock,
-          editable: false
+      if (type === "atomic") {
+
+        if(text === "blockquote"){
+          return {
+            component: QuoteBlockWrapper,
+            editable: false
+          };
         }
-      }
 
-      }
-
-      return {
-        component: TeXBlock,
-        editable: false,
-        props: {
-          onStartEdit: (blockKey) => {
-            const texEditState = texEdits.set(blockKey, true);
-            setTexEdits(texEditState);
+        return {
+          component: TeXBlock,
+          editable: false,
+          props: {
+            onStartEdit: (blockKey) => {
+              const texEditState = texEdits.set(blockKey, true);
+              setTexEdits(texEditState);
+            },
+            onFinishEdit: (blockKey, newContentState) =>
+              insertTex(blockKey, newContentState),
+            onRemove: (blockKey) => removeTex(blockKey),
           },
-          onFinishEdit: (blockKey, newContentState) =>
-            insertTex(blockKey, newContentState),
-          onRemove: (blockKey) => removeTex(blockKey),
-        },
-      };
-    }
+        };
+      }
 
-    return null;
-  };
+      return null;
+    };
 
   const selectionIsCollapsed = () => {
     return editorState.getSelection().isCollapsed();

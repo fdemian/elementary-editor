@@ -1,10 +1,10 @@
 import React from 'react';
 import { Typography } from 'antd';
 
-const { Text } = Typography;
+const { Paragraph } = Typography;
 
 const CodeBlock = ({children}) => {
-  return <Text code>{(children)}</Text>;
+  return <Paragraph code>{(children)}</Paragraph>;
 }
 
 export default CodeBlock;
