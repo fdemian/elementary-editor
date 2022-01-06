@@ -40,7 +40,6 @@ const {
   Modifier
 } = Draft;
 
-
 const styleMap = {
   'KEYBOARD': {
     margin: '0 0.2em',
@@ -50,6 +49,12 @@ const styleMap = {
     border: '1px solid rgba(100,100,100,.2)',
     borderBottomWidth: '2px',
     borderRadius: '3px',
+  },
+  'SPOILER': {
+    border: '1px dotted gray',
+    borderTop: 'none',
+    background: '#fff',
+    padding: '0px 1.4px'
   }
 };
 
@@ -337,21 +342,36 @@ const EditorComponent = (props) => {
   };
 
   const toggleInlineStyle = (inlineStyle) => {
-    const { toggleInlineStyle } = RichUtils;
+
+    if(inlineStyle === "unstyled")
+      return;
+    
     const selection = editorState.getSelection();
 
-    //
-    if(inlineStyle === "KEYBOARD"){
-      const contentState = editorState.getCurrentContent();
-      const modifiedContent = Modifier.applyInlineStyle(contentState, selection, inlineStyle);
-      const newState = EditorState.push(editorState, modifiedContent);
-      return onChange(newState);
+    if(selection.isCollapsed())
+      return;
+
+    const contentState = editorState.getCurrentContent();
+    let modifiedContent;
+
+    if(inlineIsActive(inlineStyle)) {
+      modifiedContent = Modifier.removeInlineStyle(
+        contentState,
+        selection,
+        inlineStyle
+      );
+    }
+    else {
+      modifiedContent = Modifier.applyInlineStyle(
+        contentState,
+        selection,
+        inlineStyle
+      );
     }
 
-    if (!selection.isCollapsed()) {
-      onChange(toggleInlineStyle(editorState, inlineStyle));
-    }
-  };
+    const newState = EditorState.push(editorState, modifiedContent);
+    return onChange(newState);
+  }
 
 
   // TODO: check this out.
