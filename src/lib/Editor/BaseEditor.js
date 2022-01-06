@@ -18,6 +18,7 @@ const BaseEditor = (config) => {
         editorState={config.editorState}
         handleKeyCommand={config.handleKeyCommand}
         onChange={config.onChange}
+        customStyleMap={config.styleMap}
         ref={config.reference}
         spellCheck={config.spellCheck}
         readOnly={config.readOnly}
@@ -36,6 +37,7 @@ const BaseEditor = (config) => {
       editorState={config.editorState}
       handleKeyCommand={config.handleKeyCommand}
       onChange={config.onChange}
+      customStyleMap={config.styleMap}
       ref={config.reference}
       spellCheck={config.spellCheck}
       readOnly={config.readOnly}

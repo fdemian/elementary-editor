@@ -95,17 +95,11 @@ const INLINE_STYLES = [
   { label: "Bold", style: "BOLD", icon: faBold },
   { label: "Italic", style: "ITALIC", icon: faItalic },
   { label: "Underline", style: "UNDERLINE", icon: faUnderline },
-  { label: "Strikethrough", style: "STRIKETHROUGH", icon: faStrikethrough }
+  { label: "Strikethrough", style: "STRIKETHROUGH", icon: faStrikethrough },
+  { label: "Keyboard", style: "KEYBOARD", icon: faKeyboard }
 ];
 
 const CUSTOM_STYLES = [
-  {
-    label: "Keyboard",
-    style: "Keyboard",
-    requiresInput: false,
-    requiresSelection: true,
-    icon: faKeyboard
-  },
   {
     label: "Link",
     style: "Link",
