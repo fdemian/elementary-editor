@@ -36,7 +36,8 @@ const renderers = {
     UNDERLINE: (children) => <u>{children}</u>,
     STRIKETHROUGH: (children) => <del>{children}</del>,
     KEYBOARD: (children) => (<kbd>{children[0]}</kbd>),
-    ABBREVIATION: (children) => <abbr title="Thing">{children}</abbr>
+    ABBREVIATION: (children) => <abbr title="Thing">{children}</abbr>,
+    SPOILER: (children) => <Spoiler text={children[0]} />
   },
 
   /* Block Styles */
@@ -76,7 +77,6 @@ const renderers = {
     ),
     LINK: (children, data) => <RenderLink src={data.url} text={children} />,
     LATEX: (children, data) => <LatexBlock content={data.content} />,
-    SPOILER: (children) => <Spoiler text={children[0]} />,
     Video: (children, data) => (
       <div className="video-element">
         <Media src={data.src} />

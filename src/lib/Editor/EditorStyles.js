@@ -96,7 +96,8 @@ const INLINE_STYLES = [
   { label: "Italic", style: "ITALIC", icon: faItalic },
   { label: "Underline", style: "UNDERLINE", icon: faUnderline },
   { label: "Strikethrough", style: "STRIKETHROUGH", icon: faStrikethrough },
-  { label: "Keyboard", style: "KEYBOARD", icon: faKeyboard }
+  { label: "Keyboard", style: "KEYBOARD", icon: faKeyboard },
+  { label: "Spoiler", style: "SPOILER", icon: faEye }
 ];
 
 const CUSTOM_STYLES = [
@@ -123,13 +124,6 @@ const CUSTOM_STYLES = [
     requiresInput: true,
     requiresSelection: false,
     icon: faImage
-  },
-  {
-    label: "Spoiler",
-    style: "Spoiler",
-    requiresInput: false,
-    requiresSelection: true,
-    icon: faEye
   },
   {
     label: "Video",
