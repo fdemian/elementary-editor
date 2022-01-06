@@ -35,9 +35,6 @@ export const findLinkEntities = (contentBlock, callback, contentState) =>
 export const findSpoilerEntities = (contentBlock, callback, contentState) =>
   findEntities(contentBlock, callback, contentState, "SPOILER");
 
-export const findKeyboardEntities = (contentBlock, callback, contentState) =>
-  findEntities(contentBlock, callback, contentState, "KEYBOARD");
-
 export const filterStyle = (listToFilter, filter) => {
   return listToFilter.filter((e) => filter.indexOf(e.style) !== -1);
 };

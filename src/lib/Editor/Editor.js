@@ -16,7 +16,6 @@ import {
   getBlockStyle,
   findLinkEntities,
   findSpoilerEntities,
-  findKeyboardEntities,
   filterWhiteListedStyles,
   createNewImmutableEntity,
   insertEntityToState,
@@ -37,20 +36,28 @@ const {
   DefaultDraftBlockRenderMap,
   convertToRaw,
   convertFromRaw,
-  AtomicBlockUtils
+  AtomicBlockUtils,
+  Modifier
 } = Draft;
 
-const Keyboard = ({ decoratedText }) => {
-  return (<kbd>{decoratedText}</kbd>);
+
+const styleMap = {
+  'KEYBOARD': {
+    margin: '0 0.2em',
+    padding: '0.15em 0.4em 0.1em',
+    fontSize: '90%',
+    background: 'rgba(150,150,150,.06)',
+    border: '1px solid rgba(100,100,100,.2)',
+    borderBottomWidth: '2px',
+    borderRadius: '3px',
+  }
 };
 
 const blockRenderMap = Map({
   SPOILER: { element: Spoiler },
-  KEYBOARD: { element: Keyboard },
   LATEX: { element: TeXBlock },
   QUOTEBLOCK: { element: QuoteBlock }
 });
-
 
 const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
@@ -73,11 +80,6 @@ const EditorComponent = (props) => {
         strategy: (contentBlock, callback, contentState) =>
           findSpoilerEntities(contentBlock, callback, contentState),
         component: Spoiler,
-      },
-      {
-        strategy: (contentBlock, callback, contentState) =>
-          findKeyboardEntities(contentBlock, callback, contentState),
-          component: Keyboard,
       }
     ]);
   }
@@ -317,11 +319,6 @@ const EditorComponent = (props) => {
         insertEntity("SPOILER");
         break;
 
-      case "KEYBOARD":
-        insertEntity("KEYBOARD");
-        break;
-
-
       case "LATEX":
         const texBlock = getTexBlock();
         newState = insertCustomBlock(texBlock);
@@ -342,6 +339,15 @@ const EditorComponent = (props) => {
   const toggleInlineStyle = (inlineStyle) => {
     const { toggleInlineStyle } = RichUtils;
     const selection = editorState.getSelection();
+
+    //
+    if(inlineStyle === "KEYBOARD"){
+      const contentState = editorState.getCurrentContent();
+      const modifiedContent = Modifier.applyInlineStyle(contentState, selection, inlineStyle);
+      const newState = EditorState.push(editorState, modifiedContent);
+      return onChange(newState);
+    }
+
     if (!selection.isCollapsed()) {
       onChange(toggleInlineStyle(editorState, inlineStyle));
     }
@@ -423,6 +429,7 @@ const EditorComponent = (props) => {
           onChange={onChange}
           ref={containerRef}
           plugins={plugins}
+          customStyleMap={styleMap}
           spellCheck={false}
           altEditor={altEditor}
           reference={editorRef}

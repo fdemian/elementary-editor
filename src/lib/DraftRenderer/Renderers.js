@@ -35,6 +35,7 @@ const renderers = {
     ITALIC: (children) => <em>{children}</em>,
     UNDERLINE: (children) => <u>{children}</u>,
     STRIKETHROUGH: (children) => <del>{children}</del>,
+    KEYBOARD: (children) => (<kbd>{children[0]}</kbd>),
     ABBREVIATION: (children) => <abbr title="Thing">{children}</abbr>
   },
 
@@ -81,7 +82,6 @@ const renderers = {
         <Media src={data.src} />
       </div>
     ),
-    KEYBOARD: (children) => (<kbd>{children[0]}</kbd>),
     blockquote: (children, data) => {
       const commentData = { comment:  { content: data } };
       return(
