@@ -1630,13 +1630,13 @@
   dependencies:
     clsx "^1.0.4"
 
-"@draft-js-plugins/editor@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@draft-js-plugins/editor/-/editor-4.1.0.tgz#1861fb257ba51ecbd031b8a3d84ee0809de1504e"
-  integrity sha512-i95uGF1GOFwP99qRCjtocGAYanULtkX9/XPeXKwjKx65vnOt/0dvBBdSvzSgrJ9pncHHLUqDfFQKXy/09fTmvg==
+"@draft-js-plugins/editor@4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@draft-js-plugins/editor/-/editor-4.1.1.tgz#886cd9605da37f45f0272f39df18464f166198e5"
+  integrity sha512-zqxBUyX7cPEMT5Z7/DdhC4kga+uPSg/SvsRbndKbYXoT6sIXWXo+DI/TuAwaybOPjVFLLwxBco6CBkQr3d1ejg==
   dependencies:
     immutable "~3.7.4"
-    prop-types "^15.5.8"
+    prop-types "^15.8.1"
 
 "@draft-js-plugins/emoji@^4.5.5":
   version "4.5.5"
@@ -10412,6 +10412,15 @@ prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.7.2:
     object-assign "^4.1.1"
     react-is "^16.8.1"
 
+prop-types@^15.8.1:
+  version "15.8.1"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
+  integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
+  dependencies:
+    loose-envify "^1.4.0"
+    object-assign "^4.1.1"
+    react-is "^16.13.1"
+
 proxy-addr@~2.0.7:
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/proxy-addr/-/proxy-addr-2.0.7.tgz#f19fe69ceab311eeb94b42e70e8c2070f9ba1025"
@@ -11003,7 +11012,7 @@ react-icons@^4.2.0:
   resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.3.1.tgz#2fa92aebbbc71f43d2db2ed1aed07361124e91ca"
   integrity sha512-cB10MXLTs3gVuXimblAdI71jrJx8njrJZmNMEMC+sQu5B/BIOmlsAjskdqpn81y8UBVEGuHODd7/ci5DvoSzTQ==
 
-react-is@^16.12.0, react-is@^16.8.1:
+react-is@^16.12.0, react-is@^16.13.1, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==

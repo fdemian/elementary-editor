@@ -24,7 +24,7 @@
     "@babel/plugin-transform-modules-commonjs": "7.16.0",
     "@babel/preset-react": "7.16.0",
     "@babel/preset-stage-0": "^7.8.3",
-    "@draft-js-plugins/editor": "^4.1.0",
+    "@draft-js-plugins/editor": "4.1.1",
     "@draft-js-plugins/emoji": "^4.5.5",
     "@draft-js-plugins/hashtag": "^4.2.1",
     "@draft-js-plugins/mention": "5.1.0",
