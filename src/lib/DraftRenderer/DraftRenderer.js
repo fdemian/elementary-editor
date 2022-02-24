@@ -9,7 +9,7 @@ const RenderWarning = () => (
 const Renderer = ({ raw, altRenderers }) => {
   if (!raw) return <RenderWarning />;
 
-  let renderers = (altRenderers && altRenderers.length>0) ? altRenderers : defaultRenderers;
+  let renderers = altRenderers ? altRenderers : defaultRenderers;
   const rendered = redraft(raw, renderers);
 
   if (!rendered) return <RenderWarning />;
