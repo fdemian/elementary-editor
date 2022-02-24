@@ -25,9 +25,6 @@ import "katex/dist/katex.css";
 import "./css/Draft.css";
 import "./css/Editor.css";
 
-import '../../../node_modules/@draft-js-plugins/emoji/lib/plugin.css';
-import '../../../node_modules/@draft-js-plugins/hashtag/lib/plugin.css'
-
 const {
   CompositeDecorator,
   ContentState,
@@ -345,7 +342,7 @@ const EditorComponent = (props) => {
 
     if(inlineStyle === "unstyled")
       return;
-    
+
     const selection = editorState.getSelection();
 
     if(selection.isCollapsed())
