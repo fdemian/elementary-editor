@@ -1,14 +1,15 @@
 import React from 'react';
 import redraft from 'redraft';
-import renderers from './Renderers';
+import defaultRenderers from './Renderers';
 
 const RenderWarning = () => (
   <div className="render-warning">Nothing to render.</div>
 );
 
-const Renderer = ({ raw }) => {
+const Renderer = ({ raw, altRenderers }) => {
   if (!raw) return <RenderWarning />;
 
+  let renderers = (altRenderers && altRenderers.length>0) ? altRenderers : defaultRenderers;
   const rendered = redraft(raw, renderers);
 
   if (!rendered) return <RenderWarning />;
