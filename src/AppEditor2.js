@@ -64,7 +64,9 @@ const App = () => {
     });
   }
 
-  const altRenderProps = [EmojiSuggestions];
+  const altRenderProps = [
+    { component:  EmojiSuggestions, props: {} }
+  ];
   const altControls = [];
 
   return (
@@ -101,7 +103,6 @@ const App = () => {
                 altRenderProps={altRenderProps}
               />
             </div>
-            {altRenderProps.map(P => (<P  />))}
       </div>
 
         <div>

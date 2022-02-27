@@ -452,9 +452,11 @@ const EditorComponent = (props) => {
           reference={editorRef}
           readOnly={readOnly}
         />
-        {altEditor ? altRenderProps.map(P => (
-          <P  />
-        )) : null}
+        {altRenderProps ? altRenderProps.map((p) => {
+            const Component = p.component;
+            return(<Component {...p.props} />);
+          }): null
+        }
       </div>
     </div>
   );

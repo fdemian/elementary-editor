@@ -1,13 +1,10 @@
 import React from "react";
 import { Editor } from "draft-js";
 
-import '../../../node_modules/@draft-js-plugins/hashtag/lib/plugin.css'
-
-
 const BaseEditor = (config) => {
   const AltEditor = config.altEditor;
   const { altRenderProps } = config;
-
+  
   if (AltEditor) {
     return(
     <>
@@ -24,11 +21,6 @@ const BaseEditor = (config) => {
         readOnly={config.readOnly}
         plugins={config.plugins}
       />
-      {altRenderProps ? altRenderProps.map((p) => {
-          const Component = p.component;
-          return(<Component {...p.props} />);
-        }): null
-      }
     </>
     );
   }
