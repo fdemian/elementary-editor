@@ -81,8 +81,16 @@ const EditorControls = (props) => {
             icon={type.icon}
           />
         ))}
-        {altControls ? altControls.map(P => (
-          <P  />
+        {altControls ? altControls.map((type) => (
+          <StyleButton
+            key={type.label}
+            activeFn={customBlockIsActive}
+            label={type.label}
+            onToggle={customBlockToggleFn}
+            getInput={showInput}
+            style={type.style}
+            icon={type.icon}
+          />
         )) : null}
       </div>
     </div>

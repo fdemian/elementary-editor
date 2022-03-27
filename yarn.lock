@@ -2262,12 +2262,27 @@
   resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-3.4.0.tgz#c3c5ae543c897caa9c2a68630bed355be5f9990f"
   integrity sha512-JZButFdZ1+/xAfpguQHoabIXkcqRRKpMrWKBkpEZZyxfY9C1DpADFB8PEqGSTeFr135SaTRfKqGKx5xSCLI7ZQ==
 
+"@draft-js-plugins/alignment@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@draft-js-plugins/alignment/-/alignment-5.0.2.tgz#02633253d8fd5f973af04fd46d17514794d52d41"
+  integrity sha512-Xlpt2wFjuN50Dx6N46XxqGO87111qDXuW/2m3EcyN7p6LeMyqAHJQepOBIji427xe4Bw87sb6/EqhHRJtkQbMg==
+  dependencies:
+    "@draft-js-plugins/buttons" "^4.0.0"
+    "@draft-js-plugins/utils" "^4.0.0"
+
 "@draft-js-plugins/buttons@^4.0.0":
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/@draft-js-plugins/buttons/-/buttons-4.1.1.tgz#35e1045339f1de5b0c86885933a73d60864e2160"
   integrity sha512-Z6dHYMq9tgJbLV3Jm4ATT5yH5TtnynuDBOSODUESvi3S/bfzn9Gca73nQ7u1Rt1SEilkKtsbsp0XIGx4pPR50Q==
   dependencies:
     clsx "^1.0.4"
+
+"@draft-js-plugins/drag-n-drop@^4.2.1":
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@draft-js-plugins/drag-n-drop/-/drag-n-drop-4.2.1.tgz#df107cc3d107d8fc11edc13890a70472db6ae720"
+  integrity sha512-vcuY5PabzPPperFV8M+dajhvY6mlP1V7h6Vt0by9BttQTWHOgNnJlD9if3v+Ug39mh80J/cAuGwuV50pg3whZA==
+  dependencies:
+    immutable "~3.7.4"
 
 "@draft-js-plugins/editor@4.1.2":
   version "4.1.2"
@@ -2297,10 +2312,25 @@
     react-icons "^4.3.1"
     to-style "^1.3.3"
 
+"@draft-js-plugins/focus@^4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@draft-js-plugins/focus/-/focus-4.1.2.tgz#4ea65cd54988c5605f657b08d04f3479dffa7ee8"
+  integrity sha512-1jiQiJEeYZbaAkHPEw+IDl5ye19NGASfc4dz8Tedrb6zYJbr0sQpSp3IACdJ424TciMhecyPsAKIflTE7yScOQ==
+  dependencies:
+    clsx "^1.0.4"
+    immutable "~3.7.4"
+
 "@draft-js-plugins/hashtag@^4.2.1":
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/@draft-js-plugins/hashtag/-/hashtag-4.2.1.tgz#c8cc90587915c049f9c35ab441e6bc64a9476f28"
   integrity sha512-KDMliO9huEnPR+4oysBQUoVpS4KDv9C/qMolwO3uNrXqPfJQnFFJmYOET+uwwP+bg58a5EnSltDsd4Ir6n6LOg==
+  dependencies:
+    clsx "^1.0.4"
+
+"@draft-js-plugins/image@^4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@draft-js-plugins/image/-/image-4.1.2.tgz#ad84b35f83c862da2e96ddfc15de34da7d4c1910"
+  integrity sha512-Nuh+fgGMdDOwamH2oDU45zmbykX0owgr8XlfLFfjqBol9a0xblDK5sXS6juWofSrCKAP9vxh1OUbpRVf6kb/Gg==
   dependencies:
     clsx "^1.0.4"
 
@@ -2318,7 +2348,12 @@
     prop-types "^15.8.1"
     react-popper "^2.2.5"
 
-"@draft-js-plugins/utils@^4.2.0":
+"@draft-js-plugins/resizeable@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@draft-js-plugins/resizeable/-/resizeable-5.0.2.tgz#69ce6f403f9bbc024eb2ef985ba27d3b7a410524"
+  integrity sha512-16+NdyKj+znt7xvjKNJ4sKfX7HCkNWRpTeprzltH/dg3hgUL/lpApjbF/ehZheFsOM7eJqbhX1vRRTRwuek3eg==
+
+"@draft-js-plugins/utils@^4.0.0", "@draft-js-plugins/utils@^4.2.0":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@draft-js-plugins/utils/-/utils-4.2.0.tgz#ee3c643c94d548fd9460541881a7554c5b077988"
   integrity sha512-tQhf7a0S9ZDtOb0Mje5a+xTOT6LVDRv2LueEqqVdX4aI+oh0jjkAuP0oTiZBv6h7K9XSPgsQ08q9+kwHc3EyUg==

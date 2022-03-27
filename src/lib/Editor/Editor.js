@@ -233,7 +233,7 @@ const EditorComponent = (props) => {
   };
 
   const findStyleObjectByName = (name) => {
-    const customStyles = editorStyles.CUSTOM_STYLES;
+    const customStyles = editorStyles.CUSTOM_STYLES.concat(altControls ? altControls: []);
     const matches = customStyles.filter(
       (style) => style.label === name || style.style === name
     );

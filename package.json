@@ -3,6 +3,11 @@
   "version": "0.9.29",
   "license": "MIT",
   "dependencies": {
+    "@draft-js-plugins/alignment": "^5.0.2",
+    "@draft-js-plugins/drag-n-drop": "^4.2.1",
+    "@draft-js-plugins/focus": "^4.1.2",
+    "@draft-js-plugins/image": "^4.1.2",
+    "@draft-js-plugins/resizeable": "^5.0.2",
     "@fortawesome/fontawesome-svg-core": "6.1.0",
     "@fortawesome/free-brands-svg-icons": "6.1.0",
     "@fortawesome/free-regular-svg-icons": "6.1.0",
