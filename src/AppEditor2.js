@@ -117,11 +117,8 @@ const App = () => {
   const altControls = [{
     label: "Image",
     style: "Image",
-    toggleFn: (t) => {
-      console.clear();
-      console.log(":::::::>");
-      console.log(t);
-      imagePlugin.addImage(t);
+    toggleFn: (editorState, type, value) => {
+      return imagePlugin.addImage(editorState, value);
     },
     requiresInput: true,
     requiresSelection: false,

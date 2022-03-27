@@ -187,6 +187,12 @@ const EditorComponent = (props) => {
   const customRenderFn = (contentBlock) => {
     const type = contentBlock.getType();
     const text = contentBlock.getText();
+    const altElem = altControls.find(t => t.style === text);
+
+    if(altElem !== undefined) {
+      return null;
+    }
+
     if (text === "media" || text === "Image" || text === "Video") {
       return {
         component: Media,
@@ -233,8 +239,12 @@ const EditorComponent = (props) => {
   };
 
   const findStyleObjectByName = (name) => {
-    const customStyles = editorStyles.CUSTOM_STYLES.concat(altControls ? altControls: []);
-    const matches = customStyles.filter(
+    let customStyles = editorStyles.CUSTOM_STYLES;
+    if(customStyles.find(s => s.style === name) && altControls.find(s => s.style ===name)){
+      customStyles = customStyles.filter(s => s.style !== name);
+    }
+    const matchStyles = customStyles.concat(altControls ? altControls: []);
+    const matches = matchStyles.filter(
       (style) => style.label === name || style.style === name
     );
 
@@ -275,7 +285,7 @@ const EditorComponent = (props) => {
     if (styleObject.toggleFn == null) return;
 
     const newState = styleObject.toggleFn(editorState, inputType, inputValue);
-
+    
     // Reset input fields.
     setInputVisible(false);
     setInputValue("");
