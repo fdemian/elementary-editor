@@ -70,6 +70,8 @@
     "build-rewired": "react-app-rewired build",
     "test-rewired": "react-app-rewired test",
     "test:coverage": "react-scripts test --coverage --watchAll=false",
+    "lint:fix": "eslint src/**/*.js --fix",
+    "lint": "eslint src/**/*.js",
     "start": "react-scripts start",
     "build": "babel src/lib package.json README.md --out-dir dist --copy-files --ignore __tests__,spec.js,test.js",
     "test": "react-scripts test",
@@ -77,7 +79,10 @@
     "build-pages": "react-scripts build"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
