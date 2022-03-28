@@ -187,9 +187,9 @@ const EditorComponent = (props) => {
   const customRenderFn = (contentBlock) => {
     const type = contentBlock.getType();
     const text = contentBlock.getText();
-    const altElem = altControls.find(t => t.style === text);
+    const altElem = altControls ? altControls.find(t => t.style === text) : null;
 
-    if(altElem !== undefined) {
+    if(altElem !== undefined && altElem !== null) {
       return null;
     }
 
@@ -240,7 +240,7 @@ const EditorComponent = (props) => {
 
   const findStyleObjectByName = (name) => {
     let customStyles = editorStyles.CUSTOM_STYLES;
-    if(customStyles.find(s => s.style === name) && altControls.find(s => s.style ===name)){
+    if(customStyles.find(s => s.style === name) && altControls && (altControls.find(s => s.style ===name)!== undefined)){
       customStyles = customStyles.filter(s => s.style !== name);
     }
     const matchStyles = customStyles.concat(altControls ? altControls: []);
@@ -285,7 +285,7 @@ const EditorComponent = (props) => {
     if (styleObject.toggleFn == null) return;
 
     const newState = styleObject.toggleFn(editorState, inputType, inputValue);
-    
+
     // Reset input fields.
     setInputVisible(false);
     setInputValue("");
@@ -319,6 +319,10 @@ const EditorComponent = (props) => {
     const newEditorState = EditorState.set(editorState, {
       currentContent: contentStateWithEntity,
     });
+
+    console.clear();
+    console.log(newEditorState);
+    console.log(":::::");
 
     return insertAtomicBlock(newEditorState, entityKey, (text ? text : " "));
   };
