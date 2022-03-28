@@ -1,0 +1,8 @@
+@import '~antd/dist/antd.css';
+
+.EditorContainer {
+  height:300px;
+  margin-left:5%;
+  width:90%;
+  text-align:left;
+}
