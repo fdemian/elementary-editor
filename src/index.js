@@ -1,6 +1,9 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-//import App from './AppEditor2';
+var Editor = require("./lib/Editor/Editor");
+var DefaultRenderer = require("./lib/DraftRenderer/DraftRenderer");
 
-ReactDOM.render(<App />, document.getElementById("root"));
+var elementaryEditor = {
+  Editor: Editor.default,
+  DefaultRenderer: DefaultRenderer.default,
+};
+
+module.exports = elementaryEditor;

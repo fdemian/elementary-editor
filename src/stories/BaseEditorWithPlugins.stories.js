@@ -131,7 +131,7 @@ export const BaseEditorPlugins = () => {
 
     return(
     <>
-      <div className="EditorContainer">
+      <span className="EditorContainer">
         <Editor
           initialState={null}
           filterStyles={FILTERED_STYLES}
@@ -142,7 +142,7 @@ export const BaseEditorPlugins = () => {
           altControls={altControls}
           altRenderProps={altRenderProps}
         />
-      </div>
+      </span>
       <div>
         <ButtonGroup className="LogStateButton">
           <Button type="primary" onClick={clearEditor}>
