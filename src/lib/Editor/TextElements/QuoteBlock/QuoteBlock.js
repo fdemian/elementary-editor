@@ -2,7 +2,7 @@ import React from "react";
 import Renderer from "../../../DraftRenderer/DraftRenderer";
 import "./QuoteBlock.css";
 
-const QuoteBlock = ({ comment }) => {
+const QuoteBlock = ({ comment, altRenderers }) => {
   const { content, author, authorLink, cite } = comment.content;
   const rawContent = JSON.parse(content);
   return(
@@ -15,7 +15,10 @@ const QuoteBlock = ({ comment }) => {
        cite={cite}
        data-testid="blockquote-element"
      >
-       <Renderer raw={rawContent.content ?? rawContent} />
+       <Renderer
+          raw={rawContent.content ?? rawContent}
+          altRenderers={altRenderers ? altRenderers : null}
+        />
     </blockquote>
   </figure>
   );
