@@ -319,11 +319,7 @@ const EditorComponent = (props) => {
     const newEditorState = EditorState.set(editorState, {
       currentContent: contentStateWithEntity,
     });
-
-    console.clear();
-    console.log(newEditorState);
-    console.log(":::::");
-
+    
     return insertAtomicBlock(newEditorState, entityKey, (text ? text : " "));
   };
 

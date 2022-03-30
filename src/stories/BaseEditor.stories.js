@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import Editor from "../lib/Editor/Editor";
 import DefaultRenderer from "../lib/DraftRenderer/DraftRenderer";
-import { Button, Card, Menu, Table } from "antd";
+import { Button, Card } from "antd";
 import "./BaseEditor.css";
 
 const RendererText = ({ text }) => {
