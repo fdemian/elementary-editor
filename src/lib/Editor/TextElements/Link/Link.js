@@ -5,8 +5,8 @@ const Link = (props) => {
   const { contentState, entityKey } = props;
   const entityInstance = contentState.getEntity(entityKey);
   const { url } = entityInstance.getData();
-  
-  return <RenderLink url={url} text={props.children} />;
+
+  return <RenderLink src={url} text={props.children} />;
 };
 
 export default Link;

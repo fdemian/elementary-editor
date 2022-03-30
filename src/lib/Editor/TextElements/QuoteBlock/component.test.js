@@ -2,7 +2,7 @@ import React from "react";
 import QuoteBlock from "./QuoteBlock";
 import QuoteBlockWrapper from "./QuoteBlockWrapper";
 
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 const commentContent = {
@@ -19,23 +19,22 @@ const commentContent = {
   ],
   entityMap: {},
 };
-const commentProps = {
-  comment: {
-    content: JSON.stringify(commentContent),
-    author: "user1",
-  },
+
+const comment = {
+  content: JSON.stringify(commentContent),
+  author: "user1",
+  authorLink: "/users/1/user1",
+  cite: "#comment-1"
 };
 
 describe("<QuoteBlock />", () => {
 
   it("<QuoteBlock />", () => {
-    const { getByText, getByTestId } = render(<QuoteBlock {...commentProps} />);
-
-    const textContents = getByText(commentContent.blocks[0].text);
-    const blockquoteElement = getByTestId("blockquote-element");
-
-    expect(textContents).toBeInTheDocument();
-    expect(blockquoteElement).toHaveAttribute("cite", commentProps.author);
+    render(<QuoteBlock comment={comment} />);
+    expect(screen.getByRole("figure")).toBeInTheDocument();
+    expect(screen.getByTestId("blockquote-element")).toHaveAttribute("cite", comment.cite);
+    expect(screen.getByRole("link", { name: comment.author })).toHaveAttribute('href', comment.authorLink);
+    expect(screen.getByText(commentContent.blocks[0].text)).toBeInTheDocument();
   });
 
   it("<QuoteBlockWrapper />", () => {
@@ -44,7 +43,7 @@ describe("<QuoteBlock />", () => {
         getEntity: (e) => {
           return {
             getData: () => {
-              return { props: commentProps.comment };
+              return { props: comment };
             },
           };
         },
@@ -54,13 +53,12 @@ describe("<QuoteBlock />", () => {
       },
     };
 
-    const { getByText, getByTestId } = render(<QuoteBlockWrapper {...wrapperProps} />);
+    render(<QuoteBlockWrapper {...wrapperProps} />);
 
-    const textContents = getByText(commentContent.blocks[0].text);
-    const blockquoteElement = getByTestId("blockquote-element");
-
-    expect(textContents).toBeInTheDocument();
-    expect(blockquoteElement).toHaveAttribute("cite", commentProps.author);
+    expect(screen.getByRole("figure")).toBeInTheDocument();
+    expect(screen.getByTestId("blockquote-element")).toHaveAttribute("cite", comment.cite);
+    expect(screen.getByRole("link", { name: comment.author })).toHaveAttribute('href', comment.authorLink);
+    expect(screen.getByText(commentContent.blocks[0].text)).toBeInTheDocument();
   });
 
 });

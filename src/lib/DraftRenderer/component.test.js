@@ -1,6 +1,6 @@
 import React from "react";
 import DraftRenderer from "./DraftRenderer";
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 const contentStateDesc = {
@@ -36,20 +36,20 @@ const invalidContentState = {
 describe("<DraftRenderer />", () => {
 
   it("Correctly render some draft-js state.", () => {
-    const { getByText } = render(<DraftRenderer raw={contentStateDesc} />);
-    const textElement = getByText(contentStateDesc.blocks[0].text);
+    render(<DraftRenderer raw={contentStateDesc} />);
+    const textElement = screen.getByText(contentStateDesc.blocks[0].text);
     expect(textElement).toBeInTheDocument();
   });
 
   it("Render invalid state.", () => {
-    const { getByText } = render(<DraftRenderer raw={invalidContentState} />);
-    const textInvalidRender = getByText("Nothing to render.");
+    render(<DraftRenderer raw={invalidContentState} />);
+    const textInvalidRender = screen.getByText("Nothing to render.");
     expect(textInvalidRender).toBeInTheDocument();
   });
 
   it("Render state without raw data.", () => {
-    const { getByText } = render(<DraftRenderer raw={null} />);
-    const textInvalidRender = getByText("Nothing to render.");
+    render(<DraftRenderer raw={null} />);
+    const textInvalidRender = screen.getByText("Nothing to render.");
     expect(textInvalidRender).toBeInTheDocument();
   });
 

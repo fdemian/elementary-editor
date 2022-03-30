@@ -2,18 +2,18 @@ import React from "react";
 import RenderLink from "./RenderLink";
 import Link from "./Link";
 
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 describe("Link >", () => {
+
   it("<RenderLink />", () => {
-    const props = { url: "www.url.com", text: "Link Text" };
-    const { getByText } = render(<RenderLink {...props} />);
+    const props = { src: "www.url.com", text: "Link Text" };
+    render(<RenderLink {...props} />);
 
-    const linkElement = getByText(props.text);
-
+    const linkElement = screen.getByText(props.text);
     expect(linkElement).toHaveAttribute("rel", "nofollow");
-    expect(linkElement).toHaveAttribute("href", props.url);
+    expect(linkElement).toHaveAttribute("href", props.src);
   });
 
   it("<Link />", () => {
@@ -30,8 +30,8 @@ describe("Link >", () => {
       entityKey: 1,
     };
 
-    const { getByText } = render(<Link {...props} />);
-    const linkElement = getByText(urlprops.text);
+    render(<Link {...props} />);
+    const linkElement = screen.getByText(urlprops.text);
 
     expect(linkElement).toHaveAttribute("rel", "nofollow");
     expect(linkElement).toHaveAttribute("href", urlprops.url);
