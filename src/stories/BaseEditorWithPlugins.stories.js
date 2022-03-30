@@ -11,6 +11,7 @@ import createFocusPlugin from '@draft-js-plugins/focus';
 import createResizeablePlugin from '@draft-js-plugins/resizeable';
 import createAlignmentPlugin from '@draft-js-plugins/alignment';
 import { faImage } from "@fortawesome/free-solid-svg-icons";
+import sampleContent from './sampleContent';
 
 import "./BaseEditor.css";
 
@@ -48,22 +49,6 @@ const plugins = [
 ];
 
 const ButtonGroup = Button.Group;
-
-
-const sampleContent = {
-  blocks: [
-    {
-      key: "1bkrq",
-      text: "asdfdsfdasfdsaf",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [{ offset: 0, length: 15, style: "BOLD" }],
-      entityRanges: [],
-      data: {},
-    },
-  ],
-  entityMap: {},
-};
 
 const FILTERED_STYLES = [
   "blockquote",
@@ -177,6 +162,5 @@ export default {
   title: 'Editor/Plugins',
   component: BaseEditorPlugins,
   argTypes: {
-    /*backgroundColor: { control: 'color' },*/
   }
 };
