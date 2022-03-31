@@ -15,7 +15,8 @@ const URLInput = ({ changeFn, urlValue, confirmFn, cancelFn, type }) => {
       <Input
         type="text"
         role="input"
-        name='URL input'
+        name='URL Input'
+        aria-label="URL Input"
         onChange={changeFn}
         value={urlValue}
         placeholder={hintText}

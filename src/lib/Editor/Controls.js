@@ -3,9 +3,8 @@ import React, {
   Suspense
 } from 'react';
 import StyleButton from './StyleButton';
+import URLInput from './urlInput';
 import './css/Controls.css';
-
-const URLInput = lazy(() => import('./URLInput'));
 
 const EditorControls = (props) => {
   const {
@@ -29,8 +28,7 @@ const EditorControls = (props) => {
 
   if (inputVisible) {
     return (
-    <Suspense fallback={<p>Loading</p>}>
-      <div className='EditorControls'>
+    <div className='EditorControls'>
         <div className='RichEditor-controls'>
           <URLInput
             changeFn={onInputChange}
@@ -40,9 +38,8 @@ const EditorControls = (props) => {
             confirmFn={confirmInput}
           />
          </div>
-       </div>
-    </Suspense>
-     );
+    </div>
+    );
   }
 
   // TODO merge stylebutton mappings.

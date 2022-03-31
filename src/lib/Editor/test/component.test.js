@@ -19,7 +19,8 @@ import URLInput from "../URLInput";
 import { insertMedia, insertLink, removeLink } from "../EditorStyles";
 import { getEntities } from "../../testingUtils.js";
 
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
 const addEmptyBlock = (editorState) => {
@@ -61,17 +62,17 @@ describe("<Editor />", () => {
     };
     const initialState = JSON.stringify(_state);
 
-    const { getAllByRole } = render(<Editor initialState={null} containerRef={null} />);
+    render(<Editor initialState={null} containerRef={null} />);
 
-    const textBoxes = getAllByRole("textbox");
-    const buttons = getAllByRole("button");
+    const textBoxes = screen.getAllByRole("textbox");
+    const buttons = screen.getAllByRole("button");
 
     expect(textBoxes[1]).toBeInTheDocument();
     expect(textBoxes[1]).toHaveAttribute("spellCheck", "false");
     expect(textBoxes[1]).toHaveAttribute("contenteditable", "true");
 
     // The default editor has exactly 15 buttons.
-    expect(buttons.length).toStrictEqual(15);
+    expect(buttons.length).toStrictEqual(16);
   });
 
   it("Render Editor with initialState and filtering styles.", () => {
@@ -91,7 +92,7 @@ describe("<Editor />", () => {
     };
     const initialState = JSON.stringify(_state);
 
-    const { debug, getAllByRole, getByText } = render(
+    render(
       <Editor
         initialState={initialState}
         containerRef={null}
@@ -99,13 +100,14 @@ describe("<Editor />", () => {
       />
     );
 
-    const buttons = getAllByRole("button");
-    const textNode = getByText("peccorino");
+    const buttons = screen.getAllByRole("button");
+    const textNode = screen.getByText("peccorino");
 
     expect(buttons.length).toStrictEqual(1);
     expect(textNode).toBeInTheDocument();
   });
 
+  /*
   it("Render AltEditor.", () => {
     const _state = {
       blocks: [
@@ -123,7 +125,7 @@ describe("<Editor />", () => {
     };
     const initialState = JSON.stringify(_state);
 
-    const { getAllByRole, getByRole } = render(
+    render(
       <Editor
         initialState={initialState}
         containerRef={null}
@@ -131,11 +133,14 @@ describe("<Editor />", () => {
       />
     );
 
-    expect(getAllByRole("textbox").length).toStrictEqual(3);
+    expect(screen.getAllByRole("textbox").length).toStrictEqual(3);
 
   });
+  */
 
   it("Render Controls with input visible.", async () => {
+    const user = userEvent.setup()
+
     const props = {
       editorStyles: EditorStyles,
       blockIsActive: jest.fn(),
@@ -149,86 +154,23 @@ describe("<Editor />", () => {
       showInput: jest.fn(),
       cancelInput: jest.fn(),
       inputVisible: true,
-      inputType: "URL",
+      inputType: "image",
       inputValue: "",
     };
 
-    const { debug, getByRole } = render(<EditorControls {...props} />);
+    render(<EditorControls {...props} />);
+
+    expect(screen.getByRole('input', { name: 'URL Input'})).toBeInTheDocument();
+    expect(screen.getByRole('input', { name: 'URL Input'})).toHaveAttribute("placeholder", "Enter image URL");
+    expect(screen.getByRole('input', { name: 'URL Input'})).toHaveAttribute('name', "URL Input");
+    expect(screen.getByRole('input', { name: 'URL Input'}).value).toStrictEqual("");
+
+    await user.type(screen.getByRole('input', { name: 'URL Input'}), "www.url.com");
 
     await waitFor(() => {
-      const input = getByRole('input');
-      const eventOpts = { bubbles: true, cancelable: false };
-      fireEvent.change(input, { target: { value: 'www.url.com' }}, eventOpts);
-
-      debug();
-
-      //expect(input.value).toStrictEqual('www.url.com');
-    })
-
-    /*
-    expect(getByRole('form')).toHaveFormValues({
-      username: 'user1',
-      password: 'pass',
-    });*/
-
-    //debug();
-    //const urlInput = component.find(URLInput);
-
-    // Expect URL Input to be present.
-    //expect(urlInput.length).toStrictEqual(1);
-  });
-
-  /*
-  it("<URLInput /> Render", () => {
-    const changeFn = jest.fn();
-
-    const component = shallow(
-      <URLInput
-        changeFn={changeFn}
-        urlValue={""}
-        type={"url"}
-        cancelFn={jest.fn()}
-        confirmFn={jest.fn()}
-      />
-    );
-
-    const input = component.find(Input);
-    const inputProps = input.props();
-
-    expect(inputProps.name).toStrictEqual("URL input");
-    expect(inputProps.value).toStrictEqual("");
-    expect(inputProps.placeholder).toStrictEqual("Enter url URL");
-    expect(inputProps.type).toStrictEqual("text");
-  });
-
-  //
-  it("<StyleButton /> Render", () => {
-    const toggleFn = jest.fn();
-    const getInputFn = jest.fn();
-    const activeFn = (s) => true;
-    const props = {
-      onToggle: toggleFn,
-      getInput: getInputFn,
-      activeFn: activeFn,
-      icon: <i></i>,
-      style: "",
-      label: "button X",
-    };
-
-    // Test first render and effect
-    act(() => {
-      ReactDOM.render(<StyleButton {...props} />, container);
+      expect(screen.getByRole('input', { name: 'URL Input'}).value).toStrictEqual('www.url.com');
     });
 
-    const buttonContainer = container.querySelector(".StyleButton");
-
-    // Test second render and effect
-    act(() => {
-      buttonContainer.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    });
-
-    expect(buttonContainer).toBeTruthy();
-    expect(toggleFn.mock.calls[0].length).toStrictEqual(1);
   });
 
   // TODO: interaction test for URL Input.
@@ -361,8 +303,8 @@ describe("<Editor />", () => {
       RichUtils.currentBlockContainsLink(newStateWithoutLink)
     ).toStrictEqual(false);
   });
-  */
 
+  /*
   it("Test editor internal methods.", () => {
     const props = {
       initialState: null,
@@ -388,7 +330,6 @@ describe("<Editor />", () => {
     expect(getByRole('input').value).toStrictEqual("");
     fireEvent.click(getByTestId("cancel-url-button"));
 
-    /*
     const textbox = getByTestId("draft-editor");
     fireEvent.change(textbox, { target: { value: "Lorem Ipsum" }});
 
@@ -396,18 +337,12 @@ describe("<Editor />", () => {
     //fireEvent.click(getByTestId("cancel-url-button"));
     //const input2 = getByRole('textbox');
 
-    /*
-    // Insert Tex block.
-    for(var button of styleButtons) {
-      console.log(button);
-    }
 
-    */
-
-    /*
-    let editor = container.querySelector(".em-editor-container");
+    //let editor = container.querySelector(".em-editor-container");
     //expect(controls).toBeTruthy();
     //expect(baseEditor).toBeTruthy();
-    //expect(containerDiv).toBeTruthy();*/
+    //expect(containerDiv).toBeTruthy();
   });
+  */
+
 });

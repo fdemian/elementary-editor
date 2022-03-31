@@ -341,30 +341,30 @@ describe("<DraftRenderer />", () => {
   });
 
   it("Render <Spoiler> element.", () => {
-    const spoilerText = "spoiled text";
+    const spoilerText = "Spoiled text.";
     const spoilerState = {
       blocks: [
         {
-          key: "bgdnj",
+          key: "9tq7j",
           text: spoilerText,
           type: "unstyled",
           depth: 0,
-          inlineStyleRanges: [],
-          entityRanges: [{ offset: 0, length: 12, key: 0 }],
-          data: {},
-        },
+          inlineStyleRanges: [{
+            offset: 0,
+            length: 13,
+            style: "SPOILER"
+          }],
+          entityRanges: [],
+          data: {}
+        }
       ],
-      entityMap: {
-        "0": {
-          type: "SPOILER",
-          mutability: "IMMUTABLE",
-          data: { text: spoilerText },
-        },
-      },
+      entityMap: {}
     };
 
-    const { getByText } = render(<DraftRenderer raw={spoilerState} />);
-    expect(getByText(spoilerText)).toHaveClass("Spoiler Concealed");
+    render(<DraftRenderer raw={spoilerState} />);
+
+    expect(screen.getByText(spoilerText)).toBeInTheDocument();
+    expect(screen.getByRole('presentation')).toHaveClass("Spoiler Concealed");
   });
 
   it("Render <Video> element.", async () => {
@@ -407,10 +407,10 @@ describe("<DraftRenderer />", () => {
         },
       },
     };
-    const { getByTestId } = render(<DraftRenderer raw={videoState} />);
+    render(<DraftRenderer raw={videoState} />);
 
     await waitFor(() => {
-      const rpl = getByTestId("react-player");
+      const rpl = screen.getByTestId("react-player");
       expect(rpl).toBeInTheDocument();
     });
 
