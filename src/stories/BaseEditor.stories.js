@@ -37,7 +37,7 @@ export const BaseEditor = () => {
 
   const addContentState = () => {
     const { addNewEntity } = containerRef.current;
-    addNewEntity('blockquote', 'contentEditable', {
+    addNewEntity('blockquote', 'IMMUTABLE', {
       content: JSON.stringify(sampleContent),
       author: "@rulo",
       authorLink: "#",
