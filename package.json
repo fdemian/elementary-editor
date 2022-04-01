@@ -1,6 +1,6 @@
 {
   "name": "elementary-editor",
-  "version": "0.9.37",
+  "version": "0.9.38",
   "license": "MIT",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "6.1.1",

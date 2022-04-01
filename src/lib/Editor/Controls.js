@@ -3,7 +3,7 @@ import React, {
   Suspense
 } from 'react';
 import StyleButton from './StyleButton';
-import URLInput from './urlInput';
+import URLInput from './URLInput';
 import './css/Controls.css';
 
 const EditorControls = (props) => {
