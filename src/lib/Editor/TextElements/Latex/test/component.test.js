@@ -3,7 +3,8 @@ import LatexBlock from "../LatexBlock";
 import TexBlock from "../TeXBlock";
 import EditorButtons from '../Buttons';
 import { EditorState, Entity, ContentState, AtomicBlockUtils } from "draft-js";
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
 const contentStateDesc = {
@@ -89,6 +90,7 @@ const bProps = JSON.parse(JSON.stringify(contentStateDesc));
 describe("Latex", () => {
 
   it("<TexBlock /> (render, change values)", async () => {
+    const user = userEvent.setup()
 
     bProps.block.getKey = () => 0;
     bProps.blockProps.onStartEdit = (k) => null;
@@ -108,33 +110,40 @@ describe("Latex", () => {
     };
 
 
-    const { getByRole, getByText, getAllByText } = render(<TexBlock {...bProps} />);
+    render(<TexBlock {...bProps} />);
 
-    const texOutput = getByRole("presentation");
-    expect(texOutput).toHaveClass("katex-output");
-
-    fireEvent.click(texOutput);
+    expect(screen.getByRole("presentation")).toHaveClass("katex-output");
+    user.dblClick(screen.getByRole("presentation"));
 
     await waitFor(() => {
-      const removeBtn = getByText('Remove');
-      const doneBtn = getByText('Done');
-      const textBox = getByRole("textbox");
-      expect(removeBtn).toBeInTheDocument();
-      expect(doneBtn).toBeInTheDocument();
-      expect(textBox).toHaveAttribute("rows", "2");
-      expect(getAllByText('f(x)', {exact: false})[1]).toBeInTheDocument();
-
-      // Change checkbox.
-      fireEvent.change(textBox, { target: { value: 'g(x)' } });
-
-      // Save current status.
-      fireEvent.click(doneBtn);
-      // TODO.
+      expect(screen.getByText('Remove')).toBeInTheDocument();
     })
 
+    expect(screen.getByText('Done')).toBeInTheDocument();
+    expect(screen.getByRole('textbox')).toHaveAttribute("rows", "2");
+    expect(screen.getAllByText('f(x)', {exact: false})[1]).toBeInTheDocument();
+
+    // Delete all contents of textbox.
+    await user.clear(screen.getByRole('textbox'));
+
+    // Change checkbox contents.
+    await user.type(screen.getByRole('textbox'), 'g(x)');
+
+    await waitFor(() => {
+      expect(screen.getByText('g(x)')).toBeInTheDocument();
+    })
+
+    // Save current status.
+    await user.click(screen.getByText('Done'));
+
+    await waitFor(() => {
+      screen.debug(undefined, 300000);
+      expect(screen.getAllByText('g', {exact: false})[1]).toBeInTheDocument();
+    });
   })
 
   it("<TexBlock /> render invalid tex", async () => {
+      const user = userEvent.setup()
 
       bProps.block.getKey = () => 0;
       bProps.blockProps.onStartEdit = (k) => null;
@@ -153,39 +162,32 @@ describe("Latex", () => {
         };
       };
 
+      render(<TexBlock {...bProps} />);
 
-      const { getByRole, getByText, getAllByText } = render(<TexBlock {...bProps} />);
-
-      const texOutput = getByRole("presentation");
-      expect(texOutput).toHaveClass("katex-output");
-
-      fireEvent.click(texOutput);
+      expect(screen.getByRole("presentation")).toHaveClass("katex-output");
+      await user.click(screen.getByRole("presentation"));
 
       await waitFor(() => {
-        const removeBtn = getByText('Remove');
-        const doneBtn = getByText('Done');
-        const textBox = getByRole("textbox");
-        expect(removeBtn).toBeInTheDocument();
-        expect(doneBtn).toBeInTheDocument();
-        expect(textBox).toHaveAttribute("rows", "2");
-        expect(getAllByText('f(x)', {exact: false})[1]).toBeInTheDocument();
-
-        // Change checkbox.
-        fireEvent.change(textBox, { target: { value: "\\" } });
-
-        expect(getByText("Invalid TeX")).toBeInTheDocument();
+        expect(screen.getByText('Done')).toBeInTheDocument();
       });
+
+      expect(screen.getByText('Remove')).toBeInTheDocument();
+      expect(screen.getByText('Done')).toBeInTheDocument();
+      expect(screen.getByRole("textbox")).toHaveAttribute("rows", "2");
+      expect(screen.getAllByText('f(x)', {exact: false})[1]).toBeInTheDocument();
+
+      // Change checkbox.
+      await user.type(screen.getByRole("textbox"), "\\");
+
+      expect(screen.getByText("Invalid TeX")).toBeInTheDocument();
   })
 
   it("<LatexBlock />", () => {
     const props = { content: "f(x) = ... " };
-
-    const { getByTestId } = render(<LatexBlock {...props} />);
-    const textElem = getByTestId('latex-block');
-
+    render(<LatexBlock {...props} />);
+    const textElem = screen.getByTestId('latex-block');
     fireEvent(textElem, new Event("timeupdate", { bubbles: true }))
-
-    expect(getByTestId('latex-block')).toBeInTheDocument();
+    expect(screen.getByTestId('latex-block')).toBeInTheDocument();
   })
 
   it("<Buttons /> invalid tex", () => {
@@ -195,10 +197,10 @@ describe("Latex", () => {
       saveFn: jest.fn(),
     };
 
-    const { getByText } = render(<EditorButtons {...props} />);
+    render(<EditorButtons {...props} />);
 
-    expect(getByText("Remove")).toBeInTheDocument();
-    expect(getByText("Invalid TeX")).toBeInTheDocument();
+    expect(screen.getByText("Remove")).toBeInTheDocument();
+    expect(screen.getByText("Invalid TeX")).toBeInTheDocument();
   })
 
 })

@@ -4,7 +4,6 @@ import { Editor } from "draft-js";
 const BaseEditor = (config) => {
   const AltEditor = config.altEditor;
   const { altRenderProps } = config;
-  
   if (AltEditor) {
     return(
     <>

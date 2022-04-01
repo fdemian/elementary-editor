@@ -20,6 +20,7 @@ const StyleButton = (props) => {
       <button
         className="StyleButton"
         onClick={(blockName) => toggleFn(blockName, getInput)}
+        aria-label={label}
       >
         <FontAwesomeIcon size="lg" style={iconStyle} icon={icon} />
       </button>

@@ -107,36 +107,44 @@ describe("<Editor />", () => {
     expect(textNode).toBeInTheDocument();
   });
 
+
   /*
-  it("Render AltEditor.", () => {
-    const _state = {
-      blocks: [
-        {
-          key: "ba892",
-          text: "peccorino",
-          type: "unstyled",
-          depth: 0,
-          inlineStyleRanges: [],
-          entityRanges: [],
-          data: {},
-        },
-      ],
-      entityMap: {},
-    };
-    const initialState = JSON.stringify(_state);
+  it("Insert Latex element (internal method)", () => {
 
     render(
       <Editor
-        initialState={initialState}
+        initialState={null}
         containerRef={null}
-        altEditor={Editor}
+        filterStyles={["blockquote"]}
       />
     );
 
-    expect(screen.getAllByRole("textbox").length).toStrictEqual(3);
+    screen.debug(undefined, 300000)
+  });*/
 
+  it("Render AltEditor.", () => {
+
+    const AltEditor = () => (
+    <textarea
+      id="alteditor"
+      aria-label="Alt Editor"
+      name="alteditor"
+      rows="4"
+      cols="50"
+    ></textarea>
+    );
+
+
+    render(
+      <Editor
+        initialState={null}
+        containerRef={null}
+        altEditor={AltEditor}
+      />
+    );
+
+    expect(screen.getByRole("textbox", { name: "Alt Editor"})).toBeInTheDocument();
   });
-  */
 
   it("Render Controls with input visible.", async () => {
     const user = userEvent.setup()
@@ -160,17 +168,17 @@ describe("<Editor />", () => {
 
     render(<EditorControls {...props} />);
 
-    expect(screen.getByRole('input', { name: 'URL Input'})).toBeInTheDocument();
-    expect(screen.getByRole('input', { name: 'URL Input'})).toHaveAttribute("placeholder", "Enter image URL");
-    expect(screen.getByRole('input', { name: 'URL Input'})).toHaveAttribute('name', "URL Input");
-    expect(screen.getByRole('input', { name: 'URL Input'}).value).toStrictEqual("");
+    const _input = screen.getByRole('input', { name: 'URL Input'});
+    const urlToType = "www.url.com";
 
-    await user.type(screen.getByRole('input', { name: 'URL Input'}), "www.url.com");
+    expect(_input).toBeInTheDocument();
+    expect(_input).toHaveAttribute("placeholder", "Enter image URL");
+    expect(_input).toHaveAttribute('name', "URL Input");
+    expect(_input.value).toStrictEqual("");
 
-    await waitFor(() => {
-      expect(screen.getByRole('input', { name: 'URL Input'}).value).toStrictEqual('www.url.com');
-    });
+    await user.type(screen.getByRole('input', { name: 'URL Input'}), urlToType);
 
+    expect(props.onInputChange).toHaveBeenCalled();
   });
 
   // TODO: interaction test for URL Input.
