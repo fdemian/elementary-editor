@@ -109,7 +109,6 @@ describe("Latex", () => {
       };
     };
 
-
     render(<TexBlock {...bProps} />);
 
     expect(screen.getByRole("presentation")).toHaveClass("katex-output");
@@ -137,9 +136,10 @@ describe("Latex", () => {
     await user.click(screen.getByText('Done'));
 
     await waitFor(() => {
-      screen.debug(undefined, 300000);
-      expect(screen.getAllByText('g', {exact: false})[1]).toBeInTheDocument();
+      expect(screen.queryByText('f(x)', { exact: false })).not.toBeInTheDocument();
     });
+
+    expect(screen.getAllByText('g(x)', {exact: false, hidden: true}).length).toStrictEqual(1);
   })
 
   it("<TexBlock /> render invalid tex", async () => {
