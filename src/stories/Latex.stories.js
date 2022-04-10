@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import LatexBlock from "../lib/Editor/TextElements/Latex/LatexBlock";
 
 const content = 'f(x)';

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import Media from "../lib/Editor/TextElements/Media/Media";
 import plato from './plato.jpg';
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import QuoteBlock from "../lib/Editor/TextElements/QuoteBlock/QuoteBlock";
 
 const commentContent = {

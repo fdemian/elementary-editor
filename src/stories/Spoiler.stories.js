@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import Spoiler from "../lib/Editor/TextElements/Spoiler/Spoiler";
 
 export const SpoilerStory = () => {
