@@ -13,3 +13,7 @@ blockquote img {
   height:auto;
   display:block;
 }
+
+blockquote a {
+  color: #3366CC;
+}

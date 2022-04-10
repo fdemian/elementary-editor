@@ -1,4 +1,5 @@
 import React from 'react';
+import './Link.css';
 
 const RenderLink = (props) => {
   const { src, text } = props;
