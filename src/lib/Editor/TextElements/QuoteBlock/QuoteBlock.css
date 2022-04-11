@@ -15,5 +15,5 @@ blockquote img {
 }
 
 blockquote a {
-  color: #3366CC;
+  color: #3366CC !important;
 }
