@@ -8,6 +8,7 @@ const BaseEditor = (config) => {
     return(
     <>
       <AltEditor
+        aria-label="Editor"
         blockStyleFn={config.getBlockStyle}
         blockRendererFn={config.blockRendererFn}
         blockRenderMap={config.blockRenderMap}
@@ -26,6 +27,7 @@ const BaseEditor = (config) => {
 
   return (
     <Editor
+      aria-label="Editor"
       blockStyleFn={config.getBlockStyle}
       blockRendererFn={config.blockRendererFn}
       blockRenderMap={config.blockRenderMap}

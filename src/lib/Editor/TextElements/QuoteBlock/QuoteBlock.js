@@ -3,7 +3,9 @@ import Renderer from "../../../DraftRenderer/DraftRenderer";
 import "./QuoteBlock.css";
 
 const QuoteBlock = ({ comment, altRenderers }) => {
-  const { content, author, authorLink, cite } = comment;
+  const commentProps = comment.author !== undefined ? comment: comment.content;
+  const { content, author, authorLink, cite } = commentProps;
+
   const rawContent = JSON.parse(content);
   return(
   <figure>

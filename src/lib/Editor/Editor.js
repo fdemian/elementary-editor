@@ -319,7 +319,7 @@ const EditorComponent = (props) => {
     const newEditorState = EditorState.set(editorState, {
       currentContent: contentStateWithEntity,
     });
-    
+
     return insertAtomicBlock(newEditorState, entityKey, (text ? text : " "));
   };
 
@@ -446,7 +446,13 @@ const EditorComponent = (props) => {
         showInput={showInput}
         altControls={altControls}
       />
-      <div className={className} onClick={focus} role="textbox" tabIndex={0}>
+      <div
+        aria-label="Editor container"
+        className={className}
+        onClick={focus}
+        role="textbox"
+        tabIndex={0}
+      >
         <BaseEditor
           blockStyleFn={getBlockStyle}
           blockRendererFn={customRenderFn}
