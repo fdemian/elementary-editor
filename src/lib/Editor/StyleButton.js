@@ -4,7 +4,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './css/StyleButton.css'
 
 const StyleButton = (props) => {
-  const { onToggle, getInput, activeFn, icon, style, label, editorState } = props;
+  const {
+    onToggle,
+    getInput,
+    activeFn,
+    icon,
+    style,
+    label,
+    editorState,
+    key
+  } = props;
 
   const isActive = activeFn(style);
   const iconColor = isActive ? "black" : "gainsboro";
@@ -18,6 +27,7 @@ const StyleButton = (props) => {
   return (
     <Tooltip placement="bottom" title={label}>
       <button
+        key={key}
         className="StyleButton"
         onClick={(blockName) => toggleFn(blockName, getInput)}
         aria-label={label}
