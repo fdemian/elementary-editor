@@ -65,7 +65,8 @@ const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
 const EditorComponent = (props) => {
 
-  const { altEditor, initialState, containerRef , altRenderProps, altControls, plugins } = props;
+  const {
+    altEditor, altLabels, initialState, containerRef , altRenderProps, altControls, plugins, ariaLabel } = props;
   const BaseEditor = altEditor ? altEditor : Editor;
 
   let decorator = null;
@@ -125,6 +126,32 @@ const EditorComponent = (props) => {
     );
     _editorStyles = whiteListed;
   }
+
+  /*
+  const replaceLabels(altLabels, styleArray) = () => {
+    /
+     *  {
+     *   label: "Remove Link",
+     *   style: "LinkRemove",
+     *   toggleFn: removeLink,
+     *   requiresInput: false,
+     *   requiresSelection: false,
+     *   icon: faUnlink
+     *  }
+    /
+
+     for(const elem of styleArray){
+        if(altLabels.includes(elem.style)){
+          elem.label =
+        }
+     }
+
+  }
+  if(altLabels) {
+    _editorStyles.BLOCK_TYPES = replaceLabels(altLabels, _editorStyles.BLOCK_TYPES);
+    _editorStyles.INLINE_STYLES = replaceLabels(altLabels, _editorStyles.INLINE_STYLES);
+    _editorStyles.CUSTOM_STYLES = replaceLabels(altLabels, _editorStyles.CUSTOM_STYLES);
+  }*/
 
   const getContent = () => {
     const currentContent = getCurrentContent();
@@ -239,7 +266,7 @@ const EditorComponent = (props) => {
   };
 
   const findStyleObjectByName = (name) => {
-    let customStyles = editorStyles.CUSTOM_STYLES;
+    let customStyles = _editorStyles.CUSTOM_STYLES;
     if(customStyles.find(s => s.style === name) && altControls && (altControls.find(s => s.style ===name)!== undefined)){
       customStyles = customStyles.filter(s => s.style !== name);
     }
@@ -454,6 +481,7 @@ const EditorComponent = (props) => {
         tabIndex={0}
       >
         <BaseEditor
+          ariaLabel={ariaLabel}
           blockStyleFn={getBlockStyle}
           blockRendererFn={customRenderFn}
           blockRenderMap={extendedBlockRenderMap}
