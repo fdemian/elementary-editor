@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import Editor from "../lib/Editor/Editor";
 import { Button, Card } from "antd";
-
 import AltEditor, { composeDecorators } from '@draft-js-plugins/editor';
 import createEmojiPlugin from '@draft-js-plugins/emoji';
 import createHashtagPlugin from '@draft-js-plugins/hashtag';
@@ -21,9 +20,7 @@ import '@draft-js-plugins/emoji/lib/plugin.css';
 import '@draft-js-plugins/hashtag/lib/plugin.css'
 
 const hashtagPlugin = createHashtagPlugin();
-const emojiPlugin = createEmojiPlugin({
-  useNativeArt: true,
-});
+const emojiPlugin = createEmojiPlugin({ useNativeArt: true });
 const { EmojiSuggestions } = emojiPlugin;
 const focusPlugin = createFocusPlugin();
 const resizeablePlugin = createResizeablePlugin();
