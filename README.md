@@ -184,7 +184,7 @@ The ref property is needed if you want to access the editor's internal methods.
         toggleFn: (editorState, type, value) => editorState;
         requiresInput: boolean;
         requiresSelection: boolean;
-        icon: <svg icon>;
+        icon: svg icon;
       }]</td>
       <td>undefined</td>
       <td>
@@ -310,10 +310,10 @@ The ref property is needed if you want to access the editor's internal methods.
        <td>getContent</td>
        <td> - </td>
        <td>
- 	    Gets the current DraftJS raw editor state.
- 	  </td>
-     </tr>   
- 	<tr>
+ 	      Gets the current DraftJS raw editor state.
+ 	     </td>
+    </tr>   
+ 	   <tr>
        <td>clear</td>
        <td> - </td>
        <td>
