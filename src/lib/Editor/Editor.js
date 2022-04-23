@@ -127,31 +127,25 @@ const EditorComponent = (props) => {
     _editorStyles = whiteListed;
   }
 
-  /*
-  const replaceLabels(altLabels, styleArray) = () => {
-    /
-     *  {
-     *   label: "Remove Link",
-     *   style: "LinkRemove",
-     *   toggleFn: removeLink,
-     *   requiresInput: false,
-     *   requiresSelection: false,
-     *   icon: faUnlink
-     *  }
-    /
-
-     for(const elem of styleArray){
-        if(altLabels.includes(elem.style)){
-          elem.label =
-        }
-     }
-
+  const replaceLabelIfPresent = (obj, labels) => {
+    const labelFound = labels.find(l => l.style === obj.style);
+    if(labelFound !== undefined){
+      return {...obj, label: labelFound.label };
+    }
+    return obj;
   }
-  if(altLabels) {
-    _editorStyles.BLOCK_TYPES = replaceLabels(altLabels, _editorStyles.BLOCK_TYPES);
-    _editorStyles.INLINE_STYLES = replaceLabels(altLabels, _editorStyles.INLINE_STYLES);
-    _editorStyles.CUSTOM_STYLES = replaceLabels(altLabels, _editorStyles.CUSTOM_STYLES);
-  }*/
+
+  const replaceLabels = (altLabels, styleArray) => {
+    return styleArray.map(s => replaceLabelIfPresent(s, altLabels));
+  }
+
+  if(altLabels){
+    _editorStyles = {
+      BLOCK_TYPES: replaceLabels(altLabels, _editorStyles.BLOCK_TYPES),
+      INLINE_STYLES: replaceLabels(altLabels, _editorStyles.INLINE_STYLES),
+      CUSTOM_STYLES: replaceLabels(altLabels, _editorStyles.CUSTOM_STYLES)
+    }
+  }
 
   const getContent = () => {
     const currentContent = getCurrentContent();
