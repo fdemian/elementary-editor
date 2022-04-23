@@ -99,8 +99,7 @@ The ref property is needed if you want to access the editor's internal methods.
 ## API
 
 ## Properties
-
- <table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped">
   <thead>
      <tr>
       <th style="width: 100px;">Name</th>
@@ -126,7 +125,6 @@ The ref property is needed if you want to access the editor's internal methods.
         A reference to the editor. Necessary to use the editor's internal methods.
       </td>
     </tr>
-
     <tr>
       <td>ariaLabel (optional)</td>
       <td>string</td>
