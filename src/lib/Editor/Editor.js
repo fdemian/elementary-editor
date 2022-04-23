@@ -1,4 +1,4 @@
-import React, { useState, useRef, useImperativeHandle } from "react";
+import React, { useState, useRef, useEffect, useImperativeHandle } from "react";
 import Draft from "draft-js";
 import { Map } from "immutable";
 import editorStyles from "./EditorStyles";
@@ -66,7 +66,16 @@ const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 const EditorComponent = (props) => {
 
   const {
-    altEditor, altLabels, initialState, containerRef , altRenderProps, altControls, plugins, ariaLabel } = props;
+    altEditor,
+    altLabels,
+    initialState,
+    containerRef ,
+    altRenderProps,
+    altControls,
+    plugins,
+    ariaLabel
+  } = props;
+
   const BaseEditor = altEditor ? altEditor : Editor;
 
   let decorator = null;

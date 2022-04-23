@@ -117,13 +117,86 @@ The ref property is needed if you want to access the editor's internal methods.
       <td>
  	  A draft-js rawState object with the initial state of the editor. If set to null it will initialize the editor with no text.
  	  </td>
-    </tr>   
+    </tr>
+    <tr>
+       <td>containerRef (optional)</td>
+      <td>React reference</td>
+       <td>null</td>
+      <td>
+        A reference to the editor. Necessary to use the editor's internal methods.
+      </td>
+    </tr>
+
+    <tr>
+      <td>ariaLabel (optional)</td>
+      <td>string</td>
+      <td>undefined</td>
+      <td>
+        aria-label property. Will be passed to whatever editor is being used.
+      </td>
+    </tr>
+    <tr>
+      <td>onChange (optional)</td>
+      <td>function</td>
+      <td>null</td>
+      <td>
+        Change handler for the editor. Executes every time the editor content changes.
+      </td>
+    </tr>
     <tr>
       <td>filterStyles (optional)</td>
       <td>string[]</td>
       <td>null</td>
       <td>
         A list of the styles the editor will use. If set it will only use those styles. If the parameter is null or isn't specified, all the available styles will be used.
+      </td>
+    </tr>
+    <tr>
+      <td>altEditor (optional)</td>
+      <td>React component</td>
+      <td>undefined</td>
+      <td>
+        Alternative editor to render. Must accept the same properties than a regular DraftJS editor (For example: draft-js-plugins editor).
+      </td>
+    </tr>
+    <tr>
+      <td>altLabels (optional)</td>
+      <td>[{style: string; label:string;}]</td>
+      <td>undefined</td>
+      <td>
+        Alternative labels for the editor. Overrides default labels for the editor elements which are in english.
+        style parameter must match with the editor default styles, label can be any text.
+      </td>
+    </tr>   
+    <tr>
+      <td>altRenderProps (optional)</td>
+      <td>[{component: React Component, props: JS Object}]</td>
+      <td>undefined</td>
+      <td>
+        Editor properties to render. Useful when using the editor with draftjs-plugins-editor.
+      </td>
+    </tr>   
+    <tr>
+      <td>altControls (optional)</td>
+      <td>[{
+        label: string;
+        style: string;
+        toggleFn: (editorState, type, value) => editorState;
+        requiresInput: boolean;
+        requiresSelection: boolean;
+        icon: <svg icon>;
+      }]</td>
+      <td>undefined</td>
+      <td>
+        Additional controls to render in the editor.
+      </td>
+    </tr>   
+    <tr>
+      <td>plugins (optional)</td>
+      <td>[{Draft js editor plugin}]</td>
+      <td>undefined</td>
+      <td>
+        Plugins for the editor. Useful when using draft-js-plugins editor. Use in conjuntion with altEditor. Will be passed to the altEditor (if present), but won't work with the regular editor.
       </td>
     </tr>   
   </tbody>
