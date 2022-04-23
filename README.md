@@ -100,7 +100,7 @@ The ref property is needed if you want to access the editor's internal methods.
 
 ## Properties
 
-<table class="table table-bordered table-striped">
+ <table class="table table-bordered table-striped">
   <thead>
      <tr>
       <th style="width: 100px;">Name</th>
