@@ -6,11 +6,11 @@ export const BaseEditorAltLabels = () => {
   const containerRef = useRef(null);
 
   const labels = [
-    { label: "Citar", style: "blockquote"},
+    { label: "Citar", style: "blockquote" },
     { label: "Encabezado", style: "header-two" },
     { label: "Lista desordenada", style: "unordered-list-item" },
     { label: "Lista ordenada", style: "ordered-list-item" },
-    { label: "Bloque de código", style:"code-block"},
+    { label: "Bloque de código", style: "code-block" },
     { label: "Negrita", style: "BOLD" },
     { label: "Cursiva", style: "ITALIC" },
     { label: "Subrayado", style: "UNDERLINE" },
@@ -24,21 +24,17 @@ export const BaseEditorAltLabels = () => {
     { label: "Latex", style: "Latex" }
   ];
 
-  return(
-  <>
-    <span className="EditorContainer">
-      <Editor
-        initialState={null}
-        containerRef={containerRef}
-        altLabels={labels}
-      />
-    </span>
-  </>
-  )
-}
+  return (
+    <>
+      <span className="EditorContainer">
+        <Editor initialState={null} containerRef={containerRef} altLabels={labels} />
+      </span>
+    </>
+  );
+};
 
 export default {
-  title: 'Editor/Alt labels',
+  title: "Editor/Alt labels",
   component: BaseEditorAltLabels,
-  argTypes: {},
+  argTypes: {}
 };

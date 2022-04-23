@@ -7,7 +7,7 @@ export const getEntities = (editorState, entityType = null) => {
         const entity = content.getEntity(character.getEntity());
         const entityResult = {
           type: entity.getType(),
-          value: entity.getData(),
+          value: entity.getData()
         };
         entities.push(entityResult);
       }

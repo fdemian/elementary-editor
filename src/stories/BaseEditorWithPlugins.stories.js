@@ -1,23 +1,23 @@
 import React, { useRef, useState } from "react";
 import Editor from "../lib/Editor/Editor";
 import { Button, Card } from "antd";
-import AltEditor, { composeDecorators } from '@draft-js-plugins/editor';
-import createEmojiPlugin from '@draft-js-plugins/emoji';
-import createHashtagPlugin from '@draft-js-plugins/hashtag';
-import createBlockDndPlugin from '@draft-js-plugins/drag-n-drop';
-import createImagePlugin from '@draft-js-plugins/image';
-import createFocusPlugin from '@draft-js-plugins/focus';
-import createResizeablePlugin from '@draft-js-plugins/resizeable';
-import createAlignmentPlugin from '@draft-js-plugins/alignment';
+import AltEditor, { composeDecorators } from "@draft-js-plugins/editor";
+import createEmojiPlugin from "@draft-js-plugins/emoji";
+import createHashtagPlugin from "@draft-js-plugins/hashtag";
+import createBlockDndPlugin from "@draft-js-plugins/drag-n-drop";
+import createImagePlugin from "@draft-js-plugins/image";
+import createFocusPlugin from "@draft-js-plugins/focus";
+import createResizeablePlugin from "@draft-js-plugins/resizeable";
+import createAlignmentPlugin from "@draft-js-plugins/alignment";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
-import sampleContent from './sampleContent';
+import sampleContent from "./sampleContent";
 
 import "./BaseEditor.css";
 
-import '@draft-js-plugins/alignment/lib/plugin.css';
-import '@draft-js-plugins/focus/lib/plugin.css';
-import '@draft-js-plugins/emoji/lib/plugin.css';
-import '@draft-js-plugins/hashtag/lib/plugin.css'
+import "@draft-js-plugins/alignment/lib/plugin.css";
+import "@draft-js-plugins/focus/lib/plugin.css";
+import "@draft-js-plugins/emoji/lib/plugin.css";
+import "@draft-js-plugins/hashtag/lib/plugin.css";
 
 const hashtagPlugin = createHashtagPlugin();
 const emojiPlugin = createEmojiPlugin({ useNativeArt: true });
@@ -33,7 +33,6 @@ const decorator = composeDecorators(
   blockDndPlugin.decorator
 );
 const imagePlugin = createImagePlugin({ decorator });
-
 
 const plugins = [
   emojiPlugin,
@@ -65,41 +64,38 @@ const FILTERED_STYLES = [
   "Latex"
 ];
 
-
 export const BaseEditorPlugins = () => {
+  const [editorState, setEditorState] = useState(null);
+  const containerRef = useRef(null);
 
-    const [editorState, setEditorState] = useState(null);
-    const containerRef = useRef(null);
+  const clearEditor = () => {
+    containerRef.current.clear();
+  };
 
-    const clearEditor = () => {
-      containerRef.current.clear();
-    };
+  const logState = () => {
+    const currentState = containerRef.current.getContent();
+    const jsonState = JSON.stringify(currentState);
+    setEditorState(jsonState);
+  };
 
-    const logState = () => {
-      const currentState = containerRef.current.getContent();
-      const jsonState = JSON.stringify(currentState);
-      setEditorState(jsonState);
-    };
+  const getPlainText = () => {
+    const plaintext = containerRef.current.getPlainText();
+    setEditorState(plaintext);
+  };
 
-    const getPlainText = () => {
-      const plaintext = containerRef.current.getPlainText();
-      setEditorState(plaintext);
-    };
+  const addContentState = () => {
+    const { addNewEntity } = containerRef.current;
+    addNewEntity("blockquote", "blockquote", {
+      content: JSON.stringify(sampleContent),
+      author: "rulo",
+      authorLink: "#",
+      cite: "/comments/1"
+    });
+  };
 
-    const addContentState = () => {
-      const { addNewEntity } = containerRef.current;
-      addNewEntity('blockquote', 'blockquote', {
-        content: JSON.stringify(sampleContent),
-        author: "rulo",
-        authorLink: "#",
-        cite: "/comments/1"
-      });
-    }
-
-    const altRenderProps = [
-      { component:  EmojiSuggestions, props: {} }
-    ];
-    const altControls = [{
+  const altRenderProps = [{ component: EmojiSuggestions, props: {} }];
+  const altControls = [
+    {
       label: "Image",
       style: "Image",
       toggleFn: (editorState, type, value) => {
@@ -108,9 +104,10 @@ export const BaseEditorPlugins = () => {
       requiresInput: true,
       requiresSelection: false,
       icon: faImage
-    }];
+    }
+  ];
 
-    return(
+  return (
     <>
       <span className="EditorContainer">
         <Editor
@@ -150,14 +147,12 @@ export const BaseEditorPlugins = () => {
         </Card>
       </div>
     </>
-    );
-}
-
+  );
+};
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Editor/Plugins',
+  title: "Editor/Plugins",
   component: BaseEditorPlugins,
-  argTypes: {
-  }
+  argTypes: {}
 };

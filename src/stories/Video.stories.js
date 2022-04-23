@@ -8,26 +8,25 @@ const videoProps = { src: video };
 const props = {
   src: video,
   block: {
-    getEntityAt: (n) => {},
+    getEntityAt: (n) => {}
   },
   contentState: {
     getEntity: (e) => {
       return {
         getType: () => "Video",
-        getData: () => videoProps,
+        getData: () => videoProps
       };
-    },
+    }
   },
-  entityKey: 1,
+  entityKey: 1
 };
-
 
 export const VideoMedia = () => {
   return <Media {...props} />;
-}
+};
 
 export default {
-  title: 'Elements/Video',
+  title: "Elements/Video",
   component: VideoMedia,
-  argTypes: {},
+  argTypes: {}
 };

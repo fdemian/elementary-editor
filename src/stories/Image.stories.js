@@ -1,30 +1,29 @@
 import React from "react";
 import Media from "../lib/Editor/TextElements/Media/Media";
-import plato from './plato.jpg';
+import plato from "./plato.jpg";
 
 const imgProps = { src: plato };
 const props = {
   block: {
-    getEntityAt: (n) => {},
+    getEntityAt: (n) => {}
   },
   contentState: {
     getEntity: (e) => {
       return {
         getType: () => "Image",
-        getData: () => imgProps,
+        getData: () => imgProps
       };
-    },
+    }
   },
-  entityKey: 1,
+  entityKey: 1
 };
-
 
 export const ImageMedia = () => {
   return <Media {...props} />;
-}
+};
 
 export default {
-  title: 'Elements/Image',
+  title: "Elements/Image",
   component: ImageMedia,
-  argTypes: {},
+  argTypes: {}
 };

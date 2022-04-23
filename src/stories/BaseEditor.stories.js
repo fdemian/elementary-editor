@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import Editor from "../lib/Editor/Editor";
 import DefaultRenderer from "../lib/DraftRenderer/DraftRenderer";
 import { Button, Card } from "antd";
-import sampleContent from './sampleContent';
+import sampleContent from "./sampleContent";
 import "./BaseEditor.css";
 
 const RendererText = ({ text }) => {
@@ -14,10 +14,9 @@ const RendererText = ({ text }) => {
   } catch (error) {
     return <p>{text}</p>;
   }
-}
+};
 
 const ButtonGroup = Button.Group;
-
 
 export const BaseEditor = () => {
   const [editorState, setEditorState] = useState(null);
@@ -37,56 +36,56 @@ export const BaseEditor = () => {
 
   const addContentState = () => {
     const { addNewEntity } = containerRef.current;
-    addNewEntity('blockquote', 'IMMUTABLE', {
+    addNewEntity("blockquote", "IMMUTABLE", {
       content: JSON.stringify(sampleContent),
       author: "@rulo",
       authorLink: "#",
       cite: "#comment-1"
     });
-  }
+  };
 
-  return(
-  <>
-    <div>
-      <span className="EditorContainer">
-        <Editor initialState={null} containerRef={containerRef} />
-      </span>
-      <ButtonGroup className="LogStateButton">
-        <Button type="primary" onClick={clearEditor}>
-          Clear editor
-        </Button>
-        <Button type="primary" onClick={logState}>
-          Log State
-        </Button>
-        <Button type="primary" onClick={getPlainText}>
-          Log plain text
-        </Button>
-        <Button type="primary" onClick={addContentState}>
-          Add content
-        </Button>
-      </ButtonGroup>
-    </div>
-    <div className="LogStateResult">
-      <Card>
-        <p>
-          {editorState != null
-            ? editorState
-            : "Press 'Log state' to log the current state."}
-        </p>
-      </Card>
-      <Card>
-        <RendererText text={editorState} />
-      </Card>
-    </div>
-  </>
-  )
-}
+  return (
+    <>
+      <div>
+        <span className="EditorContainer">
+          <Editor initialState={null} containerRef={containerRef} />
+        </span>
+        <ButtonGroup className="LogStateButton">
+          <Button type="primary" onClick={clearEditor}>
+            Clear editor
+          </Button>
+          <Button type="primary" onClick={logState}>
+            Log State
+          </Button>
+          <Button type="primary" onClick={getPlainText}>
+            Log plain text
+          </Button>
+          <Button type="primary" onClick={addContentState}>
+            Add content
+          </Button>
+        </ButtonGroup>
+      </div>
+      <div className="LogStateResult">
+        <Card>
+          <p>
+            {editorState != null
+              ? editorState
+              : "Press 'Log state' to log the current state."}
+          </p>
+        </Card>
+        <Card>
+          <RendererText text={editorState} />
+        </Card>
+      </div>
+    </>
+  );
+};
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Editor/Base',
+  title: "Editor/Base",
   component: BaseEditor,
   argTypes: {
     /*backgroundColor: { control: 'color' },*/
-  },
+  }
 };

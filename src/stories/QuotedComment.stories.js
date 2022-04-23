@@ -10,10 +10,10 @@ const commentContent = {
       depth: 0,
       inlineStyleRanges: [{ offset: 0, length: 15, style: "BOLD" }],
       entityRanges: [],
-      data: {},
-    },
+      data: {}
+    }
   ],
-  entityMap: {},
+  entityMap: {}
 };
 
 const comment = {
@@ -23,11 +23,10 @@ const comment = {
   cite: "#comment-1"
 };
 
-
-export const QuotedComment= () => <QuoteBlock comment={comment} />;
+export const QuotedComment = () => <QuoteBlock comment={comment} />;
 
 export default {
-  title: 'Elements/QuoteBlock',
+  title: "Elements/QuoteBlock",
   component: QuotedComment,
-  argTypes: {},
+  argTypes: {}
 };

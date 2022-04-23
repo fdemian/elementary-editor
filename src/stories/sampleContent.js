@@ -1,4 +1,3 @@
-
 const sampleContent = {
   blocks: [
     {
@@ -81,9 +80,9 @@ const sampleContent = {
     }
   ],
   entityMap: {
-    "0": {
+    0: {
       type: "KEYBOARD",
-      "mutability": "IMMUTABLE",
+      mutability: "IMMUTABLE",
       data: {
         text: "Esc"
       }
