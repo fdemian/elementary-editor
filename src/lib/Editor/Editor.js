@@ -76,6 +76,7 @@ const EditorComponent = (props) => {
     ariaLabel
   } = props;
 
+  // Editor initialization.
   const BaseEditor = altEditor ? altEditor : Editor;
 
   let decorator = null;
@@ -156,14 +157,7 @@ const EditorComponent = (props) => {
     }
   }
 
-  const getContent = () => {
-    const currentContent = getCurrentContent();
-    return convertToRaw(currentContent);
-  };
-
-  const getPlainText = () => {
-    return getCurrentContent().getPlainText();
-  };
+  // Internal editor functions.
 
   const removeTex = (blockKey) => {
     setTexEdits(texEdits.remove(blockKey));
@@ -423,11 +417,21 @@ const EditorComponent = (props) => {
     }
   }
 
+  // Exposed methods.
   const clear = () => {
     const emptyState = ContentState.createFromText("");
     const clearedState = EditorState.push(editorState, emptyState);
     setTexEdits(Map());
     setEditorState(clearedState);
+  };
+
+  const getContent = () => {
+    const currentContent = getCurrentContent();
+    return convertToRaw(currentContent);
+  };
+
+  const getPlainText = () => {
+    return getCurrentContent().getPlainText();
   };
 
   const addNewEntity = (type, mutability, data) => {
@@ -440,7 +444,6 @@ const EditorComponent = (props) => {
     setEditorState(newState);
   }
 
-  // Exposed methods.
   useImperativeHandle(containerRef, () => {
     return {
       clear: clear,
