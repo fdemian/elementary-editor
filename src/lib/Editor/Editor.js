@@ -77,10 +77,34 @@ const EditorComponent = (props) => {
   } = props;
 
   // Editor initialization.
-  const BaseEditor = altEditor ? altEditor : Editor;
-
+  let BaseEditor = altEditor ? altEditor : Editor;
   let decorator = null;
   let initialStateEditor;
+  let _editorStyles = null;
+  let filterStyles = null;
+
+  if (initialState == null) {
+    initialStateEditor = EditorState.createEmpty(decorator);
+  } else {
+    const parsedState = JSON.parse(initialState);
+    const contentState = convertFromRaw(parsedState);
+    initialStateEditor = EditorState.createWithContent(contentState, decorator);
+  }
+
+  // State and refs.
+  const editorRef = useRef(null);
+  const [texEdits, setTexEdits] = useState(Map());
+  const [editorState, setEditorState] = useState(initialStateEditor);
+  const [inputVisible, setInputVisible] = useState(false);
+  const [inputType, setInputType] = useState("");
+  const [inputValue, setInputValue] = useState("");
+
+  // Basic editor functions Functions.
+  const focus = () => editorRef.current ? editorRef.current.focus() : {};
+  const readOnly = texEdits.count();
+  const getCurrentContent = () => editorState.getCurrentContent();
+  const customBlockIsActive = () => false; // TODO: revise.
+
 
   if (!altEditor) {
     decorator = new CompositeDecorator([
@@ -97,34 +121,9 @@ const EditorComponent = (props) => {
     ]);
   }
 
-  if (initialState == null) {
-    initialStateEditor = EditorState.createEmpty(decorator);
-  } else {
-    const parsedState = JSON.parse(initialState);
-    const contentState = convertFromRaw(parsedState);
-    initialStateEditor = EditorState.createWithContent(contentState, decorator);
-  }
-
-  const editorRef = useRef(null);
-
-  // State and refs.
-  const [texEdits, setTexEdits] = useState(Map());
-  const [editorState, setEditorState] = useState(initialStateEditor);
-  const [inputVisible, setInputVisible] = useState(false);
-  const [inputType, setInputType] = useState("");
-  const [inputValue, setInputValue] = useState("");
-
-  // Functions.
-  const focus = () => editorRef.current ? editorRef.current.focus() : {};
-  const readOnly = texEdits.count();
-  const getCurrentContent = () => editorState.getCurrentContent();
-  const customBlockIsActive = () => false; // TODO: revise.
-
-  let _editorStyles = null;
-
   // If the user has defined which styles to whitelist, use only those.
   // Otherwise use all of the styles.
-  let filterStyles =
+  filterStyles =
     props.filterStyles === undefined ? null : props.filterStyles;
 
   if (filterStyles === null) {
@@ -156,6 +155,13 @@ const EditorComponent = (props) => {
       CUSTOM_STYLES: replaceLabels(altLabels, _editorStyles.CUSTOM_STYLES)
     }
   }
+
+
+  /*
+  useEffect(() => {
+  console.log("Effect");
+  }, []);
+  */
 
   // Internal editor functions.
 
