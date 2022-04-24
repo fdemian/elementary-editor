@@ -68,7 +68,7 @@ export const removeLink = (editorState) => {
     return RichUtils.toggleLink(editorState, selection, null);
   }
 
-  return null;
+  return editorState;
 };
 
 export const insertKeyboard = (editorState) => {
@@ -114,7 +114,7 @@ const CUSTOM_STYLES = [
     style: "LinkRemove",
     toggleFn: removeLink,
     requiresInput: false,
-    requiresSelection: false,
+    requiresSelection: true,
     icon: faUnlink
   },
   {

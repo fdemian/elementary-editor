@@ -239,6 +239,7 @@ const EditorComponent = (props) => {
   };
 
   const customBlockToggleFn = (blockName, getInput) => {
+
     const selectionCollapsed = selectionIsCollapsed();
     const styleObject = findStyleObjectByName(blockName);
     const { requiresSelection } = styleObject;
@@ -316,6 +317,7 @@ const EditorComponent = (props) => {
         break;
 
       default:
+        newState = styleObject.toggleFn(editorState);
         break;
     }
 
