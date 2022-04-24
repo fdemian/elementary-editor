@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useImperativeHandle } from "react";
+import React, { useState, useRef, useMemo, useImperativeHandle } from "react";
 import Draft from "draft-js";
 import { Map } from "immutable";
 import editorStyles from "./EditorStyles";
@@ -11,6 +11,7 @@ import Media from "./TextElements/Media/Media";
 import Link from "./TextElements/Link/Link";
 import EditorControls from "./Controls";
 import { Editor } from "draft-js";
+import { getInitialStyles, getInitialEditorState } from './utils';
 
 import {
   getBlockStyle,
@@ -62,6 +63,18 @@ const blockRenderMap = Map({
 });
 
 const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
+const DEFAULT_DECORATOR = new CompositeDecorator([
+  {
+    strategy: (contentBlock, callback, contentState) =>
+      findLinkEntities(contentBlock, callback, contentState),
+    component: Link,
+  },
+  {
+    strategy: (contentBlock, callback, contentState) =>
+      findSpoilerEntities(contentBlock, callback, contentState),
+    component: Spoiler,
+  }
+]);
 
 const EditorComponent = (props) => {
 
@@ -78,18 +91,12 @@ const EditorComponent = (props) => {
 
   // Editor initialization.
   let BaseEditor = altEditor ? altEditor : Editor;
-  let decorator = null;
-  let initialStateEditor;
-  let _editorStyles = null;
-  let filterStyles = null;
-
-  if (initialState == null) {
-    initialStateEditor = EditorState.createEmpty(decorator);
-  } else {
-    const parsedState = JSON.parse(initialState);
-    const contentState = convertFromRaw(parsedState);
-    initialStateEditor = EditorState.createWithContent(contentState, decorator);
-  }
+  let _editorStyles = useMemo(() => getInitialStyles(altEditor, altLabels, props, editorStyles),
+      [altEditor, altLabels, props, editorStyles]
+  );
+  let initialStateEditor = useMemo(() => getInitialEditorState(altEditor, initialState, DEFAULT_DECORATOR),
+      [altEditor, initialState]
+  );
 
   // State and refs.
   const editorRef = useRef(null);
@@ -104,64 +111,6 @@ const EditorComponent = (props) => {
   const readOnly = texEdits.count();
   const getCurrentContent = () => editorState.getCurrentContent();
   const customBlockIsActive = () => false; // TODO: revise.
-
-
-  if (!altEditor) {
-    decorator = new CompositeDecorator([
-      {
-        strategy: (contentBlock, callback, contentState) =>
-          findLinkEntities(contentBlock, callback, contentState),
-        component: Link,
-      },
-      {
-        strategy: (contentBlock, callback, contentState) =>
-          findSpoilerEntities(contentBlock, callback, contentState),
-        component: Spoiler,
-      }
-    ]);
-  }
-
-  // If the user has defined which styles to whitelist, use only those.
-  // Otherwise use all of the styles.
-  filterStyles =
-    props.filterStyles === undefined ? null : props.filterStyles;
-
-  if (filterStyles === null) {
-    _editorStyles = editorStyles;
-  } else {
-    const whiteListed = filterWhiteListedStyles(
-      editorStyles,
-      props.filterStyles
-    );
-    _editorStyles = whiteListed;
-  }
-
-  const replaceLabelIfPresent = (obj, labels) => {
-    const labelFound = labels.find(l => l.style === obj.style);
-    if(labelFound !== undefined){
-      return {...obj, label: labelFound.label };
-    }
-    return obj;
-  }
-
-  const replaceLabels = (altLabels, styleArray) => {
-    return styleArray.map(s => replaceLabelIfPresent(s, altLabels));
-  }
-
-  if(altLabels){
-    _editorStyles = {
-      BLOCK_TYPES: replaceLabels(altLabels, _editorStyles.BLOCK_TYPES),
-      INLINE_STYLES: replaceLabels(altLabels, _editorStyles.INLINE_STYLES),
-      CUSTOM_STYLES: replaceLabels(altLabels, _editorStyles.CUSTOM_STYLES)
-    }
-  }
-
-
-  /*
-  useEffect(() => {
-  console.log("Effect");
-  }, []);
-  */
 
   // Internal editor functions.
 
@@ -461,7 +410,6 @@ const EditorComponent = (props) => {
 
   return (
     <div
-      style={{ height: "100%" }}
       ref={containerRef}
       className="em-editor-container"
     >
