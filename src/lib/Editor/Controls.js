@@ -1,7 +1,4 @@
-import React, {
-  lazy,
-  Suspense
-} from 'react';
+import React from 'react';
 import StyleButton from './StyleButton';
 import URLInput from './URLInput';
 import './css/Controls.css';

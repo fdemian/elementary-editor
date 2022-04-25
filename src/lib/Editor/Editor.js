@@ -17,7 +17,6 @@ import {
   getBlockStyle,
   findLinkEntities,
   findSpoilerEntities,
-  filterWhiteListedStyles,
   createNewImmutableEntity,
   insertEntityToState,
 } from "./utils";
@@ -33,7 +32,6 @@ const {
   RichUtils,
   DefaultDraftBlockRenderMap,
   convertToRaw,
-  convertFromRaw,
   AtomicBlockUtils,
   Modifier
 } = Draft;
@@ -92,10 +90,10 @@ const EditorComponent = (props) => {
   // Editor initialization.
   let BaseEditor = altEditor ? altEditor : Editor;
   let _editorStyles = useMemo(() => getInitialStyles(altEditor, altLabels, props, editorStyles),
-      [altEditor, altLabels, props, editorStyles]
+    [altEditor, altLabels, props]
   );
   let initialStateEditor = useMemo(() => getInitialEditorState(altEditor, initialState, DEFAULT_DECORATOR),
-      [altEditor, initialState]
+    [altEditor, initialState]
   );
 
   // State and refs.
