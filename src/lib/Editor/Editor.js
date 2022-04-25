@@ -84,7 +84,8 @@ const EditorComponent = (props) => {
     altRenderProps,
     altControls,
     plugins,
-    ariaLabel
+    ariaLabel,
+    urlPlaceholderText
   } = props;
 
   // Editor initialization.
@@ -412,6 +413,7 @@ const EditorComponent = (props) => {
         customBlockIsActive={customBlockIsActive}
         customBlockToggleFn={customBlockToggleFn}
         editor={containerRef}
+        urlPlaceholderText={urlPlaceholderText}
         inputType={inputType}
         inputVisible={inputVisible}
         inputValue={inputValue}
@@ -420,6 +422,7 @@ const EditorComponent = (props) => {
         cancelInput={cancelInput}
         showInput={showInput}
         altControls={altControls}
+
       />
       <div
         aria-label="Editor container"

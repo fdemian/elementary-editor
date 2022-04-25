@@ -16,9 +16,10 @@ const EditorControls = (props) => {
     onInputChange,
     showInput,
     cancelInput,
+    urlPlaceholderText,
     inputVisible,
-    inputType,
     inputValue,
+    inputType,
     altControls,
     editorState
   } = props;
@@ -28,11 +29,12 @@ const EditorControls = (props) => {
     <div className='EditorControls'>
         <div className='RichEditor-controls'>
           <URLInput
+            type={inputType}
             changeFn={onInputChange}
             urlValue={inputValue}
-            type={inputType}
             cancelFn={cancelInput}
             confirmFn={confirmInput}
+            placeHolderText={urlPlaceholderText}
           />
          </div>
     </div>

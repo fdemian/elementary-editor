@@ -37,6 +37,20 @@
   padding: 10px 20px;
 }
 
+.ant-input.url-input-editor {
+  width: 400px;
+  margin-left: 40px;
+  margin-top: 10px;
+}
+
+.url-input-buttons-container {
+  margin-left:8px;
+}
+
+.cancel-url-button {
+  margin-right:2px;
+}
+
 .Code
 {
   display: inline;

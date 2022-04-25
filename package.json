@@ -100,7 +100,7 @@
     "build-rewired": "react-app-rewired build",
     "test-rewired": "react-app-rewired test",
     "test:coverage": "react-scripts test --coverage --watchAll=false",
-    "lint:fix": "eslint src/**/*.js --fix",
+    "lint:fix": "eslint src/lib/**/*.js --fix",
     "lint": "eslint src/**/*.js",
     "start": "react-scripts start",
     "build": "react-scripts build",

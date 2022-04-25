@@ -1,7 +1,5 @@
 import { EditorState, RichUtils } from "draft-js";
-import { CompositeDecorator, convertFromRaw } from "draft-js";
-import Spoiler from "./TextElements/Spoiler/SpoilerWrapper";
-import Link from "./TextElements/Link/Link";
+import { convertFromRaw } from "draft-js";
 
 export const getBlockStyle = (block) => {
   let blockStyle = null;
@@ -124,7 +122,7 @@ export const getInitialStyles = (altEditor, altLabels, props, editorStyles) => {
 
 export const getInitialEditorState = (altEditor, initialState, DEFAULT_DECORATOR) => {
   const decorator = altEditor ? null: DEFAULT_DECORATOR;
-  let initialStateEditor;
+  
   if (initialState == null) {
     return EditorState.createEmpty(decorator);
   } else {

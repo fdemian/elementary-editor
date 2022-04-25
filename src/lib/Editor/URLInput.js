@@ -5,30 +5,43 @@ import {
   faTimes,
   faCheck
 } from '@fortawesome/free-solid-svg-icons';
+import './css/Editor.css';
 
-const URLInput = ({ changeFn, urlValue, confirmFn, cancelFn, type }) => {
-  const hintText = `Enter ${type.toLowerCase()} URL`;
+const DEFAULT_PLACEHOLDER = "Enter URL";
+
+const URLInput = (props) => {
+
+  const {
+    changeFn,
+    urlValue,
+    confirmFn,
+    cancelFn,
+    type,
+    placeHolderText
+  } = props;
+
+  const placeholderStr = placeHolderText ? placeHolderText : DEFAULT_PLACEHOLDER;
 
   return (
   <>
     <span className="url-input-container">
       <Input
+        className="url-input-editor"
         type="text"
         role="input"
         name='URL Input'
         aria-label="URL Input"
         onChange={changeFn}
         value={urlValue}
-        placeholder={hintText}
-        style={{ width: '400px', marginLeft: '40px', marginTop: '10px' }}
+        placeholder={`${placeholderStr} (${type})`}
       />
     </span>
 
-      <span style={{ marginLeft: "8px" }}>
+      <span className="url-input-buttons-container">
         <Button
           type="primary"
           onClick={cancelFn}
-          style={{ marginRight: "2px" }}
+          className="cancel-url-button"
           data-testid="cancel-url-button"
         >
           <FontAwesomeIcon icon={faTimes} />
