@@ -9,7 +9,6 @@ import {
   RichUtils,
   genKey,
 } from "draft-js";
-
 import Editor from "../Editor";
 import EditorControls from "../Controls";
 import EditorStyles from "../EditorStyles";
@@ -172,7 +171,7 @@ describe("<Editor />", () => {
     const urlToType = "www.url.com";
 
     expect(_input).toBeInTheDocument();
-    expect(_input).toHaveAttribute("placeholder", "Enter image URL");
+    expect(_input).toHaveAttribute("placeholder", "Enter URL (image)");
     expect(_input).toHaveAttribute('name', "URL Input");
     expect(_input.value).toStrictEqual("");
 

@@ -27,7 +27,12 @@ export const BaseEditorAltLabels = () => {
   return (
     <>
       <span className="EditorContainer">
-        <Editor initialState={null} containerRef={containerRef} altLabels={labels} />
+        <Editor
+          initialState={null}
+          containerRef={containerRef}
+          altLabels={labels}
+          urlPlaceholderText="Ingrese URL"
+        />
       </span>
     </>
   );

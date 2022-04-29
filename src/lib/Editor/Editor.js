@@ -112,7 +112,6 @@ const EditorComponent = (props) => {
   const customBlockIsActive = () => false; // TODO: revise.
 
   // Internal editor functions.
-
   const removeTex = (blockKey) => {
     setTexEdits(texEdits.remove(blockKey));
     setEditorState(removeTeXBlock(editorState, blockKey));
@@ -263,7 +262,7 @@ const EditorComponent = (props) => {
 
     if (styleObject.toggleFn == null) return;
 
-    const newState = styleObject.toggleFn(editorState, inputType, inputValue);
+    const newState = styleObject.toggleFn(editorState, styleObject.style, inputValue);
 
     // Reset input fields.
     setInputVisible(false);
@@ -396,7 +395,7 @@ const EditorComponent = (props) => {
       addNewEntity: addNewEntity
     };
   });
-
+  
   return (
     <div
       ref={containerRef}

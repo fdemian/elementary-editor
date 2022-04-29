@@ -13,7 +13,6 @@ export const getTexBlock = () => {
 export const removeTeXBlock = (editorState, blockKey) => {
   const content = editorState.getCurrentContent();
   const block = content.getBlockForKey(blockKey);
-
   const targetRange = new SelectionState({
     anchorKey: blockKey,
     anchorOffset: 0,
@@ -28,11 +27,6 @@ export const removeTeXBlock = (editorState, blockKey) => {
     "unstyled"
   );
 
-  const newState = EditorState.push(editorState, resetBlock, "remove-range");
-  const newStateWithoutTex = EditorState.forceSelection(
-    newState,
-    resetBlock.getSelectionAfter()
-  );
-
-  return newStateWithoutTex;
+  const newState = EditorState.push(editorState, resetBlock, 'remove-range');
+  return EditorState.forceSelection(newState, resetBlock.getSelectionAfter());
 };
